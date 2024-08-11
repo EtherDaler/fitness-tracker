@@ -1,0 +1,8 @@
+venv
+__pycache__
+*.pyc
+*.pyo
+.cpython-*
+.env
+new-static
+old-templates

@@ -1,0 +1,1913 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+$monst: "Montserrat", sans-serif;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+}
+@font-face {
+  font-family: "Grtsk Tera";
+  src: url("../fonts/GrtskTera-Regular.woff2") format("woff2"),
+    url("../fonts/GrtskTera-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Grtsk Tera";
+  src: url("../fonts/GrtskTera-Semibold.woff2") format("woff2"),
+    url("../fonts/GrtskTera-Semibold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Grtsk Tera";
+  src: url("../fonts/GrtskTera-Bold.woff2") format("woff2"),
+    url("../fonts/GrtskTera-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+ul {
+  list-style: none;
+}
+body {
+  line-height: 1.5;
+}
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+// RESETER
+.mt-45 {
+  margin-top: 45px;
+}
+.mt-60 {
+  margin-top: 60px;
+}
+// COMMON CSS
+a {
+  text-decoration: none;
+}
+.img-responsive {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+.flex {
+  display: flex;
+}
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.w-100 {
+  width: 100%;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+.align-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.space-between {
+  justify-content: space-between;
+}
+.text-center {
+  text-align: center;
+}
+.f-wrap {
+  flex-wrap: wrap;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.gap-20 {
+  gap: 20px;
+}
+.gap-45 {
+  gap: 45px;
+}
+.btn {
+  width: 100%;
+  padding: 18.5px 26px;
+  background: #7161ef;
+  font-family: $monst;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 12.19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  &.blue {
+    background: #deadfd;
+  }
+}
+// LOGIN PAGE START HERE
+.login-page {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background: linear-gradient(
+    180deg,
+    rgba(217, 155, 255, 0.8) 0%,
+    rgba(15, 0, 135, 0.8) 100%
+  );
+
+  .top-logo-part {
+    .main-logo {
+      img {
+        width: 46.5px;
+      }
+    }
+  }
+  .top-part-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .back-btn {
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+      img {
+        width: 12px;
+        filter: brightness(1) invert(1);
+      }
+      h3 {
+        font-family: $monst;
+        font-size: 25px;
+        font-weight: 500;
+        line-height: 18.29px;
+        color: #fff;
+      }
+    }
+    .logo-wrap {
+      img {
+        width: 46.5px;
+      }
+    }
+  }
+  .main-login-section {
+    .company-name {
+      margin-top: 20px;
+      h1 {
+        font-family: "Grtsk Tera";
+        font-size: 40px;
+        font-weight: 600;
+        line-height: 28.8px;
+        color: #7161ef;
+      }
+    }
+    .login-image {
+      margin-top: 40px;
+      border-radius: 10px;
+      display: flex;
+      overflow: hidden;
+      img {
+        height: 100%;
+      }
+    }
+    .topic {
+      width: 60%;
+      margin: auto;
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      h6 {
+        font-family: "Grtsk Tera";
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 15.6px;
+        text-align: center;
+        color: #fff;
+      }
+    }
+    .white-form {
+      width: 60%;
+      margin: auto;
+      background: #fff;
+      border: 2px solid #d99bff;
+      padding: 40px 20px;
+      border-radius: 5px;
+      .input-wraps {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-width: 450px;
+        label {
+          font-family: "Montserrat", sans-serif;
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 15.85px;
+        }
+        input {
+          background: none;
+          padding: 5px 0px;
+          border: none;
+          border-bottom: 1px solid #e2e2e2;
+
+          font-family: "Montserrat", sans-serif;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 12.19px;
+          color: #000;
+        }
+        ::placeholder {
+          font-family: "Montserrat", sans-serif;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 12.19px;
+          color: #d99bff;
+        }
+        .pw-shown {
+          position: absolute;
+          top: 35px;
+          right: 5px;
+        }
+      }
+      .check-wrap {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        input[type="checkbox"] {
+          width: 20px;
+          height: 20px;
+          accent-color: #d99bff;
+          color: #fff;
+        }
+        span {
+          font-family: $monst;
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 12.19px;
+          color: #000;
+        }
+      }
+    }
+    .btn-wrap {
+      margin-top: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .btn {
+        width: fit-content;
+        padding: 18.5px 60px;
+      }
+    }
+    .account-check-wrap {
+      margin-top: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      a {
+        font-family: $monst;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 12.19px;
+        color: #fff;
+      }
+    }
+  }
+}
+// LOGIN PAGE END HERE
+// DASHBOARD PAGE START HERE
+.dashboard-page {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  .site-logo {
+    img {
+      width: 60px;
+    }
+  }
+  .profile-wraps {
+    padding-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .profile-name-wraps {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      span {
+        font-family: $monst;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 12.19px;
+      }
+    }
+    .profile-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+      overflow: hidden;
+      img {
+        height: 100%;
+      }
+    }
+  }
+  .day-wraps {
+    padding-top: 30px;
+    padding-bottom: 60px;
+    width: 100%;
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      li {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        .day {
+          font-family: $monst;
+          font-size: 22px;
+          font-weight: 600;
+          line-height: 19.5px;
+          color: #bcbcbc;
+        }
+        .date {
+          border: 2px solid #000000;
+          font-family: $monst;
+          font-size: 16px;
+          font-weight: 700;
+          line-height: 12.19px;
+          text-align: left;
+          padding: 10px 8px;
+          border-radius: 100%;
+        }
+        &.active {
+          padding: 10px 5px;
+          border-radius: 20px;
+          background: #7161ef;
+          .day {
+            color: #fff;
+          }
+          .date {
+            border: 2px solid #fff;
+            color: #000;
+          }
+        }
+      }
+    }
+  }
+  .slogon-wraps {
+    text-align: center;
+    span {
+      font-family: $monst;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 14.63px;
+      color: #d99bff;
+    }
+  }
+  .workout-wrapper {
+    width: 80%;
+    margin: auto;
+    padding-top: 80px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    .workout-name {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      h6 {
+        font-family: $monst;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 12.19px;
+      }
+      .workout-btn {
+        border: 1px solid #736ced;
+        padding: 10px 22px;
+        font-family: $monst;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 12.19px;
+        color: #000;
+        border-radius: 2px;
+      }
+    }
+    .btn-wrap {
+      .btn {
+        padding: 18.5px 26.5px;
+        background: #9fe3ff;
+        font-family: $monst;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 12.19px;
+        border-radius: 5px;
+        border: none;
+        color: #fff;
+      }
+    }
+  }
+  .wrokouts-flexed {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    .workout-coolection {
+      width: 100%;
+      background: #f5f5f5;
+      padding-right: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 15px;
+      overflow: hidden;
+      .workout-image {
+        background: linear-gradient(
+          180deg,
+          rgba(217, 155, 255, 0.5) 0%,
+          rgba(113, 97, 239, 0.5) 100%
+        );
+        padding: 20px;
+        border-radius: 15px;
+        img {
+          width: 200px;
+          object-fit: contain;
+        }
+      }
+      .workout-name-wrap {
+        display: flex;
+        align-items: center;
+        gap: 80px;
+        h5 {
+          font-family: $monst;
+          font-size: 25px;
+          font-weight: 400;
+          line-height: 17.07px;
+          color: #000;
+        }
+        img {
+          width: 40px;
+        }
+      }
+    }
+  }
+  .three-btn-wraps {
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 40%;
+    margin: auto;
+  }
+}
+// DASHBOARD PAGE END HERE
+// WORKOUT PAGE START HERE
+.workout-page {
+  background: linear-gradient(
+    180deg,
+    rgba(159, 227, 255, 0.2) 0%,
+    rgba(217, 155, 255, 0.2) 100%
+  );
+  padding-top: 60px;
+  padding-bottom: 60px;
+  .number-list-wrapper {
+    text-align: center;
+    h3 {
+      font-family: $monst;
+      font-size: 25px;
+      font-weight: 500;
+      line-height: 18.29px;
+    }
+    .workout-number-list {
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+    }
+  }
+  .topic {
+    margin-top: 20px;
+    text-align: center;
+    h3 {
+      font-family: $monst;
+      font-size: 25px;
+      font-weight: 500;
+      line-height: 18.29px;
+    }
+  }
+  .workout-card {
+    width: 80%;
+    margin: auto;
+    padding: 60px;
+    background: #7161ef1a;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    &.gap {
+      gap: 250px;
+    }
+    h4 {
+      font-family: $monst;
+      font-size: 22px;
+      font-weight: 400;
+      line-height: 17.07px;
+      color: #000;
+      width: fit-content;
+    }
+    img {
+      width: 40px;
+    }
+    .exercise-img {
+      width: 100px;
+      object-fit: cover;
+    }
+    &.new {
+      justify-content: space-between;
+    }
+  }
+
+  .workout-name-wraps {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+  }
+  .btn-wraps {
+    margin-top: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .btn {
+      padding: 18.5px 70px;
+      width: fit-content;
+    }
+  }
+}
+
+.exercise-popup-wraps {
+  position: fixed;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  opacity: 0;
+  visibility: hidden;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+  &.active {
+    top: 0;
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.5s ease-in-out;
+  }
+  .exercise-pop-wrapper {
+    h4 {
+      font-family: $monst;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 29.26px;
+      margin-bottom: 20px;
+    }
+    .workout {
+      background: linear-gradient(
+        180deg,
+        rgba(217, 155, 255, 0.5) 0%,
+        rgba(113, 97, 239, 0.5) 100%
+      );
+      padding: 20px;
+      border-radius: 15px;
+      img {
+        width: auto;
+      }
+    }
+    .timer-count {
+      padding-top: 10px;
+      padding-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      .plus-minus {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 20px;
+        }
+      }
+      .timer-wraps {
+        padding: 15px 30px;
+        border-radius: 10px;
+        background: #f5f5f5;
+        font-family: $monst;
+        font-size: 35px;
+        font-weight: 400;
+        line-height: 29.26px;
+        text-align: left;
+        input {
+          border: none;
+          background: none;
+          width: 100px;
+          text-align: center;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-family: $monst;
+          font-size: 25px;
+        }
+      }
+    }
+
+    .add-flex {
+      .btn {
+        padding: 27px 30px;
+      }
+      .cross {
+        width: 60px;
+        height: 60px;
+        background: #f5f5f5;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 20px;
+        }
+      }
+    }
+  }
+}
+// WORKOUT PAGE END HERE
+// WORKOUT-VIDEO PAGE START HERE
+.workout-video-page {
+  height: 100vh;
+  display: grid;
+  background: #000;
+  grid-template-columns: 2fr 1fr;
+  .main-video-wraps {
+    background: #7161ef;
+    padding: 20px;
+    height: 100vh;
+    border-radius: 10px;
+    .camera-video {
+      background: white;
+      width: 100%;
+      height: 80vh;
+      border-radius: 10px;
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .time-duration {
+      width: 60%;
+      margin: auto;
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      .timer-wraps {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        .duration-wrap {
+          color: #fff;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          h5 {
+            font-family: $monst;
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 15.85px;
+          }
+          span {
+            font-family: $monst;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 19.5px;
+          }
+        }
+      }
+    }
+  }
+  .video-wraper {
+    position: relative;
+    padding: 30px;
+    .workout-name-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      gap: 10px;
+      justify-content: center;
+      h5 {
+        font-family: $monst;
+        font-size: 25px;
+        font-weight: 500;
+        line-height: 19.5px;
+        color: #fff;
+      }
+      .video-wrap {
+        width: 100%;
+        height: 75vh;
+        video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      .btn {
+        width: fit-content;
+        padding: 18.5px 60px;
+        background: linear-gradient(90deg, #7161ef 0%, #9fe3ff 100%);
+      }
+    }
+  }
+}
+
+// WORKOUT-VIDEO PAGE END HERE
+// PROFILE PAGE START HERE
+.profile-page {
+  position: relative;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  z-index: 1;
+  .left-overlay {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    width: 400px;
+  }
+  .right-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+    width: 400px;
+  }
+  .factory-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 400px;
+    }
+  }
+  .profile-edit {
+    width: 80%;
+    margin: auto;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .add-photo-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .profile-image {
+        width: 120px;
+        height: 120px;
+        border: 1px solid #7161ef4d;
+        padding: 20px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+        img {
+          height: 100%;
+        }
+      }
+      span {
+        font-family: $monst;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 12.19px;
+      }
+    }
+    .edit-btn {
+      background: #7161ef1a;
+      padding: 20px 40px;
+      border-radius: 10px;
+      font-family: $monst;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 12.19px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      color: #958be4;
+    }
+  }
+  .profile-details {
+    margin-top: 30px;
+    input {
+      border: none;
+      background: none;
+      width: 100%;
+    }
+    ul {
+      display: flex;
+      flex-direction: column;
+      border-radius: 10px;
+      overflow: hidden;
+      li {
+        background: #7161ef1a;
+        padding: 20px 60px;
+        display: grid;
+        align-items: center;
+        grid-template-columns: 1fr 1fr;
+        border-bottom: 1px solid #ffffff;
+
+        h6 {
+          font-family: $monst;
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 14.63px;
+          text-align: left;
+        }
+        span {
+          font-family: $monst;
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 14.63px;
+          text-align: left;
+        }
+      }
+    }
+  }
+  .skill-level-wrap {
+    margin-top: 60px;
+
+    text-align: center;
+    h6 {
+      font-family: $monst;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 14.63px;
+    }
+    .btn-wraps {
+      max-width: 30%;
+      margin: auto;
+      margin-top: 45px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      .btn {
+        gap: 50px;
+        justify-content: flex-end;
+        padding: 18.5px 50px;
+        .arrow-wrap {
+          width: 30px;
+          height: 30px;
+          background: #ffffff4a;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 100%;
+          img {
+            width: 15px;
+          }
+        }
+      }
+    }
+    .ready-wrap {
+      max-width: 40%;
+      margin: auto;
+      margin-top: 60px;
+      .btn {
+        padding: 20px 50px;
+      }
+    }
+  }
+}
+
+.gender-switcher .fieldset {
+  display: flex;
+  text-align: center;
+  position: relative;
+  padding: 5px;
+  border-radius: 50em;
+  background: #ffffff;
+  width: 60%;
+}
+
+.gender-switcher input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+.gender-switcher label {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  // float: left;
+  width: 100%;
+  height: 30px;
+  cursor: pointer;
+  font-family: $monst;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  text-align: center;
+  color: #bcbcbc;
+}
+
+.gender-switcher .switch {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: 30px;
+  width: 49.5%;
+  background-color: #958be4;
+  border-radius: 50em;
+  -webkit-transition: -webkit-transform 0.5s;
+  -moz-transition: -moz-transform 0.5s;
+  transition: transform 0.5s;
+}
+
+.gender-switcher input[type="radio"]:checked + label + .switch,
+.gender-switcher input[type="radio"]:checked + label:nth-of-type(n) + .switch {
+  -webkit-transform: translateX(100%);
+  -moz-transform: translateX(100%);
+  -ms-transform: translateX(100%);
+  -o-transform: translateX(100%);
+  transform: translateX(100%);
+  left: 0px;
+}
+.gender-switcher input[type="radio"]:checked + label {
+  color: #fff;
+}
+// PROFILE PAGE END HERE
+// EDIT WORKOUT PAGE START HERE
+.top-part-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .back-btn {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+    img {
+      width: 12px;
+    }
+    h3 {
+      font-family: $monst;
+      font-size: 25px;
+      font-weight: 500;
+      line-height: 18.29px;
+    }
+  }
+  .logo-wrap {
+    img {
+      width: 46.5px;
+    }
+  }
+}
+.edit-workout-page {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background: linear-gradient(
+    180deg,
+    rgba(159, 227, 255, 0.2) 0%,
+    rgba(217, 155, 255, 0.2) 100%
+  );
+
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 200px;
+  justify-content: space-between;
+  .top-part-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .back-btn {
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+      img {
+        width: 12px;
+      }
+      h3 {
+        font-family: $monst;
+        font-size: 25px;
+        font-weight: 500;
+        line-height: 18.29px;
+      }
+    }
+    .logo-wrap {
+      img {
+        width: 46.5px;
+      }
+    }
+  }
+  .save-wrorkout-wrap {
+    background: #f5f5f5;
+    padding: 60px 0px;
+    .save-wrapper {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      .btn {
+        padding: 25px 45px;
+      }
+      .plus-wrap {
+        background: #d9d9d9a6;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+      }
+    }
+  }
+}
+.edit-box {
+  box-shadow: 0px 4px 4px 0px #0000001a;
+  background: #7161ef1a;
+  border-radius: 10px;
+  h5 {
+    font-family: $monst;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 14.63px;
+    color: #00000061;
+    padding: 25px 20px;
+    padding-top: 21px;
+    border-bottom: 2px solid #ffffff80;
+  }
+  .text-edit-wrap {
+    padding: 15px 20px;
+    padding-bottom: 25px;
+    font-family: $monst;
+    font-weight: 500;
+
+    .edit-wrapper {
+      position: relative;
+      background: #fff;
+      border-radius: 10px;
+      width: 100%;
+      overflow: hidden;
+      input {
+        padding: 12px 30px;
+        width: 100%;
+        background: #fff;
+        border: none;
+        font-family: $monst;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 14.63px;
+      }
+      .edit-pen {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        img {
+          width: 20px;
+        }
+      }
+    }
+    .list-exercise {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 30px;
+      background: #fff;
+      border-radius: 10px;
+      img {
+        width: 12px;
+      }
+      h4 {
+        font-family: $monst;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 14.63px;
+      }
+    }
+  }
+  .timer-edit {
+    padding: 10px 30px;
+    border-bottom: 2px solid #ffffff80;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .squat-wrap {
+      border-radius: 15px;
+      padding: 20px;
+      background: linear-gradient(
+        180deg,
+        rgba(217, 155, 255, 0.5) 0%,
+        rgba(113, 97, 239, 0.5) 100%
+      );
+      img {
+        width: 100px;
+        object-fit: cover;
+      }
+    }
+    .center-wrap {
+      width: 140px;
+      height: 145px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      img {
+        width: 20px;
+      }
+    }
+    h3 {
+      font-family: $monst;
+      font-size: 20px;
+      font-weight: 400;
+      line-height: 17.07px;
+    }
+    .timer-wrap {
+      padding: 12px 32px;
+      border-radius: 10px;
+      background: #ffffff9e;
+      input {
+        width: 30px;
+        border: none;
+        background: none;
+        text-align: center;
+        font-family: $monst;
+      }
+      span {
+        font-family: $monst;
+        font-size: 25px;
+        font-weight: 400;
+        line-height: 18.29px;
+        text-align: left;
+      }
+    }
+  }
+  .btns-wrap {
+    padding: 10px 30px;
+  }
+  .white-btn {
+    width: 100%;
+    background: #ffffff9e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    border: none;
+    border-radius: 5px;
+    padding: 15px;
+    font-family: $monst;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 17.07px;
+  }
+}
+.turn-text {
+  display: none;
+}
+// EDIT WORKOUT PAGE END HERE
+@media (max-width: 1040px) {
+  .container {
+    max-width: 90%;
+  }
+}
+@media (max-width: 960px) {
+  .login-page .main-login-section .white-form {
+    width: 80%;
+  }
+  .workout-video-page {
+    height: 100%;
+    width: 100%;
+    grid-template-columns: 1.4fr 1fr;
+    .main-video-wraps {
+      width: fit-content;
+      padding: 15px;
+      height: 100%;
+      .camera-video {
+        height: 75vh;
+      }
+      .time-duration {
+        width: 90%;
+        margin: auto;
+        margin-top: 13px;
+        .timer-wraps {
+          gap: 7px;
+          .duration-wrap {
+            gap: 6px;
+            h5 {
+              font-size: 13px;
+            }
+            span {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+    .video-wraper {
+      width: 100%;
+      position: relative;
+      padding: 15px;
+      height: 100%;
+      padding-top: 10px;
+      .workout-name-wrap {
+        height: 100%;
+        gap: 10px;
+        justify-content: center;
+        h5 {
+          font-size: 16px;
+        }
+        .video-wrap {
+          height: 100%;
+          video {
+            width: 100%;
+            height: 97%;
+            object-fit: cover;
+          }
+        }
+        .btn {
+          padding: 11px 38px;
+        }
+      }
+    }
+  }
+  .workout-page .workout-card.gap {
+    gap: 150px;
+  }
+}
+@media (max-width: 650px) {
+  .btn {
+    padding: 12.5px 18.5px;
+    font-size: 10px;
+  }
+  .mt-45 {
+    margin-top: 35px;
+  }
+  .gap-20 {
+    gap: 7px;
+  }
+  // LOGIN PAGE START HERE
+  .login-page {
+    padding-top: 12px;
+    padding-bottom: 60px;
+
+    .top-logo-part {
+      .main-logo {
+        img {
+          width: 16.5px;
+        }
+      }
+    }
+    .top-part-wrap {
+      .back-btn {
+        gap: 8px;
+        img {
+          width: 8.7px;
+        }
+        h3 {
+          font-size: 15px;
+        }
+      }
+      .logo-wrap {
+        img {
+          width: 24px;
+        }
+      }
+    }
+    .main-login-section {
+      .company-name {
+        margin-top: 4px;
+        h1 {
+          font-size: 24px;
+          font-weight: 600;
+        }
+      }
+      .login-image {
+        margin: 0px 10px;
+        margin-top: 18px;
+      }
+      .topic {
+        width: 80%;
+        text-align: center;
+        margin-top: 24px;
+        h6 {
+          text-align: center;
+          font-size: 13px;
+          line-height: 15.6px;
+        }
+      }
+      .white-form {
+        width: 85%;
+        padding: 20px 12px;
+        .input-wraps {
+          max-width: 151px;
+          gap: 5px;
+          label {
+            font-size: 13px;
+          }
+          input {
+            padding: 5px 0px;
+            font-size: 10px;
+          }
+          ::placeholder {
+            font-size: 10px;
+          }
+          .pw-shown {
+            position: absolute;
+            top: 25px;
+            right: 5px;
+            width: 12px;
+          }
+        }
+        .check-wrap {
+          margin-top: 17px;
+          gap: 6px;
+          input[type="checkbox"] {
+            width: 12px;
+            height: 12px;
+          }
+          span {
+            font-size: 10px;
+          }
+        }
+      }
+      .btn-wrap {
+        margin-top: 31px;
+        .btn {
+          padding: 12.5px 62px;
+        }
+      }
+      .account-check-wrap {
+        margin-top: 30px;
+        a {
+          font-size: 10px;
+        }
+      }
+    }
+  }
+  // LOGIN PAGE END HERE
+  // DASHBOARD PAGE START HERE
+  .dashboard-page {
+    padding-top: 21px;
+    padding-bottom: 34px;
+    .site-logo {
+      img {
+        width: 24px;
+      }
+    }
+    .profile-wraps {
+      width: 90%;
+      margin: auto;
+      padding-top: 14px;
+      .profile-name-wraps {
+        gap: 5px;
+        span {
+          font-size: 10px;
+        }
+      }
+      .profile-img {
+        width: 27px;
+        height: 27px;
+      }
+    }
+    .day-wraps {
+      width: 90%;
+      margin: auto;
+      padding-top: 16px;
+      padding-bottom: 38px;
+
+      ul {
+        li {
+          gap: 10px;
+          .day {
+            font-size: 16px;
+          }
+          .date {
+            font-size: 10px;
+            padding: 5px 7px;
+            border: 1px solid #000;
+          }
+          &.active {
+            padding: 6px 8px;
+            padding-bottom: 8px;
+            .date {
+              border: 1px solid #fff;
+            }
+          }
+        }
+      }
+    }
+    .slogon-wraps {
+      span {
+        font-size: 12px;
+      }
+    }
+    .workout-wrapper {
+      width: 90%;
+      margin: auto;
+      padding-top: 43px;
+      .workout-name {
+        gap: 8px;
+        h6 {
+          font-size: 10px;
+        }
+        .workout-btn {
+          padding: 6px 18px;
+          font-size: 10px;
+        }
+      }
+      .btn-wrap {
+        .btn {
+          padding: 12.5px 16.5px;
+          font-size: 10px;
+        }
+      }
+    }
+    .wrokouts-flexed {
+      margin-top: 40px;
+      gap: 35px;
+      .workout-coolection {
+        padding-right: 17px;
+        .workout-image {
+          padding: 12px;
+          img {
+            width: 104px;
+          }
+        }
+        .workout-name-wrap {
+          gap: 54px;
+          h5 {
+            font-size: 14px;
+          }
+          img {
+            width: 23px;
+          }
+        }
+      }
+    }
+    .three-btn-wraps {
+      padding-top: 23px;
+      gap: 17px;
+      width: 80%;
+    }
+  }
+  // DASHBOARD PAGE END HERE
+  // WORKOUT PAGE START HERE
+  .mt-60 {
+    margin-top: 35px;
+  }
+  .workout-page {
+    padding-top: 31px;
+    padding-bottom: 41px;
+    .number-list-wrapper {
+      h3 {
+        font-size: 15px;
+      }
+      &.mt-45 {
+        margin-top: 20px;
+      }
+      .workout-number-list {
+        margin-top: 15px;
+        gap: 15px;
+      }
+    }
+    .topic {
+      margin-top: 16px;
+      text-align: center;
+      h3 {
+        font-size: 20px;
+      }
+    }
+    .workout-card {
+      width: 95%;
+      padding: 27px;
+      &.gap {
+        gap: 35px;
+      }
+
+      h4 {
+        font-size: 14px;
+        word-break: break-all;
+      }
+      img {
+        width: 23px;
+      }
+      .exercise-img {
+        width: 60px;
+      }
+    }
+    .workout-name-wraps {
+      gap: 15px;
+    }
+    .btn-wraps {
+      margin-top: 35px;
+      .btn {
+        padding: 12.5px 52.5px;
+        width: fit-content;
+      }
+    }
+  }
+
+  .exercise-popup-wraps {
+    padding-left: 40px;
+    padding-right: 40px;
+    height: auto;
+    padding-top: 46px;
+    padding-bottom: 23px;
+    border-radius: 10px;
+    top: auto;
+    bottom: -100%;
+    &.active {
+      top: auto;
+      bottom: 0;
+    }
+    .exercise-pop-wrapper {
+      h4 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+      .workout {
+        padding: 20px;
+        img {
+          width: 100%;
+        }
+      }
+      .timer-count {
+        padding-top: 10px;
+        padding-bottom: 18px;
+        gap: 16px;
+        .plus-minus {
+          width: 24px;
+          height: 24px;
+          img {
+            width: 14px;
+          }
+        }
+        .timer-wraps {
+          padding: 15px 23px;
+          font-size: 24px;
+          width: min-content;
+          input {
+            border: none;
+            background: none;
+            width: 50px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+          }
+        }
+      }
+
+      .add-flex {
+        .btn {
+          padding: 20px 30px;
+        }
+        .cross {
+          width: 40px;
+          height: 40px;
+          img {
+            width: 13px;
+          }
+        }
+      }
+    }
+  }
+  // WORKOUT PAGE END HERE
+  // WORKOUT-VIDEO PAGE START HERE
+  .workout-video-page {
+    // height: 100%;
+    grid-template-columns: 1fr 1fr;
+    .main-video-wraps {
+      padding: 15px;
+      height: 100%;
+      .camera-video {
+        height: 90%;
+      }
+      .time-duration {
+        width: 90%;
+        margin: auto;
+        margin-top: 13px;
+        .timer-wraps {
+          gap: 7px;
+          .duration-wrap {
+            gap: 6px;
+            h5 {
+              font-size: 13px;
+            }
+            span {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+    .video-wraper {
+      position: relative;
+      padding: 15px;
+      .workout-name-wrap {
+        height: 100%;
+        gap: 10px;
+        justify-content: center;
+        h5 {
+          font-size: 16px;
+        }
+        .video-wrap {
+          height: 400px;
+          video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+        .btn {
+          width: fit-content;
+          padding: 12.5px 20px;
+        }
+      }
+    }
+  }
+
+  // WORKOUT-VIDEO PAGE END HERE
+  // PROFILE PAGE START HERE
+  .profile-page {
+    padding-top: 30px;
+    padding-bottom: 53px;
+    .left-overlay {
+      width: 162px;
+    }
+    .right-overlay {
+      width: 162px;
+    }
+    .factory-logo {
+      img {
+        width: 226px;
+      }
+    }
+    .profile-edit {
+      width: 85%;
+      margin-top: 22px;
+      .add-photo-wrapper {
+        .profile-image {
+          width: 100px;
+          height: 100px;
+          padding: 15px;
+          margin-bottom: 3px;
+        }
+        span {
+          font-size: 10px;
+          line-height: 12.19px;
+        }
+      }
+      .edit-btn {
+        padding: 13px 30px;
+        font-size: 10px;
+      }
+    }
+    .profile-details {
+      margin-top: 13px;
+      ul {
+        li {
+          padding: 13px 30px;
+          padding-bottom: 5px;
+
+          h6 {
+            font-size: 12px;
+          }
+          span {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+    .skill-level-wrap {
+      margin-top: 27px;
+
+      h6 {
+        font-size: 12px;
+      }
+      .btn-wraps {
+        max-width: 50%;
+        margin-top: 28px;
+        gap: 21px;
+        .btn {
+          gap: 18px;
+          justify-content: flex-end;
+          padding: 11px 14px;
+          .arrow-wrap {
+            width: 15px;
+            height: 15px;
+            img {
+              width: 5px;
+            }
+          }
+        }
+      }
+      .ready-wrap {
+        max-width: 70%;
+        margin: auto;
+        margin-top: 32px;
+        .btn {
+          padding: 12.5px 50px;
+        }
+      }
+    }
+  }
+
+  .gender-switcher .fieldset {
+    padding: 5px;
+    width: 100%;
+  }
+
+  .gender-switcher label {
+    width: 100%;
+    height: 21px;
+    font-size: 12px;
+    line-height: 19px;
+  }
+
+  .gender-switcher .switch {
+    top: 5px;
+    left: 5px;
+    height: 21px;
+    width: 49.5%;
+  }
+
+  // PROFILE PAGE END HERE
+  // EDIT WORKOUT PAGE START HERE
+  .top-part-wrap {
+    .back-btn {
+      gap: 13px;
+      img {
+        width: 12.7px;
+      }
+      h3 {
+        font-size: 15px;
+      }
+    }
+    .logo-wrap {
+      img {
+        width: 24px;
+      }
+    }
+  }
+  .edit-workout-page {
+    padding-top: 36px;
+    padding-bottom: 60px;
+    gap: 200px;
+    .top-part-wrap {
+      .back-btn {
+        gap: 13px;
+        img {
+          width: 12.7px;
+        }
+        h3 {
+          font-size: 15px;
+        }
+      }
+      .logo-wrap {
+        img {
+          width: 24px;
+        }
+      }
+    }
+    .save-wrorkout-wrap {
+      padding: 38px 0px;
+      .save-wrapper {
+        gap: 15px;
+        .btn {
+          padding: 19.76px 45px;
+        }
+        .plus-wrap {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+  }
+  .edit-box {
+    h5 {
+      font-size: 12px;
+      padding: 22px 18px;
+      padding-bottom: 18px;
+    }
+    .text-edit-wrap {
+      padding: 9px 14px;
+      padding-bottom: 11px;
+      .edit-wrapper {
+        input {
+          padding: 10px 15px;
+          font-size: 10px;
+        }
+        .edit-pen {
+          top: 7px;
+          right: 10px;
+          img {
+            width: 13.16px;
+          }
+        }
+      }
+      .list-exercise {
+        gap: 10px;
+        padding: 16px 30px;
+        background: #fff;
+        border-radius: 10px;
+        img {
+          width: 12px;
+        }
+        h4 {
+          font-size: 12px;
+        }
+      }
+    }
+    .timer-edit {
+      padding: 10px 9px;
+      .squat-wrap {
+        padding: 6px;
+        width: 67px;
+        height: 64.08px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          width: 100%;
+        }
+      }
+      .center-wrap {
+        width: 67px;
+        height: 64.08px;
+
+        img {
+          width: 10px;
+        }
+      }
+      h3 {
+        font-size: 14px;
+      }
+      .timer-wrap {
+        padding: 8px 20px;
+        input {
+          font-size: 15px;
+          font-weight: 400;
+          line-height: 18.29px;
+        }
+        span {
+          font-size: 15px;
+        }
+      }
+    }
+    .btns-wrap {
+      padding: 19px 30px;
+    }
+    .white-btn {
+      gap: 12px;
+      padding: 8px;
+      font-size: 14px;
+    }
+  }
+
+  // EDIT WORKOUT PAGE END HERE
+  .turn-text {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    display: block;
+    font-family: $monst;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 17.07px;
+    color: black;
+    z-index: 99;
+  }
+}

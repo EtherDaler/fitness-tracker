@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard</title>
+    <link
+      rel="shortcut icon"
+      href="../static/favicon.ico"
+      type="image/x-icon"
+    />
+    <link href="../static/css/toasts.css" rel="stylesheet" />
+    <link href="../static/css/style.css" rel="stylesheet" />
+
+    <script src="../static/js/toasts.js" type="text/javascript"></script>
+    <script src="../static/js/lib.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <section class="dashboard-page">
+      <div class="container">
+        <div class="site-logo">
+          <img src="../static/Logo_Fit_it/Logo_Fit_it.png" style="height: 90px; width: 300px" alt="logo" />
+        </div>
+        <div class="profile-wraps">
+          <div class="profile-name-wraps">
+            <div class="profile-img">
+              <a href="/profile">
+                {% if user.profile_picture_url %}
+                <img
+                  src="../static/uploads/{{ user.profile_picture_url }}"
+                  alt="profile-pic"
+                  class="img-responsive"
+                  id="profile-pic"
+                />
+
+                {% else %}
+                <img
+                  src="../static/images/default-profile.png"
+                  alt="profile-pic"
+                  class="img-responsive"
+                  id="profile-pic"
+                />
+
+                {% endif %}
+              </a>
+            </div>
+            <span id="name">{{ user.name }}</span>
+          </div>
+          <div class="calendar-wraps">
+            <img src="../static/images/calendar.svg" alt="" />
+          </div>
+        </div>
+        <div class="day-wraps">
+          <ul>
+            <div class="day-wraps">
+              <ul id="week-container">
+                <!-- Week days -->
+              </ul>
+            </div>
+          </ul>
+        </div>
+
+        <!-- <canvas id="workout-chart" class="p-1 mb-5 mb-m-150"></canvas> -->
+
+        <div class="slogon-wraps">
+          <span>Каждая тренировка – шаг к лучшей версии себя</span>
+        </div>
+        <div class="workout-wrapper">
+          {% if workouts|length > 0 %}
+          <div class="workout-name">
+            <h6>Планка</h6>
+            <div class="workout-btn">{{ workouts[0].name }}</div>
+          </div>
+          <div class="btn-wrap">
+            <button
+              class="btn"
+              onclick="window.location.href = '/workouts/{{workouts[0].id}}/start'"
+            >
+              Начать тренировку
+            </button>
+          </div>
+        </div>
+        <div class="wrokouts-flexed">
+          {% for exercise in workouts[0].exercises %}
+          <div class="workout-coolection">
+            <div class="workout-image">
+              <img
+                src="../static/gif/{{exercise.gif_link}}"
+                alt="exercise animation"
+                width="50"
+                height="100"
+              />
+            </div>
+            <div class="workout-name-wrap">
+              <h5>{{exercise.name}}</h5>
+              <a href="/workouts/{{workouts[0].id}}/start">
+                <img src="../static/images/gradient-arrow.svg" alt="arrow" />
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        <div class="three-btn-wraps">
+          <a href="/workouts/edit">
+            <button class="btn">Выбрать другой уровень тренировки</button>
+          </a>
+          <a href="/workouts/new">
+            <button class="btn">Создать свою тренировку</button>
+          </a>
+          <a href="/workouts">
+            <button class="btn">Мои тренировки</button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      var workouts = {{ workouts|tojson }};
+    </script>
+
+    <script src="../static/js/dashboard.js" defer></script>
+  </body>
+</html>

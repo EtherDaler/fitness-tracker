@@ -1,0 +1,2269 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+}
+
+@font-face {
+  font-family: "Grtsk Tera";
+  src: url("../fonts/GrtskTera-Regular.woff2") format("woff2"),
+    url("../fonts/GrtskTera-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Grtsk Tera";
+  src: url("../fonts/GrtskTera-Semibold.woff2") format("woff2"),
+    url("../fonts/GrtskTera-Semibold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Grtsk Tera";
+  src: url("../fonts/GrtskTera-Bold.woff2") format("woff2"),
+    url("../fonts/GrtskTera-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+ul {
+  list-style: none;
+}
+
+body {
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.mt-45 {
+  margin-top: 45px;
+}
+
+.mt-60 {
+  margin-top: 60px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.img-responsive {
+  width: 100%;
+  height: auto;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.f-wrap {
+  flex-wrap: wrap;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.gap-20 {
+  gap: 20px;
+}
+
+.gap-45 {
+  gap: 45px;
+}
+
+.btn {
+  width: 100%;
+  padding: 18.5px 26px;
+  background: #7161ef;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 12.19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn.blue {
+  background: #deadfd;
+}
+
+.login-page {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background: linear-gradient(
+    180deg,
+    rgba(217, 155, 255, 0.8) 0%,
+    rgba(15, 0, 135, 0.8) 100%
+  );
+}
+
+.login-page .top-logo-part .main-logo img {
+  width: 46.5px;
+}
+
+.login-page .top-part-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-page .top-part-wrap .back-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-page .top-part-wrap .back-btn img {
+  width: 12px;
+  filter: brightness(1) invert(1);
+}
+
+.login-page .top-part-wrap .back-btn h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 18.29px;
+  color: #fff;
+}
+
+.login-page .top-part-wrap .logo-wrap img {
+  width: 46.5px;
+}
+
+.login-page .main-login-section .company-name {
+  margin-top: 20px;
+}
+
+.login-page .main-login-section .company-name h1 {
+  font-family: "Grtsk Tera";
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 28.8px;
+  color: #7161ef;
+}
+
+.login-page .main-login-section .login-image {
+  margin-top: 40px;
+  border-radius: 10px;
+  display: flex;
+  overflow: hidden;
+}
+
+.login-page .main-login-section .login-image img {
+  height: 100%;
+}
+
+.login-page .main-login-section .topic {
+  width: 60%;
+  margin: auto;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-page .main-login-section .topic h6 {
+  font-family: "Grtsk Tera";
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 15.6px;
+  text-align: center;
+  color: #fff;
+}
+
+.login-page .main-login-section .white-form {
+  width: 60%;
+  margin: auto;
+  background: #fff;
+  border: 2px solid #d99bff;
+  padding: 40px 20px;
+  border-radius: 5px;
+}
+
+.login-page .main-login-section .white-form .input-wraps {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 450px;
+}
+
+.login-page .main-login-section .white-form .input-wraps label {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 15.85px;
+}
+
+.login-page .main-login-section .white-form .input-wraps input {
+  background: none;
+  padding: 5px 0px;
+  border: none;
+  border-bottom: 1px solid #e2e2e2;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 12.19px;
+  color: #000;
+}
+
+.login-page .main-login-section .white-form .input-wraps ::-moz-placeholder {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 12.19px;
+  color: #d99bff;
+}
+
+.login-page .main-login-section .white-form .input-wraps ::placeholder {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 12.19px;
+  color: #d99bff;
+}
+
+.login-page .main-login-section .white-form .input-wraps .pw-shown {
+  position: absolute;
+  top: 35px;
+  right: 5px;
+}
+
+.login-page .main-login-section .white-form .check-wrap {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-page .main-login-section .white-form .check-wrap input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #d99bff;
+  color: #fff;
+}
+
+.login-page .main-login-section .white-form .check-wrap span {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 12.19px;
+  color: #000;
+}
+
+.login-page .main-login-section .btn-wrap {
+  margin-top: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-page .main-login-section .btn-wrap .btn {
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 18.5px 60px;
+}
+
+.login-page .main-login-section .account-check-wrap {
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.login-page .main-login-section .account-check-wrap a {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 12.19px;
+  color: #fff;
+}
+
+.dashboard-page {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.dashboard-page .site-logo img {
+  width: 60px;
+}
+
+.dashboard-page .profile-wraps {
+  padding-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard-page .profile-wraps .profile-name-wraps {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dashboard-page .profile-wraps .profile-name-wraps span {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 12.19px;
+}
+
+.dashboard-page .profile-wraps .profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  overflow: hidden;
+}
+
+.dashboard-page .profile-wraps .profile-img img {
+  height: 100%;
+}
+
+.dashboard-page .day-wraps {
+  padding-top: 30px;
+  padding-bottom: 60px;
+  width: 100%;
+}
+
+.dashboard-page .day-wraps ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard-page .day-wraps ul li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.dashboard-page .day-wraps ul li .day {
+  font-family: "Montserrat", sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 19.5px;
+  color: #bcbcbc;
+}
+
+.dashboard-page .day-wraps ul li .date {
+  border: 2px solid #000000;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 12.19px;
+  text-align: left;
+  padding: 10px 8px;
+  border-radius: 100%;
+}
+
+.dashboard-page .day-wraps ul li.active {
+  padding: 10px 5px;
+  border-radius: 20px;
+  background: #7161ef;
+}
+
+.dashboard-page .day-wraps ul li.active .day {
+  color: #fff;
+}
+
+.dashboard-page .day-wraps ul li.active .date {
+  border: 2px solid #fff;
+  color: #000;
+}
+
+.dashboard-page .slogon-wraps {
+  text-align: center;
+}
+
+.dashboard-page .slogon-wraps span {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 14.63px;
+  color: #d99bff;
+}
+
+.dashboard-page .workout-wrapper {
+  width: 80%;
+  margin: auto;
+  padding-top: 80px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.dashboard-page .workout-wrapper .workout-name {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.dashboard-page .workout-wrapper .workout-name h6 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 12.19px;
+}
+
+.dashboard-page .workout-wrapper .workout-name .workout-btn {
+  border: 1px solid #736ced;
+  padding: 10px 22px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 12.19px;
+  color: #000;
+  border-radius: 2px;
+}
+
+.dashboard-page .workout-wrapper .btn-wrap .btn {
+  padding: 18.5px 26.5px;
+  background: #9fe3ff;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 12.19px;
+  border-radius: 5px;
+  border: none;
+  color: #fff;
+}
+
+.dashboard-page .wrokouts-flexed {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.dashboard-page .wrokouts-flexed .workout-coolection {
+  width: 100%;
+  background: #f5f5f5;
+  padding-right: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.dashboard-page .wrokouts-flexed .workout-coolection .workout-image {
+  background: linear-gradient(
+    180deg,
+    rgba(217, 155, 255, 0.5) 0%,
+    rgba(113, 97, 239, 0.5) 100%
+  );
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.dashboard-page .wrokouts-flexed .workout-coolection .workout-image img {
+  width: 200px;
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+
+.dashboard-page .wrokouts-flexed .workout-coolection .workout-name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+}
+
+.dashboard-page .wrokouts-flexed .workout-coolection .workout-name-wrap h5 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 17.07px;
+  color: #000;
+}
+
+.dashboard-page .wrokouts-flexed .workout-coolection .workout-name-wrap img {
+  width: 40px;
+}
+
+.dashboard-page .three-btn-wraps {
+  padding-top: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 40%;
+  margin: auto;
+}
+
+.workout-page {
+  background: linear-gradient(
+    180deg,
+    rgba(159, 227, 255, 0.2) 0%,
+    rgba(217, 155, 255, 0.2) 100%
+  );
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.workout-page .number-list-wrapper {
+  text-align: center;
+}
+
+.workout-page .number-list-wrapper h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 18.29px;
+}
+
+.workout-page .number-list-wrapper .workout-number-list {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.workout-page .topic {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.workout-page .topic h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 18.29px;
+}
+
+.workout-page .workout-card {
+  width: 80%;
+  margin: auto;
+  padding: 60px;
+  background: rgba(113, 97, 239, 0.1019607843);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.workout-page .workout-card.gap {
+  gap: 250px;
+}
+
+.workout-page .workout-card h4 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 17.07px;
+  color: #000;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.workout-page .workout-card img {
+  width: 40px;
+}
+
+.workout-page .workout-card .exercise-img {
+  width: 100px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.workout-page .workout-card.new {
+  justify-content: space-between;
+}
+
+.workout-page .workout-name-wraps {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.workout-page .btn-wraps {
+  margin-top: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workout-page .btn-wraps .btn {
+  padding: 18.5px 70px;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+
+.exercise-popup-wraps {
+  position: fixed;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  opacity: 0;
+  visibility: hidden;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 0.5s ease-in-out;
+}
+
+.exercise-popup-wraps.active {
+  top: 0;
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.5s ease-in-out;
+}
+
+.exercise-popup-wraps .exercise-pop-wrapper h4 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 29.26px;
+  margin-bottom: 20px;
+}
+
+.exercise-popup-wraps .exercise-pop-wrapper .workout {
+  background: linear-gradient(
+    180deg,
+    rgba(217, 155, 255, 0.5) 0%,
+    rgba(113, 97, 239, 0.5) 100%
+  );
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.exercise-popup-wraps .exercise-pop-wrapper .workout img {
+  width: auto;
+}
+
+.exercise-popup-wraps .exercise-pop-wrapper .timer-count {
+  padding-top: 10px;
+  padding-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.exercise-popup-wraps .exercise-pop-wrapper .timer-count .plus-minus {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.exercise-popup-wraps .exercise-pop-wrapper .timer-count .plus-minus img {
+  width: 20px;
+}
+
+.exercise-popup-wraps .exercise-pop-wrapper .timer-count .timer-wraps {
+  padding: 15px 30px;
+  border-radius: 10px;
+  background: #f5f5f5;
+  font-family: "Montserrat", sans-serif;
+  font-size: 35px;
+  font-weight: 400;
+  line-height: 29.26px;
+  text-align: left;
+}
+
+.exercise-popup-wraps .exercise-pop-wrapper .timer-count .timer-wraps input {
+  border: none;
+  background: none;
+  width: 100px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+}
+
+.exercise-popup-wraps .exercise-pop-wrapper .add-flex .btn {
+  padding: 27px 30px;
+}
+
+.exercise-popup-wraps .exercise-pop-wrapper .add-flex .cross {
+  width: 60px;
+  height: 60px;
+  background: #f5f5f5;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.exercise-popup-wraps .exercise-pop-wrapper .add-flex .cross img {
+  width: 20px;
+}
+
+.workout-video-page {
+  height: 100vh;
+  display: grid;
+  background: #000;
+  grid-template-columns: 2fr 1fr;
+}
+
+.workout-video-page .main-video-wraps {
+  background: #7161ef;
+  padding: 20px;
+  height: 100vh;
+  border-radius: 10px;
+}
+
+.workout-video-page .main-video-wraps .camera-video {
+  background: white;
+  width: 100%;
+  height: 80vh;
+  border-radius: 10px;
+}
+
+.workout-video-page .main-video-wraps .camera-video video {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.workout-video-page .main-video-wraps .time-duration {
+  width: 60%;
+  margin: auto;
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.workout-video-page .main-video-wraps .time-duration .timer-wraps {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.workout-video-page
+  .main-video-wraps
+  .time-duration
+  .timer-wraps
+  .duration-wrap {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.workout-video-page
+  .main-video-wraps
+  .time-duration
+  .timer-wraps
+  .duration-wrap
+  h5 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 15.85px;
+}
+
+.workout-video-page
+  .main-video-wraps
+  .time-duration
+  .timer-wraps
+  .duration-wrap
+  span {
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 19.5px;
+}
+
+.workout-video-page .video-wraper {
+  position: relative;
+  padding: 30px;
+}
+
+.workout-video-page .video-wraper .workout-name-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  gap: 10px;
+  justify-content: center;
+}
+
+.workout-video-page .video-wraper .workout-name-wrap h5 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 19.5px;
+  color: #fff;
+}
+
+.workout-video-page .video-wraper .workout-name-wrap .video-wrap {
+  width: 100%;
+  height: 75vh;
+}
+
+.workout-video-page .video-wraper .workout-name-wrap .video-wrap video {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.workout-video-page .video-wraper .workout-name-wrap .video-wrap img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.workout-video-page .video-wraper .workout-name-wrap .btn {
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 18.5px 60px;
+  background: linear-gradient(90deg, #7161ef 0%, #9fe3ff 100%);
+}
+
+.profile-page {
+  position: relative;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  z-index: 1;
+}
+
+.profile-page .left-overlay {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+  width: 400px;
+}
+
+.profile-page .right-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: -1;
+  width: 400px;
+}
+
+.profile-page .factory-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-page .factory-logo img {
+  width: 400px;
+}
+
+.profile-page .profile-edit {
+  width: 80%;
+  margin: auto;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile-page .profile-edit .add-photo-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-page .profile-edit .add-photo-wrapper .profile-image {
+  width: 120px;
+  height: 120px;
+  border: 1px solid rgba(113, 97, 239, 0.3019607843);
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.profile-page .profile-edit .add-photo-wrapper .profile-image img {
+  height: 100%;
+}
+
+.profile-page .profile-edit .add-photo-wrapper span {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 12.19px;
+}
+
+.profile-page .profile-edit .edit-btn {
+  background: rgba(113, 97, 239, 0.1019607843);
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 12.19px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  color: #958be4;
+}
+
+.profile-page .profile-details {
+  margin-top: 30px;
+}
+
+.profile-page .profile-details input {
+  border: none;
+  background: none;
+  width: 100%;
+}
+
+.profile-page .profile-details ul {
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.profile-page .profile-details ul li {
+  background: rgba(113, 97, 239, 0.1019607843);
+  padding: 20px 60px;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #ffffff;
+}
+
+.profile-page .profile-details ul li h6 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 14.63px;
+  text-align: left;
+}
+
+.profile-page .profile-details ul li span {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 14.63px;
+  text-align: left;
+}
+
+.profile-page .skill-level-wrap {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.profile-page .skill-level-wrap h6 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 14.63px;
+}
+
+.profile-page .skill-level-wrap .btn-wraps {
+  max-width: 30%;
+  margin: auto;
+  margin-top: 45px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-page .skill-level-wrap .btn-wraps .btn {
+  gap: 50px;
+  justify-content: flex-end;
+  padding: 18.5px 50px;
+}
+
+.profile-page .skill-level-wrap .btn-wraps .btn .arrow-wrap {
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.2901960784);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+}
+
+.profile-page .skill-level-wrap .btn-wraps .btn .arrow-wrap img {
+  width: 15px;
+}
+
+.profile-page .skill-level-wrap .ready-wrap {
+  max-width: 40%;
+  margin: auto;
+  margin-top: 60px;
+}
+
+.profile-page .skill-level-wrap .ready-wrap .btn {
+  padding: 20px 50px;
+}
+
+.gender-switcher .fieldset {
+  display: flex;
+  text-align: center;
+  position: relative;
+  padding: 5px;
+  border-radius: 50em;
+  background: #ffffff;
+  width: 60%;
+}
+
+.gender-switcher input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+.gender-switcher label {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  width: 100%;
+  height: 30px;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  text-align: center;
+  color: #bcbcbc;
+}
+
+.gender-switcher .switch {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: 30px;
+  width: 49.5%;
+  background-color: #958be4;
+  border-radius: 50em;
+  transition: transform 0.5s;
+}
+
+.gender-switcher input[type="radio"]:checked + label + .switch,
+.gender-switcher input[type="radio"]:checked + label:nth-of-type(n) + .switch {
+  transform: translateX(100%);
+  left: 0px;
+}
+
+.gender-switcher input[type="radio"]:checked + label {
+  color: #fff;
+}
+
+.top-part-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.top-part-wrap .back-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.top-part-wrap .back-btn img {
+  width: 12px;
+}
+
+.top-part-wrap .back-btn h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 18.29px;
+}
+
+.top-part-wrap .logo-wrap img {
+  width: 46.5px;
+}
+
+.edit-workout-page {
+  padding-top: 60px;
+  padding-bottom: 60px;
+  background: linear-gradient(
+    180deg,
+    rgba(159, 227, 255, 0.2) 0%,
+    rgba(217, 155, 255, 0.2) 100%
+  );
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 200px;
+  justify-content: space-between;
+}
+
+.edit-workout-page .top-part-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.edit-workout-page .top-part-wrap .back-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.edit-workout-page .top-part-wrap .back-btn img {
+  width: 12px;
+}
+
+.edit-workout-page .top-part-wrap .back-btn h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 18.29px;
+}
+
+.edit-workout-page .top-part-wrap .logo-wrap img {
+  width: 46.5px;
+}
+
+.edit-workout-page .save-wrorkout-wrap {
+  background: #f5f5f5;
+  padding: 60px 0px;
+}
+
+.edit-workout-page .save-wrorkout-wrap .save-wrapper {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.edit-workout-page .save-wrorkout-wrap .save-wrapper .btn {
+  padding: 25px 45px;
+}
+
+.edit-workout-page .save-wrorkout-wrap .save-wrapper .plus-wrap {
+  background: rgba(217, 217, 217, 0.6509803922);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+
+.edit-box {
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.1019607843);
+  background: rgba(113, 97, 239, 0.1019607843);
+  border-radius: 10px;
+}
+
+.edit-box h5 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 14.63px;
+  color: rgba(0, 0, 0, 0.3803921569);
+  padding: 25px 20px;
+  padding-top: 21px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5019607843);
+}
+
+.edit-box .text-edit-wrap {
+  padding: 15px 20px;
+  padding-bottom: 25px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+
+.edit-box .text-edit-wrap .edit-wrapper {
+  position: relative;
+  background: #fff;
+  border-radius: 10px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.edit-box .text-edit-wrap .edit-wrapper input {
+  padding: 12px 30px;
+  width: 100%;
+  background: #fff;
+  border: none;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 14.63px;
+}
+
+.edit-box .text-edit-wrap .edit-wrapper .edit-pen {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.edit-box .text-edit-wrap .edit-wrapper .edit-pen img {
+  width: 20px;
+}
+
+.edit-box .text-edit-wrap .list-exercise {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 30px;
+  background: #fff;
+  border-radius: 10px;
+}
+
+.edit-box .text-edit-wrap .list-exercise img {
+  width: 12px;
+}
+
+.edit-box .text-edit-wrap .list-exercise h4 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 14.63px;
+}
+
+.edit-box .timer-edit {
+  padding: 10px 30px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5019607843);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.edit-box .timer-edit .squat-wrap {
+  border-radius: 15px;
+  padding: 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(217, 155, 255, 0.5) 0%,
+    rgba(113, 97, 239, 0.5) 100%
+  );
+}
+
+.edit-box .timer-edit .squat-wrap img {
+  width: 100px;
+  -o-object-fit: cover;
+  object-fit: cover;
+}
+
+.edit-box .timer-edit .center-wrap {
+  width: 140px;
+  height: 145px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-box .timer-edit .center-wrap img {
+  width: 20px;
+}
+
+.edit-box .timer-edit h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 17.07px;
+}
+
+.edit-box .timer-edit .timer-wrap {
+  padding: 12px 32px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.6196078431);
+}
+
+.edit-box .timer-edit .timer-wrap input {
+  width: 30px;
+  border: none;
+  background: none;
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+.edit-box .timer-edit .timer-wrap span {
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 18.29px;
+  text-align: left;
+}
+
+.edit-box .btns-wrap {
+  padding: 10px 30px;
+}
+
+.edit-box .white-btn {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.6196078431);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  border: none;
+  border-radius: 5px;
+  padding: 15px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 17.07px;
+}
+
+.turn-text {
+  display: none;
+}
+
+.info-text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 17.07px;
+  color: black;
+  max-width: 400px;
+  margin: auto;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 1040px) {
+  .container {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 960px) {
+  .login-page .main-login-section .white-form {
+    width: 80%;
+  }
+
+  .workout-video-page {
+    height: 100%;
+    width: 100%;
+    grid-template-columns: 1.4fr 1fr;
+  }
+
+  .workout-video-page .main-video-wraps {
+    width: 100%;
+    padding: 15px;
+    height: 100%;
+  }
+
+  .workout-video-page .main-video-wraps .camera-video {
+    height: 26vw;
+  }
+
+  .workout-video-page .main-video-wraps .camera-video img {
+    height: 100%;
+  }
+
+  .workout-video-page .main-video-wraps .time-duration {
+    width: 90%;
+    margin: auto;
+    margin-top: 13px;
+  }
+
+  .workout-video-page .main-video-wraps .time-duration .timer-wraps {
+    gap: 7px;
+  }
+
+  .workout-video-page
+    .main-video-wraps
+    .time-duration
+    .timer-wraps
+    .duration-wrap {
+    gap: 6px;
+  }
+
+  .workout-video-page
+    .main-video-wraps
+    .time-duration
+    .timer-wraps
+    .duration-wrap
+    h5 {
+    font-size: 13px;
+  }
+
+  .workout-video-page
+    .main-video-wraps
+    .time-duration
+    .timer-wraps
+    .duration-wrap
+    span {
+    font-size: 16px;
+  }
+
+  .workout-video-page .video-wraper {
+    width: 100%;
+    position: relative;
+    padding: 15px;
+    height: 100%;
+    padding-top: 10px;
+  }
+
+  .workout-video-page .video-wraper .workout-name-wrap {
+    height: 100%;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .workout-video-page .video-wraper .workout-name-wrap h5 {
+    font-size: 16px;
+  }
+
+  .workout-video-page .video-wraper .workout-name-wrap .video-wrap {
+    height: 27vw;
+  }
+
+  .workout-video-page .video-wraper .workout-name-wrap .video-wrap video {
+    width: 100%;
+    height: 97%;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+
+  .workout-video-page .video-wraper .workout-name-wrap .video-wrap img {
+    width: 100%;
+    height: 97%;
+    -o-object-fit: contain;
+    object-fit: contain;
+  }
+
+  .workout-video-page .video-wraper .workout-name-wrap .btn {
+    padding: 11px 38px;
+  }
+
+  .workout-page .workout-card.gap {
+    gap: 150px;
+  }
+}
+
+@media (max-width: 650px) {
+  .btn {
+    padding: 12.5px 18.5px;
+    font-size: 10px;
+  }
+
+  .mt-45 {
+    margin-top: 35px;
+  }
+
+  .gap-20 {
+    gap: 7px;
+  }
+
+  .login-page {
+    padding-top: 12px;
+    padding-bottom: 60px;
+  }
+
+  .login-page .top-logo-part .main-logo img {
+    width: 16.5px;
+  }
+
+  .login-page .top-part-wrap .back-btn {
+    gap: 8px;
+  }
+
+  .login-page .top-part-wrap .back-btn img {
+    width: 8.7px;
+  }
+
+  .login-page .top-part-wrap .back-btn h3 {
+    font-size: 15px;
+  }
+
+  .login-page .top-part-wrap .logo-wrap img {
+    width: 24px;
+  }
+
+  .login-page .main-login-section .company-name {
+    margin-top: 4px;
+  }
+
+  .login-page .main-login-section .company-name h1 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  .login-page .main-login-section .login-image {
+    margin: 0px 10px;
+    margin-top: 18px;
+  }
+
+  .login-page .main-login-section .topic {
+    width: 80%;
+    text-align: center;
+    margin-top: 24px;
+  }
+
+  .login-page .main-login-section .topic h6 {
+    text-align: center;
+    font-size: 13px;
+    line-height: 15.6px;
+  }
+
+  .login-page .main-login-section .white-form {
+    width: 85%;
+    padding: 20px 12px;
+  }
+
+  .login-page .main-login-section .white-form .input-wraps {
+    max-width: 151px;
+    gap: 5px;
+  }
+
+  .login-page .main-login-section .white-form .input-wraps label {
+    font-size: 13px;
+  }
+
+  .login-page .main-login-section .white-form .input-wraps input {
+    padding: 5px 0px;
+    font-size: 10px;
+  }
+
+  .login-page .main-login-section .white-form .input-wraps ::-moz-placeholder {
+    font-size: 10px;
+  }
+
+  .login-page .main-login-section .white-form .input-wraps ::placeholder {
+    font-size: 10px;
+  }
+
+  .login-page .main-login-section .white-form .input-wraps .pw-shown {
+    position: absolute;
+    top: 25px;
+    right: 5px;
+    width: 12px;
+  }
+
+  .login-page .main-login-section .white-form .check-wrap {
+    margin-top: 17px;
+    gap: 6px;
+  }
+
+  .login-page
+    .main-login-section
+    .white-form
+    .check-wrap
+    input[type="checkbox"] {
+    width: 12px;
+    height: 12px;
+  }
+
+  .login-page .main-login-section .white-form .check-wrap span {
+    font-size: 10px;
+  }
+
+  .login-page .main-login-section .btn-wrap {
+    margin-top: 31px;
+  }
+
+  .login-page .main-login-section .btn-wrap .btn {
+    padding: 12.5px 62px;
+  }
+
+  .login-page .main-login-section .account-check-wrap {
+    margin-top: 30px;
+  }
+
+  .login-page .main-login-section .account-check-wrap a {
+    font-size: 10px;
+  }
+
+  .dashboard-page {
+    padding-top: 21px;
+    padding-bottom: 34px;
+  }
+
+  .dashboard-page .site-logo img {
+    width: 24px;
+  }
+
+  .dashboard-page .profile-wraps {
+    width: 90%;
+    margin: auto;
+    padding-top: 14px;
+  }
+
+  .dashboard-page .profile-wraps .profile-name-wraps {
+    gap: 5px;
+  }
+
+  .dashboard-page .profile-wraps .profile-name-wraps span {
+    font-size: 10px;
+  }
+
+  .dashboard-page .profile-wraps .profile-img {
+    width: 27px;
+    height: 27px;
+  }
+
+  .dashboard-page .day-wraps {
+    width: 90%;
+    margin: auto;
+    padding-top: 16px;
+    padding-bottom: 38px;
+  }
+
+  .dashboard-page .day-wraps ul li {
+    gap: 10px;
+  }
+
+  .dashboard-page .day-wraps ul li .day {
+    font-size: 16px;
+  }
+
+  .dashboard-page .day-wraps ul li .date {
+    font-size: 10px;
+    padding: 5px 7px;
+    border: 1px solid #000;
+  }
+
+  .dashboard-page .day-wraps ul li.active {
+    padding: 6px 8px;
+    padding-bottom: 8px;
+  }
+
+  .dashboard-page .day-wraps ul li.active .date {
+    border: 1px solid #fff;
+  }
+
+  .dashboard-page .slogon-wraps span {
+    font-size: 12px;
+  }
+
+  .dashboard-page .workout-wrapper {
+    width: 90%;
+    margin: auto;
+    padding-top: 43px;
+  }
+
+  .dashboard-page .workout-wrapper .workout-name {
+    gap: 8px;
+  }
+
+  .dashboard-page .workout-wrapper .workout-name h6 {
+    font-size: 10px;
+  }
+
+  .dashboard-page .workout-wrapper .workout-name .workout-btn {
+    padding: 6px 18px;
+    font-size: 10px;
+  }
+
+  .dashboard-page .workout-wrapper .btn-wrap .btn {
+    padding: 12.5px 16.5px;
+    font-size: 10px;
+  }
+
+  .dashboard-page .wrokouts-flexed {
+    margin-top: 40px;
+    gap: 35px;
+  }
+
+  .dashboard-page .wrokouts-flexed .workout-coolection {
+    padding-right: 17px;
+  }
+
+  .dashboard-page .wrokouts-flexed .workout-coolection .workout-image {
+    padding: 12px;
+  }
+
+  .dashboard-page .wrokouts-flexed .workout-coolection .workout-image img {
+    width: 104px;
+  }
+
+  .dashboard-page .wrokouts-flexed .workout-coolection .workout-name-wrap {
+    gap: 54px;
+  }
+
+  .dashboard-page .wrokouts-flexed .workout-coolection .workout-name-wrap h5 {
+    font-size: 14px;
+  }
+
+  .dashboard-page .wrokouts-flexed .workout-coolection .workout-name-wrap img {
+    width: 23px;
+  }
+
+  .dashboard-page .three-btn-wraps {
+    padding-top: 23px;
+    gap: 17px;
+    width: 80%;
+  }
+
+  .mt-60 {
+    margin-top: 35px;
+  }
+
+  .workout-page {
+    padding-top: 31px;
+    padding-bottom: 41px;
+  }
+
+  .workout-page .number-list-wrapper h3 {
+    font-size: 15px;
+  }
+
+  .workout-page .number-list-wrapper.mt-45 {
+    margin-top: 20px;
+  }
+
+  .workout-page .number-list-wrapper .workout-number-list {
+    margin-top: 15px;
+    gap: 15px;
+  }
+
+  .workout-page .topic {
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .workout-page .topic h3 {
+    font-size: 20px;
+  }
+
+  .workout-page .workout-card {
+    width: 95%;
+    padding: 27px;
+  }
+
+  .workout-page .workout-card.gap {
+    gap: 35px;
+  }
+
+  .workout-page .workout-card h4 {
+    font-size: 14px;
+    word-break: break-all;
+  }
+
+  .workout-page .workout-card img {
+    width: 23px;
+  }
+
+  .workout-page .workout-card .exercise-img {
+    width: 60px;
+  }
+
+  .workout-page .workout-name-wraps {
+    gap: 15px;
+  }
+
+  .workout-page .btn-wraps {
+    margin-top: 35px;
+  }
+
+  .workout-page .btn-wraps .btn {
+    padding: 12.5px 52.5px;
+    width: -moz-fit-content;
+    width: fit-content;
+  }
+
+  .exercise-popup-wraps {
+    padding-left: 40px;
+    padding-right: 40px;
+    height: auto;
+    padding-top: 46px;
+    padding-bottom: 23px;
+    border-radius: 10px;
+    top: auto;
+    bottom: -100%;
+  }
+
+  .exercise-popup-wraps.active {
+    top: auto;
+    bottom: 0;
+  }
+
+  .exercise-popup-wraps .exercise-pop-wrapper h4 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .exercise-popup-wraps .exercise-pop-wrapper .workout {
+    padding: 20px;
+  }
+
+  .exercise-popup-wraps .exercise-pop-wrapper .workout img {
+    width: 100%;
+  }
+
+  .exercise-popup-wraps .exercise-pop-wrapper .timer-count {
+    padding-top: 10px;
+    padding-bottom: 18px;
+    gap: 16px;
+  }
+
+  .exercise-popup-wraps .exercise-pop-wrapper .timer-count .plus-minus {
+    width: 24px;
+    height: 24px;
+  }
+
+  .exercise-popup-wraps .exercise-pop-wrapper .timer-count .plus-minus img {
+    width: 14px;
+  }
+
+  .exercise-popup-wraps .exercise-pop-wrapper .timer-count .timer-wraps {
+    padding: 15px 23px;
+    font-size: 24px;
+    width: -moz-min-content;
+    width: min-content;
+  }
+
+  .exercise-popup-wraps .exercise-pop-wrapper .timer-count .timer-wraps input {
+    border: none;
+    background: none;
+    width: 50px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+
+  .exercise-popup-wraps .exercise-pop-wrapper .add-flex .btn {
+    padding: 20px 30px;
+  }
+
+  .exercise-popup-wraps .exercise-pop-wrapper .add-flex .cross {
+    width: 40px;
+    height: 40px;
+  }
+
+  .exercise-popup-wraps .exercise-pop-wrapper .add-flex .cross img {
+    width: 13px;
+  }
+
+  .workout-video-page {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .workout-video-page .main-video-wraps {
+    padding: 15px 8px;
+    height: 100%;
+  }
+
+  .workout-video-page .main-video-wraps .camera-video {
+    height: 60vh;
+  }
+
+  .workout-video-page .main-video-wraps .time-duration {
+    width: 100%;
+    margin: auto;
+    margin-top: 13px;
+    gap: 5px;
+  }
+
+  .workout-video-page .main-video-wraps .time-duration .timer-wraps {
+    gap: 7px;
+  }
+
+  .workout-video-page
+    .main-video-wraps
+    .time-duration
+    .timer-wraps
+    .duration-wrap {
+    gap: 6px;
+  }
+
+  .workout-video-page
+    .main-video-wraps
+    .time-duration
+    .timer-wraps
+    .duration-wrap
+    h5 {
+    font-size: 13px;
+  }
+
+  .workout-video-page
+    .main-video-wraps
+    .time-duration
+    .timer-wraps
+    .duration-wrap
+    span {
+    font-size: 16px;
+  }
+
+  .workout-video-page .video-wraper {
+    position: relative;
+    padding: 15px;
+  }
+
+  .workout-video-page .video-wraper .workout-name-wrap {
+    height: 100%;
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  .workout-video-page .video-wraper .workout-name-wrap h5 {
+    font-size: 12px;
+  }
+
+  .workout-video-page .video-wraper .workout-name-wrap .video-wrap {
+    height: 400px;
+  }
+
+  .workout-video-page .video-wraper .workout-name-wrap .video-wrap video {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+
+  .workout-video-page .video-wraper .workout-name-wrap .video-wrap img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+  }
+
+  .workout-video-page .video-wraper .workout-name-wrap .btn {
+    width: -moz-fit-content;
+    width: fit-content;
+    padding: 12.5px 20px;
+  }
+
+  .profile-page {
+    padding-top: 30px;
+    padding-bottom: 53px;
+  }
+
+  .profile-page .left-overlay {
+    width: 162px;
+  }
+
+  .profile-page .right-overlay {
+    width: 162px;
+  }
+
+  .profile-page .factory-logo img {
+    width: 226px;
+  }
+
+  .profile-page .profile-edit {
+    width: 85%;
+    margin-top: 22px;
+  }
+
+  .profile-page .profile-edit .add-photo-wrapper .profile-image {
+    width: 100px;
+    height: 100px;
+    padding: 15px;
+    margin-bottom: 3px;
+  }
+
+  .profile-page .profile-edit .add-photo-wrapper span {
+    font-size: 10px;
+    line-height: 12.19px;
+  }
+
+  .profile-page .profile-edit .edit-btn {
+    padding: 13px 30px;
+    font-size: 10px;
+  }
+
+  .profile-page .profile-details {
+    margin-top: 13px;
+  }
+
+  .profile-page .profile-details ul li {
+    padding: 13px 30px;
+    padding-bottom: 5px;
+  }
+
+  .profile-page .profile-details ul li h6 {
+    font-size: 12px;
+  }
+
+  .profile-page .profile-details ul li span {
+    font-size: 12px;
+  }
+
+  .profile-page .skill-level-wrap {
+    margin-top: 27px;
+  }
+
+  .profile-page .skill-level-wrap h6 {
+    font-size: 12px;
+  }
+
+  .profile-page .skill-level-wrap .btn-wraps {
+    max-width: 50%;
+    margin-top: 28px;
+    gap: 21px;
+  }
+
+  .profile-page .skill-level-wrap .btn-wraps .btn {
+    gap: 18px;
+    justify-content: flex-end;
+    padding: 11px 14px;
+  }
+
+  .profile-page .skill-level-wrap .btn-wraps .btn .arrow-wrap {
+    width: 15px;
+    height: 15px;
+  }
+
+  .profile-page .skill-level-wrap .btn-wraps .btn .arrow-wrap img {
+    width: 5px;
+  }
+
+  .profile-page .skill-level-wrap .ready-wrap {
+    max-width: 70%;
+    margin: auto;
+    margin-top: 32px;
+  }
+
+  .profile-page .skill-level-wrap .ready-wrap .btn {
+    padding: 12.5px 50px;
+  }
+
+  .gender-switcher .fieldset {
+    padding: 5px;
+    width: 100%;
+  }
+
+  .gender-switcher label {
+    width: 100%;
+    height: 21px;
+    font-size: 12px;
+    line-height: 19px;
+  }
+
+  .gender-switcher .switch {
+    top: 5px;
+    left: 5px;
+    height: 21px;
+    width: 49.5%;
+  }
+
+  .top-part-wrap .back-btn {
+    gap: 13px;
+  }
+
+  .top-part-wrap .back-btn img {
+    width: 12.7px;
+  }
+
+  .top-part-wrap .back-btn h3 {
+    font-size: 15px;
+  }
+
+  .top-part-wrap .logo-wrap img {
+    width: 24px;
+  }
+
+  .edit-workout-page {
+    padding-top: 36px;
+    padding-bottom: 60px;
+    gap: 200px;
+  }
+
+  .edit-workout-page .top-part-wrap .back-btn {
+    gap: 13px;
+  }
+
+  .edit-workout-page .top-part-wrap .back-btn img {
+    width: 12.7px;
+  }
+
+  .edit-workout-page .top-part-wrap .back-btn h3 {
+    font-size: 15px;
+  }
+
+  .edit-workout-page .top-part-wrap .logo-wrap img {
+    width: 24px;
+  }
+
+  .edit-workout-page .save-wrorkout-wrap {
+    padding: 38px 0px;
+  }
+
+  .edit-workout-page .save-wrorkout-wrap .save-wrapper {
+    gap: 15px;
+  }
+
+  .edit-workout-page .save-wrorkout-wrap .save-wrapper .btn {
+    padding: 19.76px 45px;
+  }
+
+  .edit-workout-page .save-wrorkout-wrap .save-wrapper .plus-wrap {
+    width: 40px;
+    height: 40px;
+  }
+
+  .edit-box h5 {
+    font-size: 12px;
+    padding: 22px 18px;
+    padding-bottom: 18px;
+  }
+
+  .edit-box .text-edit-wrap {
+    padding: 9px 14px;
+    padding-bottom: 11px;
+  }
+
+  .edit-box .text-edit-wrap .edit-wrapper input {
+    padding: 10px 15px;
+    font-size: 10px;
+  }
+
+  .edit-box .text-edit-wrap .edit-wrapper .edit-pen {
+    top: 7px;
+    right: 10px;
+  }
+
+  .edit-box .text-edit-wrap .edit-wrapper .edit-pen img {
+    width: 13.16px;
+  }
+
+  .edit-box .text-edit-wrap .list-exercise {
+    gap: 10px;
+    padding: 16px 30px;
+    background: #fff;
+    border-radius: 10px;
+  }
+
+  .edit-box .text-edit-wrap .list-exercise img {
+    width: 12px;
+  }
+
+  .edit-box .text-edit-wrap .list-exercise h4 {
+    font-size: 12px;
+  }
+
+  .edit-box .timer-edit {
+    padding: 10px 9px;
+  }
+
+  .edit-box .timer-edit .squat-wrap {
+    padding: 6px;
+    width: 67px;
+    height: 64.08px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .edit-box .timer-edit .squat-wrap img {
+    width: 100%;
+  }
+
+  .edit-box .timer-edit .center-wrap {
+    width: 67px;
+    height: 64.08px;
+  }
+
+  .edit-box .timer-edit .center-wrap img {
+    width: 10px;
+  }
+
+  .edit-box .timer-edit h3 {
+    font-size: 14px;
+  }
+
+  .edit-box .timer-edit .timer-wrap {
+    padding: 8px 20px;
+  }
+
+  .edit-box .timer-edit .timer-wrap input {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 18.29px;
+  }
+
+  .edit-box .timer-edit .timer-wrap span {
+    font-size: 15px;
+  }
+
+  .edit-box .btns-wrap {
+    padding: 19px 30px;
+  }
+
+  .edit-box .white-btn {
+    gap: 12px;
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .turn-text {
+    display: block;
+    font-family: "Montserrat", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 17.07px;
+    color: black;
+    max-width: 400px;
+    margin: auto;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .info-text {
+    display: none;
+  }
+}
+
+summary {
+  list-style: none;
+}
+details {
+  background: rgba(113, 97, 239, 0.102);
+  border-radius: 15px;
+}
+
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workouts</title>
+    <link
+      rel="shortcut icon"
+      href="../static/favicon.ico"
+      type="image/x-icon"
+    />
+    <link href="../static/css/style.css" rel="stylesheet" />
+
+    <script src="../static/js/lib.js" type="text/javascript"></script>
+  </head>
+
+  <script>
+    var workouts = {{ workouts| tojson }};
+  </script>
+
+  <body>
+    <!-- WORKOUT PAGE START HERE -->
+    <section class="workout-page">
+      <div class="container">
+        <div class="number-list-wrapper">
+          <h3>Тренировки</h3>
+          <div class="workout-number-list" id="generated-workout-list">
+            <!-- Generated Workouts reside here -->
+          </div>
+        </div>
+        <div class="number-list-wrapper mt-45">
+          <h3>Свои тренировки</h3>
+          <div class="workout-number-list" id="custom-workout-list">
+            <!-- Custom Workouts reside here -->
+          </div>
+        </div>
+        <div class="btn-wraps">
+          <button class="btn" onclick="window.location.href = '/dashboard'">
+            Назад
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <script src="../static/js/workouts.js" defer></script>
+  </body>
+</html>

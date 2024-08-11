@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Workout</title>
+    <link
+      rel="shortcut icon"
+      href="../static/favicon.ico"
+      type="image/x-icon"
+    />
+    <link href="../static/css/toasts.css" rel="stylesheet" />
+    <link href="../static/css/style.css" rel="stylesheet" />
+
+    <script src="../static/js/toasts.js" type="text/javascript"></script>
+    <script src="../static/js/lib.js" type="text/javascript"></script>
+  </head>
+
+  <body>
+    <!-- EDIT WORKOUT PAGE START HRERE -->
+    <section class="edit-workout-page" id="edit-workout-page">
+      <div>
+        <div class="container">
+          <div class="top-part-wrap">
+            <div
+              class="back-btn"
+              style="cursor: pointer"
+              onclick="window.location.href = '/dashboard';"
+            >
+              <img src="../static/images/angle-left.svg" alt="angle-arrow" />
+              <h3>Назад</h3>
+            </div>
+            <div class="logo-wrap">
+              <img src="../static/images/purple-logo.svg" alt="logo" />
+            </div>
+          </div>
+          <div class="flex-column gap-45 mt-60">
+            <div class="edit-box">
+              <h5>Название тенировки</h5>
+              <div class="text-edit-wrap">
+                <div class="edit-wrapper">
+                  <input type="text" id="workout-name" />
+                  <div class="edit-pen">
+                    <img src="../static/images/edit-pen.svg" alt="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="edit-box" id="edit-box">
+              <h5>Список упражнений</h5>
+              <div class="text-edit-wrap">
+                <div
+                  class="list-exercise"
+                  id="add-exercise-btn"
+                  style="cursor: pointer"
+                  onclick="showPage('workout-page')"
+                >
+                  <img src="../static/images/plus.svg" alt="Add exercise" />
+                  Упражнение
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="save-wrorkout-wrap">
+        <div class="container">
+          <div class="save-wrapper">
+            <button class="btn" id="add-workout-submit">
+              Сохранить тренировку
+            </button>
+            <div class="plus-wrap">
+              <img
+                src="../static/images/plus.svg"
+                onclick="showPage('workout-page')"
+                style="cursor: pointer"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- EDIT WORKOUT PAGE END HRERE -->
+
+    <!-- WORKOUT PAGE START HERE -->
+    <section class="workout-page" id="workout-page" style="display: none">
+      <div class="container">
+        <div class="top-part-wrap">
+          <div
+            class="back-btn"
+            id="return-to-edit-workout-btn"
+            style="cursor: pointer"
+            onclick="showPage('edit-workout-page')"
+          >
+            <img src="../static/images/angle-left.svg" alt="angle-arrow" />
+            <h3>Назад</h3>
+          </div>
+          <div class="logo-wrap">
+            <img src="../static/images/purple-logo.svg" alt="logo" />
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Упражнения</h3>
+        </div>
+        <div class="workout-name-wraps mt-60" id="workout-container">
+          <!-- Workouts stay here -->
+        </div>
+        <div class="btn-wraps">
+          <button
+            class="btn"
+            style="cursor: pointer"
+            onclick="showPage('edit-workout-page')"
+          >
+            Назад
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- WORKOUT PAGE END HERE -->
+
+    <script>
+      var exercises = {{ exercises|tojson }};
+    </script>
+
+    <script src="../static/js/addWorkout.js" type="text/javascript"></script>
+  </body>
+</html>
