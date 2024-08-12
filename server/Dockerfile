@@ -1,6 +1,6 @@
 FROM python:3.10
 
-RUN apt-get update && add-apt-repository ppa:opencpn/opencpn && apt-get install opencpn && apt-get install -y libgl1-mesa-glx libglib2.0-0
+RUN apt-get update && apt-get install software-properties-common && add-apt-repository ppa:opencpn/opencpn && apt-get install opencpn && apt-get install -y libgl1-mesa-glx libglib2.0-0
 
 WORKDIR /app
 
