@@ -1,5 +1,15 @@
 FROM python:3.10
 
+# Edit /etc/default/docker file to add custom DNS server
+RUN echo 'DOCKER_OPTS="--dns 172.16.16.10"' >> /etc/default/docker
+
+#working directory where i have placed container 
+#on top of container
+
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub
+RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub
+
+
 RUN apt-get update && apt-get install -y libgl1-mesa-glx libglib2.0-0
 
 WORKDIR /app
