@@ -1,14 +1,7 @@
-FROM python:3.10
+FROM python:3.10-slim
 
-# Edit /etc/default/docker file to add custom DNS server
-RUN echo 'DOCKER_OPTS="--dns 172.16.16.10"' >> /etc/default/docker
-
-#working directory where i have placed container 
-#on top of container
-
-RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub
-RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub
-
+RUN sed -i 's#http://deb.debian.org/#http://ftp.ru.debian.org/#' /etc/apt/sources.list;
+RUN apt-get update --fix-missing && apt-get install -y vim --fix-missing
 
 RUN apt-get update && apt-get install -y libgl1-mesa-glx libglib2.0-0
 
