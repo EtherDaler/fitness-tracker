@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.10-slim
 
 RUN sed -i 's#http://deb.debian.org/#http://ftp.ru.debian.org/#' /etc/apt/sources.list.d/debian.sources
 RUN apt-get update --fix-missing && apt-get install -y vim --fix-missing
