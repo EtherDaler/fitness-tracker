@@ -1,6 +1,11 @@
-FROM python:3.10
+FROM ubuntu:22.04
 
-RUN apt-get update && apt-get install software-properties-common && add-apt-repository ppa:opencpn/opencpn && apt-get install opencpn && apt-get install -y libgl1-mesa-glx libglib2.0-0
+RUN apt-get update && 
+    apt-get install -y software-properties-common python3-pip && 
+    add-apt-repository ppa:opencpn/opencpn && 
+    apt-get update && 
+    apt-get install -y opencpn libgl1-mesa-glx libglib2.0-0 && 
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
