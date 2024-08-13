@@ -10,10 +10,8 @@ WORKDIR /app
 COPY ./app /app/app
 COPY requirements.txt /app/
 
-RUN sysctl -w net.ipv6.conf.all.disable_ipv6=1
-
 RUN python -m pip install --upgrade pip
-RUN pip install --default-timeout=100 -r requirements.txt 
+RUN pip install --no-cache-dir -r requirements.txt --default-timeout=100 --index-url=https://pypi.tuna.tsinghua.edu.cn/simple 
 
 EXPOSE 8000
 
