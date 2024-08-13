@@ -16,12 +16,12 @@ RUN nslookup pypi.org
 
 RUN openssl s_client -connect google.com:443
 
-RUN traceroute pypi.org
+RUN traceroute pypi.org > /app/traceroute_output.txt
 
-RUN openssl s_client -connect pypi.tuna.tsinghua.edu.cn:443
+#RUN openssl s_client -connect pypi.tuna.tsinghua.edu.cn:443
 
 RUN apt-get install -y curl
-RUN curl -I https://pypi.python.org/simple/ --verbose
+#RUN curl -I https://pypi.python.org/simple/ --verbose
 
 RUN python -m pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt --trusted-host pypi.python.org
