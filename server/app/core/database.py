@@ -11,6 +11,7 @@ engine = create_async_engine(
     echo=True,
     future=True,
     pool_pre_ping=True,
+    connect_args={"ssl": None}
 )
 
 AsyncSessionFactory = async_sessionmaker(
