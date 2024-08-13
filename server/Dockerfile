@@ -1,7 +1,7 @@
 FROM python:3.10
 
 RUN sed -i 's#http://deb.debian.org/#http://ftp.de.debian.org/#' /etc/apt/sources.list.d/debian.sources
-RUN apt-get update --fix-missing && apt-get install -y vim --fix-missing
+RUN apt-get update --fix-missing && apt-get install -y vim --fix-missing && apt-get install -y traceroute
 
 RUN apt-get update && apt-get install -y libgl1-mesa-glx libglib2.0-0 && apt-get install -y dnsutils
 
@@ -16,7 +16,9 @@ RUN nslookup pypi.org
 
 RUN openssl s_client -connect google.com:443
 
-RUN openssl s_client -connect pypi.org:443
+RUN traceroute pypi.org
+
+RUN openssl s_client -connect pypi.tuna.tsinghua.edu.cn:443
 
 RUN apt-get install -y curl
 RUN curl -I https://pypi.python.org/simple/ --verbose
