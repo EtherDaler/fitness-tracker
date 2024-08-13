@@ -10,10 +10,10 @@ services:
     volumes:
       - ./server/app:/app/app
     env_file: .env
-    networks:
-      - backend-network
     depends_on:
       - db
+    networks:
+      - backend-network
 
   db:
     image: postgres:14.8-alpine3.18
@@ -68,12 +68,14 @@ services:
     depends_on:
       - db
       - app
+    networks:
+      - backend-network
 
 networks:
   backend-network:
     external: false
     attachable: true
-    driver: overlay
+    driver: bridge
     driver_opts:
       com.docker.network.driver.mtu: 1450
 
