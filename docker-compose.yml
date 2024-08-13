@@ -5,6 +5,7 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
+    command: wait-for-it.sh db:5432 gunicorn app.main:app -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 -w 1 --reload
     ports:
       - "8000:8000"
     volumes:
@@ -16,7 +17,7 @@ services:
       - backend-network
 
   db:
-    image: postgres:14.8-alpine3.18
+    image: postgres:15
     env_file: .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
