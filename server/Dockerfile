@@ -10,7 +10,9 @@ WORKDIR /app
 COPY ./app /app/app
 COPY requirements.txt /app/
 
-RUN apt-get install -y ca-certificates && apt-get install -y iputils-ping
+RUN apt-get install -y ca-certificates && apt-get install -y iputils-ping && apt-get install -y openssl
+
+RUN openssl s_client -connect pypi.org:443
 
 RUN apt-get install -y curl
 RUN curl -I https://pypi.python.org/simple/ --verbose
