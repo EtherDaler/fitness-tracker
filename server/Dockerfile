@@ -10,6 +10,8 @@ WORKDIR /app
 COPY ./app /app/app
 COPY requirements.txt /app/
 
+RUN netsh interface ipv6 set prefixpolicy ::ffff:0:0/96 46 4
+
 RUN python -m pip install --upgrade pip
 RUN pip install --default-timeout=100 -r requirements.txt 
 
