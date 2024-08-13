@@ -10,6 +10,8 @@ WORKDIR /app
 COPY ./app /app/app
 COPY requirements.txt /app/
 COPY ./scripts /app/
+COPY wait-for-it.sh /usr/local/bin/wait-for-it.sh  # Копируем скрипт wait-for-it
+RUN chmod +x /usr/local/bin/wait-for-it.sh         # Делаем скрипт исполняемым
 
 RUN apt-get install -y ca-certificates && apt-get install -y iputils-ping && apt-get install -y openssl
 
@@ -21,4 +23,4 @@ EXPOSE 8000
 
 # the inner logic saves the active workout connection in RAM, so we need to run only one worker
 # since there arises a case when a connection is saved in `A` worker and the request is handled by `B` worker raising errors
-CMD ["gunicorn", "app.main:app", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000", "-w", "1"]
+CMD ["wait-for-it.sh", "db:5432", "--", "gunicorn", "app.main:app", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000", "-w", "1"]
