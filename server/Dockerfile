@@ -10,8 +10,8 @@ WORKDIR /app
 COPY ./app /app/app
 COPY requirements.txt /app/
 COPY ./scripts /app/
-COPY wait-for-it.sh /usr/local/bin/wait-for-it.sh  # Копируем скрипт wait-for-it
-RUN chmod +x /usr/local/bin/wait-for-it.sh         # Делаем скрипт исполняемым
+COPY wait-for-it.sh /usr/local/bin/wait-for-it.sh
+RUN chmod +x /usr/local/bin/wait-for-it.sh    
 
 RUN apt-get install -y ca-certificates && apt-get install -y iputils-ping && apt-get install -y openssl
 
