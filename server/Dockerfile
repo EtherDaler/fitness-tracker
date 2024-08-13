@@ -23,9 +23,9 @@ RUN apt-get install -y ca-certificates && apt-get install -y iputils-ping && apt
 #RUN apt-get install -y curl
 #RUN curl -I https://pypi.python.org/simple/ --verbose
 
-RUN python -m pip install --upgrade pip --proxy http://8.211.51.115:80 --trusted-host pypi.org
+RUN python -m pip install --upgrade pip --trusted-host pypi.tuna.tsinghua.edu.cn --index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
-RUN pip install --no-cache-dir -r requirements.txt --proxy http://8.211.51.115:80 --trusted-host pypi.org
+RUN pip install --no-cache-dir -r requirements.txt --trusted-host pypi.tuna.tsinghua.edu.cn --index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 EXPOSE 8000
 
