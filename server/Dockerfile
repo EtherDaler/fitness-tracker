@@ -10,7 +10,6 @@ WORKDIR /app
 COPY ./app /app/app
 COPY requirements.txt /app/
 
-RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf
 RUN apt-get install -y curl
 RUN curl -I https://pypi.org
 
