@@ -10,6 +10,8 @@ WORKDIR /app
 COPY ./app /app/app
 COPY requirements.txt /app/
 
+RUN apt-get install -y ca-certificates
+
 RUN apt-get install -y curl
 RUN curl -I https://pypi.org --verbose
 
