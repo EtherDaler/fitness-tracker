@@ -14,7 +14,7 @@ RUN apt-get install -y curl
 RUN curl -I https://pypi.org
 
 RUN python -m pip install --upgrade pip
-RUN pip install --no-cache-dir -r requirements.txt --default-timeout=100 --index-url=https://pypi.tuna.tsinghua.edu.cn/simple 
+RUN pip install --no-cache-dir -r requirements.txt --trusted-host pypi.python.org
 
 EXPOSE 8000
 
