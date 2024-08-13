@@ -12,6 +12,10 @@ COPY requirements.txt /app/
 
 RUN apt-get install -y ca-certificates && apt-get install -y iputils-ping && apt-get install -y openssl
 
+RUN nslookup pypi.org
+
+RUN openssl s_client -connect google.com:443
+
 RUN openssl s_client -connect pypi.org:443
 
 RUN apt-get install -y curl
