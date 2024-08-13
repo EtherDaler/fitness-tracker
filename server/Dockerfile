@@ -10,10 +10,10 @@ WORKDIR /app
 COPY ./app /app/app
 COPY requirements.txt /app/
 
-RUN apt-get install -y ca-certificates
+RUN apt-get install -y ca-certificates && apt-get install -y iputils-ping
 
 RUN apt-get install -y curl
-RUN curl -I https://pypi.org --verbose
+RUN curl -I https://pypi.python.org/simple/ --verbose
 
 RUN python -m pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt --trusted-host pypi.python.org
