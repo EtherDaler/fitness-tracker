@@ -11,7 +11,7 @@ COPY ./app /app/app
 COPY requirements.txt /app/
 
 RUN apt-get install -y curl
-RUN curl -I https://pypi.org
+RUN curl -I https://pypi.org --verbose
 
 RUN python -m pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt --trusted-host pypi.python.org
