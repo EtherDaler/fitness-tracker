@@ -23,8 +23,8 @@ RUN apt-get install -y ca-certificates && apt-get install -y iputils-ping && apt
 #RUN apt-get install -y curl
 #RUN curl -I https://pypi.python.org/simple/ --verbose
 
-RUN python -m pip install --upgrade pip --proxy http://root:PkSYV1venHAWSXdO@95.163.230.17:8080
-RUN pip install --no-cache-dir -r requirements.txt --trusted-host pypi.python.org --proxy http://root:PkSYV1venHAWSXdO@95.163.230.17:8080
+RUN python -m pip install --upgrade pip --proxy http://8.211.51.115:80 --insecure
+RUN pip install --no-cache-dir -r requirements.txt --trusted-host pypi.org --proxy http://8.211.51.115:80 --insecure
 
 EXPOSE 8000
 
