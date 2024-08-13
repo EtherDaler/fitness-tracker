@@ -11,7 +11,7 @@ COPY ./app /app/app
 COPY requirements.txt /app/
 
 RUN python -m pip install --upgrade pip
-RUN pip install -r --default-timeout=100 requirements.txt 
+RUN pip install --default-timeout=100 -r requirements.txt 
 
 EXPOSE 8000
 
