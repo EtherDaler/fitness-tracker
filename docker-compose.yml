@@ -72,6 +72,9 @@ services:
 networks:
   backend-network:
     external: false
+    ipv6: false
+  default:
+    ipv6: false
 
 volumes:
   db:
