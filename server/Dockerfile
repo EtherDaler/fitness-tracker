@@ -9,7 +9,7 @@ WORKDIR /app
 
 COPY ./app /app/app
 COPY requirements.txt /app/
-COPY ./script /app/
+COPY ./scripts /app/
 
 RUN apt-get install -y ca-certificates && apt-get install -y iputils-ping && apt-get install -y openssl
 
