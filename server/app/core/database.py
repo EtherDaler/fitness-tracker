@@ -7,7 +7,7 @@ DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{D
 print(DATABASE_URL)
 
 engine = create_async_engine(
-    DATABASE_URL,
+    DATABASE_URL.replace('postgresql+asyncpg', 'postgresql'),
     echo=True,
     future=True,
     pool_size=1,  # уменьшите размер пула для отладки
