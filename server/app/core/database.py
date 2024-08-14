@@ -10,7 +10,6 @@ engine = create_async_engine(
     DATABASE_URL,
     echo=True,
     future=True,
-    pool_pre_ping=True,
     pool_size=1,  # уменьшите размер пула для отладки
     max_overflow=0,
     connect_args={"ssl": None}
