@@ -76,7 +76,7 @@ services:
 
 networks:
   backend-network:
-    external: true
+    external: false
     attachable: true
     driver: bridge
     driver_opts:
