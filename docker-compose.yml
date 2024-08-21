@@ -66,8 +66,8 @@ services:
     volumes:
       # The init.conf will be changed with ssl.conf once we have ssl
       - ./nginx/ssl.conf:/etc/nginx/nginx.conf
-      - ./nginx/certificate.key:/etc/ssl/fitit-ai.key
-      - ./nginx/certificate_ca.crt:/etc/ssl/fitit-ai.crt
+      - ./nginx/certificate.key:/etc/nginx/ssl/fitit-ai.key
+      - ./nginx/certificate_ca.crt:/etc/nginx/ssl/fitit-ai.crt
     depends_on:
       - db
       - app
