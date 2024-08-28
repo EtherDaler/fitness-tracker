@@ -42,7 +42,7 @@ async def lifespan(_: FastAPI):
     # asyncio.create_task(drop_tables())
     asyncio.create_task(create_tables())
     asyncio.create_task(insert_default_data())
-    #asyncio.create_task(insert_generated_workouts())
+    asyncio.create_task(insert_generated_workouts(User))
     yield
 
 
@@ -124,7 +124,7 @@ def forget_password_page(request: Request):
 
 @app.get("/reset-password")
 async def reset_password_page(
-    request: Request, token: str, db: AsyncSession = Depends(get_db)
+        request: Request, token: str, db: AsyncSession = Depends(get_db)
 ):
     access_token = request.cookies.get("access_token")
 
@@ -430,11 +430,11 @@ async def workouts_page(request: Request, db: AsyncSession = Depends(get_db)):
 
 @app.get("/workouts/{idx}/start")
 async def start_workout(
-    request: Request,
-    idx: int | str,
-    _type: str = "workout",
-    duration: int = 0,
-    db: AsyncSession = Depends(get_db),
+        request: Request,
+        idx: int | str,
+        _type: str = "workout",
+        duration: int = 0,
+        db: AsyncSession = Depends(get_db),
 ):
     access_token = request.cookies.get("access_token")
     workout = None
