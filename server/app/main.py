@@ -42,7 +42,7 @@ async def lifespan(_: FastAPI):
     # asyncio.create_task(drop_tables())
     asyncio.create_task(create_tables())
     asyncio.create_task(insert_default_data())
-    asyncio.create_task(insert_generated_workouts())
+    #asyncio.create_task(insert_generated_workouts())
     yield
 
 
