@@ -54,7 +54,7 @@ completeButton.addEventListener("click", completeWorkout);
 function initializeExercise(exercise) {
   currentExercise = exercise;
   restTimer = currentExercise.rest_time;
-  helperVideo.src = `../../static/gif/${currentExercise.gif_link}`;
+  helperVideo.src = `../../static/videos/${currentExercise.video_link}`;
   document.querySelectorAll("[type='exercise-name']").forEach((el) => {
     el.innerText = currentExercise.name;
   });

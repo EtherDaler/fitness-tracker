@@ -212,6 +212,8 @@ async def dashboard_page(request: Request, db: AsyncSession = Depends(get_db)):
         .order_by(Workout.created_at.desc())
     )
 
+    # Добавить проверку, если Workout ничего не выдаст, то дать DefaultWorkout соответствующего уровня
+
     workouts = []
     result = await db.execute(query)
     data = result.unique().scalars().all()
@@ -354,7 +356,8 @@ async def new_workout(request: Request, db: AsyncSession = Depends(get_db)):
         resp = RedirectResponse(url="/login")
         resp.delete_cookie("access_token")
         return resp
-
+    # Надо делать запрос на DefaultWorkout соответствующего уровня
+    # И нужно будет объединить результат DefaultWorkout с Workout
     query = (
         select(Workout)
         .where(Workout.user_id == token["subject"]["user_id"])

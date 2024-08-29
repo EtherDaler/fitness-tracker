@@ -326,7 +326,7 @@ async def insert_default_data():
     await db.close()
 
 
-async def insert_generated_workouts():
+async def insert_generated_workouts(user: User):
     db: AsyncSession = AsyncSessionFactory()
     workout1 = Workout(
         name="Тренировка № 1",

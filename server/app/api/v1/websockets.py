@@ -1485,15 +1485,16 @@ def sqats(frame, session_data: dict, timing=False):
             # Статичные приседания подсчет времени
             if statement_upper or statement_eq or statement_lower and not jump_started:
                 jump_started = True
-                repetitions_count = 1
+                #started_time = time.time
+                repetitions_count = 0
                 time.sleep(1)
             elif statement_upper or statement_eq or statement_lower and jump_started:
                 jump_started = True
-                repetitions_count += 1
+                repetitions_count += 1 #repetitions_count = time.time - started_time
                 time.sleep(1)
             else:
                 jump_started = False
-                repetitions_count += 0
+                repetitions_count = 0
 
         draw_landmarks(frame, results)
 
@@ -1504,6 +1505,7 @@ def sqats(frame, session_data: dict, timing=False):
             "jump_started": jump_started,
             "repetitions_count": repetitions_count,
             "p_time": p_time,
+            #"started_time"
         }
     )
 
