@@ -212,11 +212,24 @@ async def dashboard_page(request: Request, db: AsyncSession = Depends(get_db)):
         .order_by(Workout.created_at.desc())
     )
 
-    # Добавить проверку, если Workout ничего не выдаст, то дать DefaultWorkout соответствующего уровня
+    default_query = (
+        select(Workout)
+        .where(Workout.user_id is None, Workout.efficiency == token["subject"]["activity_level"])
+        .options(
+            joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
+            joinedload(Workout.workout_exercises).joinedload(
+                WorkoutExercise.workout_sessions
+            ),
+        )
+        .order_by(Workout.created_at.desc())
+    )
 
     workouts = []
     result = await db.execute(query)
     data = result.unique().scalars().all()
+    default_result = await db.execute(default_query)
+    default_data = default_result.unique().scalars().all()
+    data += default_data
 
     for workout in data:
         workout.workout_exercises.sort(key=lambda we: we.id)
@@ -370,10 +383,23 @@ async def new_workout(request: Request, db: AsyncSession = Depends(get_db)):
         )
     )
 
+    default_query = (
+        select(Workout)
+        .where(Workout.user_id is None, Workout.efficiency == token["subject"]["activity_level"])
+        .options(
+            joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
+            joinedload(Workout.workout_exercises).joinedload(
+                WorkoutExercise.workout_sessions
+            ),
+        )
+    )
+
     workouts = []
     result = await db.execute(query)
     data = result.unique().scalars().all()
-
+    default_result = await db.execute(default_query)
+    default_data = default_result.unique().scalars().all()
+    data += default_data
     for workout in data:
         workout.workout_exercises.sort(key=lambda we: we.id)
         workouts.append(json.loads(workout_to_schema(workout).model_dump_json()))
@@ -413,9 +439,23 @@ async def workouts_page(request: Request, db: AsyncSession = Depends(get_db)):
         )
     )
 
+    default_query = (
+        select(Workout)
+        .where(Workout.user_id is None, Workout.efficiency == token["subject"]["activity_level"])
+        .options(
+            joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
+            joinedload(Workout.workout_exercises).joinedload(
+                WorkoutExercise.workout_sessions
+            ),
+        )
+    )
+
     workouts = []
     result = await db.execute(query)
     data = result.unique().scalars().all()
+    default_result = await db.execute(default_query)
+    default_data = default_result.unique().scalars().all()
+    data += default_data
 
     for workout in data:
         workout.workout_exercises.sort(key=lambda we: we.id)
@@ -504,6 +544,25 @@ async def start_workout(
         result = await db.execute(query)
         workout = result.scalar()
 
+        default_query = (
+            select(Workout)
+            .where(
+                Workout.user_id is None, Workout.id == int(idx)
+            )
+            .options(
+                joinedload(Workout.workout_exercises).joinedload(
+                    WorkoutExercise.exercise
+                ),
+                joinedload(Workout.workout_exercises).joinedload(
+                    WorkoutExercise.workout_sessions
+                ),
+            )
+        )
+        default_result = await db.execute(default_query)
+        default_workout = default_result.scalar()
+
+        if not workout:
+            workout = default_workout
         if not workout:
             return templates.TemplateResponse(
                 "workout-start.html",

@@ -18,7 +18,7 @@ from app.schemas.workouts import (
     CreateWorkoutResponseSchema,
     CreateWorkoutSessionSchema,
     CreateWorkoutSessionResponseSchema,
-    workout_to_schema,
+    workout_to_schema
 )
 
 router = APIRouter(prefix="/workouts", tags=["Тренировки"])
@@ -59,14 +59,27 @@ async def get_all_users_workouts(
             ),
         )
     )
+    default_query = (
+        select(Workout)
+        .where(Workout.efficiency == user.activity_level, Workout.user_id is None)
+        .options(
+            joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
+        ),
+    )
     result = await db.execute(query)
+    default_result = await db.execute(default_query)
     workouts = result.unique().scalars().all()
-    if not workouts:
+    default_workouts = default_result.unique().scalars().all()
+    if not workouts and not default_workouts:
         return AllWorkoutsSchema(workouts=[])
-
-    for workout in workouts:
-        workout.workout_exercises.sort(key=lambda we: we.id)
-        all_workouts.append(workout_to_schema(workout))
+    if workouts:
+        for workout in workouts:
+            workout.workout_exercises.sort(key=lambda we: we.id)
+            all_workouts.append(workout_to_schema(workout))
+    if default_workouts:
+        for workout in default_workouts:
+            workout.workout_exercises.sort(key=lambda we: we.id)
+            all_workouts.append(default_workout_to_schema(workout))
 
     return AllWorkoutsSchema(workouts=all_workouts)
 
@@ -106,16 +119,33 @@ async def get_single_workout(
             ),
         )
     )
+    default_query = query = (
+        select(Workout)
+        .where(Workout.id == workout_id, Workout.user_id is None)
+        .options(
+            joinedload(Workout.user),
+            joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
+            joinedload(Workout.workout_exercises).joinedload(
+                WorkoutExercise.workout_sessions
+            ),
+        )
+    )
     result = await db.execute(query)
     workout = result.scalars().first()
 
-    if not workout:
+    default_result = await db.execute(default_query)
+    default_workout = default_result.scalars().first()
+
+    if not workout and not default_workout:
         return JSONResponse(
             status_code=404,
             content=jsonable_encoder({"detail": "Тренировка не найдена"}),
         )
 
-    workout.workout_exercises.sort(key=lambda we: we.id)
+    if workout:
+        workout.workout_exercises.sort(key=lambda we: we.id)
+    elif default_workout:
+        workout = default_workout.workout_exercises.sort(key=lambda we: we.id)
     return workout_to_schema(workout)
 
 
@@ -205,13 +235,19 @@ async def add_new_workout_session(
     )
     result = await db.execute(query)
     workout = result.scalars().first()
+    default_query = select(Workout).where(
+        Workout.id == data.workout_id, Workout.user_id is None
+    )
+    default_result = await db.execute(default_query)
+    default_workout = default_result.scalars().first()
 
+    if not workout:
+        workout = default_workout
     if not workout:
         return JSONResponse(
             status_code=404,
             content=jsonable_encoder({"detail": "Workout not found"}),
         )
-
     query = select(WorkoutExercise).where(
         WorkoutExercise.id == data.workout_exercise_id
     )
