@@ -16,7 +16,7 @@ from sqlalchemy.orm import joinedload
 
 # from app.core.emails import init_smtp
 from app.schemas.workouts import workout_to_schema
-from app.core.utils import insert_default_data, insert_generated_workouts
+from app.core.utils import insert_default_data
 from app.core.security import is_valid_jwt
 from app.models import Workout, WorkoutExercise, User, Exercise, ResetPasswordToken
 
@@ -42,7 +42,7 @@ async def lifespan(_: FastAPI):
     # asyncio.create_task(drop_tables())
     asyncio.create_task(create_tables())
     asyncio.create_task(insert_default_data())
-    #asyncio.create_task(insert_generated_workouts())
+
     yield
 
 
