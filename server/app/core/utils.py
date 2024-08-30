@@ -162,7 +162,7 @@ async def insert_default_data():
         pushups = Exercise(
             id="pushups",
             name="Push ups",
-            video_link="отжимания.MOV",
+            video_link="отжимания.mp4",
             description="Отжимания",
             gif_link="отжимания.gif",
         )
