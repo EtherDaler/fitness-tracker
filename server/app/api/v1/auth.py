@@ -26,7 +26,6 @@ from app.schemas.users import (
     ResetUserPasswordSchema,
     ResetUserPasswordResponseSchema,
 )
-from app.core.utils import insert_generated_workouts
 from app.core.emails import (
     read_email_template,
     send_mail_sync,
@@ -111,8 +110,6 @@ async def register(data: UserRegisterSchema, db: AsyncSession = Depends(get_db))
         db.add(user)
         await db.commit()
         await db.refresh(user)
-
-        await insert_generated_workouts(user)
 
         subject = {"email": user.email, "user_id": user.id}
 
