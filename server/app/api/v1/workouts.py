@@ -79,7 +79,7 @@ async def get_all_users_workouts(
     if default_workouts:
         for workout in default_workouts:
             workout.workout_exercises.sort(key=lambda we: we.id)
-            all_workouts.append(default_workout_to_schema(workout))
+            all_workouts.append(workout_to_schema(workout))
 
     return AllWorkoutsSchema(workouts=all_workouts)
 

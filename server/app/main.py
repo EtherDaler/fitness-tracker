@@ -199,6 +199,10 @@ async def dashboard_page(request: Request, db: AsyncSession = Depends(get_db)):
         resp.delete_cookie("access_token")
         return resp
 
+    query = select(User).where(User.id == token["subject"]["user_id"])
+    result = await db.execute(query)
+    user = result.scalar()
+
     query = (
         select(Workout)
         .where(Workout.user_id == token["subject"]["user_id"])
@@ -214,7 +218,7 @@ async def dashboard_page(request: Request, db: AsyncSession = Depends(get_db)):
 
     default_query = (
         select(Workout)
-        .where(Workout.user_id is None, Workout.efficiency == token["subject"]["activity_level"])
+        .where(Workout.user_id is None, Workout.efficiency == user.activity_level)
         .options(
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
             joinedload(Workout.workout_exercises).joinedload(
@@ -369,8 +373,11 @@ async def new_workout(request: Request, db: AsyncSession = Depends(get_db)):
         resp = RedirectResponse(url="/login")
         resp.delete_cookie("access_token")
         return resp
-    # Надо делать запрос на DefaultWorkout соответствующего уровня
-    # И нужно будет объединить результат DefaultWorkout с Workout
+
+    query = select(User).where(User.id == token["subject"]["user_id"])
+    result = await db.execute(query)
+    user = result.scalar()
+
     query = (
         select(Workout)
         .where(Workout.user_id == token["subject"]["user_id"])
@@ -385,7 +392,7 @@ async def new_workout(request: Request, db: AsyncSession = Depends(get_db)):
 
     default_query = (
         select(Workout)
-        .where(Workout.user_id is None, Workout.efficiency == token["subject"]["activity_level"])
+        .where(Workout.user_id is None, Workout.efficiency == user.activity_level)
         .options(
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
             joinedload(Workout.workout_exercises).joinedload(
@@ -427,6 +434,10 @@ async def workouts_page(request: Request, db: AsyncSession = Depends(get_db)):
         resp.delete_cookie("access_token")
         return resp
 
+    query = select(User).where(User.id == token["subject"]["user_id"])
+    result = await db.execute(query)
+    user = result.scalar()
+
     query = (
         select(Workout)
         .where(Workout.user_id == token["subject"]["user_id"])
@@ -441,7 +452,7 @@ async def workouts_page(request: Request, db: AsyncSession = Depends(get_db)):
 
     default_query = (
         select(Workout)
-        .where(Workout.user_id is None, Workout.efficiency == token["subject"]["activity_level"])
+        .where(Workout.user_id is None, Workout.efficiency == user.activity_level)
         .options(
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
             joinedload(Workout.workout_exercises).joinedload(
