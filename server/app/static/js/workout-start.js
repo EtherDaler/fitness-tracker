@@ -173,7 +173,25 @@ async function completeWorkout() {
 
   ws.send(JSON.stringify({ type: "reset", connection_id: connectionId }));
   endTime = Date.now();
+  takeShot();
   endRestPeriod();
+}
+
+function downloadScreenshot() {
+  const canvas = document.getElementById('canvas');
+  const link = document.createElement('a');
+  link.download = 'screenshot.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+function showScreenShot() {
+  screenModal.style.display = "block";
+  const downloadButton = document.createElement('button');
+  downloadButton.innerText = 'Скачать скриншот';
+  downloadButton.addEventListener('click', downloadScreenshot);
+  screenModal.appendChild(downloadButton);
+  closeScreenShot();
 }
 
 function showScreenShot() {
@@ -229,7 +247,6 @@ function updateTimer() {
   if (repetitions >= currentExercise.repetitions && !isResting) {
     endTime = Date.now();
     saveSession();
-    takeShot();
     startRestPeriod();
   }
 }
@@ -337,7 +354,6 @@ function downloadBlob(blob, filename) {
 function resetCompleteButton() {
   completeButton.disabled = false;
   completeButton.innerText = "Завершить";
-  takeShot();
   isDownloading = false;
 }
 
