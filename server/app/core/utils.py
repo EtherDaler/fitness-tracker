@@ -279,7 +279,7 @@ async def insert_default_data():
         sqats = Exercise(
             id="sqats",
             name="Squats",
-            video_link="приседания.MOV",
+            video_link="приседания.gif",
             description="Приседания",
             gif_link="приседания.gif",
         )
