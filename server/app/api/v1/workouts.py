@@ -61,7 +61,7 @@ async def get_all_users_workouts(
     )
     default_query = (
         select(Workout)
-        .where(Workout.efficiency == user.activity_level, Workout.user_id is None)
+        .where(Workout.efficiency == user.activity_level, Workout.user_id.is_(None))
         .options(
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
             joinedload(Workout.user),
@@ -116,7 +116,7 @@ async def get_single_workout(
     # noinspection PyTypeChecker
     query = (
         select(Workout)
-        .where(Workout.id == workout_id, Workout.user_id == user.id)
+        .where(Workout.id == workout_id, Workout.user_id.is_(None))
         .options(
             joinedload(Workout.user),
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),

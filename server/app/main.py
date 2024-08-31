@@ -218,7 +218,7 @@ async def dashboard_page(request: Request, db: AsyncSession = Depends(get_db)):
 
     default_query = (
         select(Workout)
-        .where(Workout.user_id is None, Workout.efficiency == user.activity_level)
+        .where(Workout.user_id.is_(None), Workout.efficiency == user.activity_level)
         .options(
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
             joinedload(Workout.workout_exercises).joinedload(
@@ -392,7 +392,7 @@ async def new_workout(request: Request, db: AsyncSession = Depends(get_db)):
 
     default_query = (
         select(Workout)
-        .where(Workout.user_id is None, Workout.efficiency == user.activity_level)
+        .where(Workout.user_id.is_(None), Workout.efficiency == user.activity_level)
         .options(
             joinedload(Workout.user),
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
@@ -454,7 +454,7 @@ async def workouts_page(request: Request, db: AsyncSession = Depends(get_db)):
 
     default_query = (
         select(Workout)
-        .where(Workout.user_id is None, Workout.efficiency == user.activity_level)
+        .where(Workout.user_id.is_(None), Workout.efficiency == user.activity_level)
         .options(
             joinedload(Workout.user),
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
