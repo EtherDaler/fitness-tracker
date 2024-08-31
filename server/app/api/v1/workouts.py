@@ -64,12 +64,18 @@ async def get_all_users_workouts(
         .where(Workout.efficiency == user.activity_level, Workout.user_id is None)
         .options(
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
+            joinedload(Workout.user),
+            joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
+            joinedload(Workout.workout_exercises).joinedload(
+                WorkoutExercise.workout_sessions
+            ),
         ),
     )
     result = await db.execute(query)
     default_result = await db.execute(default_query)
     workouts = result.unique().scalars().all()
     default_workouts = default_result.unique().scalars().all()
+    print(default_workouts)
     if not workouts and not default_workouts:
         return AllWorkoutsSchema(workouts=[])
     if workouts:
