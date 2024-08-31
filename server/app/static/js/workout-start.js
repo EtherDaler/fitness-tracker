@@ -212,15 +212,19 @@ function takeShot() {
       const downloadLink = document.createElement('a');
       downloadLink.href = url;
       downloadLink.download = 'screenshot.png';
-      downloadLink.click();
-      URL.revokeObjectURL(url);
+      downloadLink.innerText = 'Скачать скриншот';
+      downloadLink.className = 'btn'; // Применяем класс для стилизации кнопки
+
+      // Добавляем кнопку скачивания под скриншотом
+      const downloadContainer = document.getElementById('download-container');
+      downloadContainer.innerHTML = ''; // Очищаем предыдущий контент
+      downloadContainer.appendChild(downloadLink);
     });
   }
   showScreenShot();
   closeScreenShot();
 }
 
-downloadButtonElement.addEventListener("click", takeShot);
 
 function updateTimer() {
   if (isResting || isDownloading || !startTime) return;
