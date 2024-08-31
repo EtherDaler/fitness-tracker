@@ -215,6 +215,11 @@ function takeShot() {
       downloadLink.innerText = 'Скачать скриншот';
       downloadLink.className = 'btn'; // Применяем класс для стилизации кнопки
 
+      downloadLink.style.display = 'block';
+      downloadLink.style.width = `${canvas.width}px`;
+      downloadLink.style.margin = '10px auto';
+      downloadLink.style.textAlign = 'center';
+
       // Добавляем кнопку скачивания под скриншотом
       const downloadContainer = document.getElementById('download-container');
       downloadContainer.innerHTML = ''; // Очищаем предыдущий контент
