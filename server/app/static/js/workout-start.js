@@ -249,7 +249,6 @@ function updateTimer() {
   if (repetitions >= currentExercise.repetitions && !isResting) {
     endTime = Date.now();
     saveSession();
-    takeShot();
     startRestPeriod();
   }
 }
@@ -311,10 +310,11 @@ function endRestPeriod() {
     helperVideo.play();
   } else {
     isCompleted = true;
+    takeShot()
     showToast("green", "Тренировка завершена");
     setTimeout(() => {
       window.location.href = "/dashboard";
-    }, 5000);
+    }, 10000);
   }
 }
 
