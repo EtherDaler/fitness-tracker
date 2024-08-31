@@ -173,25 +173,7 @@ async function completeWorkout() {
 
   ws.send(JSON.stringify({ type: "reset", connection_id: connectionId }));
   endTime = Date.now();
-  takeShot();
   endRestPeriod();
-}
-
-function downloadScreenshot() {
-  const canvas = document.getElementById('canvas');
-  const link = document.createElement('a');
-  link.download = 'screenshot.png';
-  link.href = canvas.toDataURL('image/png');
-  link.click();
-}
-
-function showScreenShot() {
-  screenModal.style.display = "block";
-  const downloadButton = document.createElement('button');
-  downloadButton.innerText = 'Скачать скриншот';
-  downloadButton.addEventListener('click', downloadScreenshot);
-  screenModal.appendChild(downloadButton);
-  closeScreenShot();
 }
 
 function showScreenShot() {
@@ -224,10 +206,21 @@ function takeShot() {
       let x = canvas.width - image.width - 10; // 10 пикселей от правого края
       let y = canvas.height - image.height - 10; // 10 пикселей от нижнего края
       context.drawImage(image, x, y, image.width, image.height);
+
+      canvas.toBlob((blob) => {
+      const url = URL.createObjectURL(blob);
+      const downloadLink = document.createElement('a');
+      downloadLink.href = url;
+      downloadLink.download = 'screenshot.png';
+      downloadLink.click();
+      URL.revokeObjectURL(url);
+    });
   }
   showScreenShot();
   closeScreenShot();
 }
+
+downloadButtonElement.addEventListener("click", takeShot);
 
 function updateTimer() {
   if (isResting || isDownloading || !startTime) return;
@@ -247,6 +240,7 @@ function updateTimer() {
   if (repetitions >= currentExercise.repetitions && !isResting) {
     endTime = Date.now();
     saveSession();
+    takeShot();
     startRestPeriod();
   }
 }
@@ -354,6 +348,7 @@ function downloadBlob(blob, filename) {
 function resetCompleteButton() {
   completeButton.disabled = false;
   completeButton.innerText = "Завершить";
+  takeShot();
   isDownloading = false;
 }
 
