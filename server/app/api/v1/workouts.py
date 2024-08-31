@@ -127,7 +127,7 @@ async def get_single_workout(
     )
     default_query = query = (
         select(Workout)
-        .where(Workout.id == workout_id, Workout.user_id is None)
+        .where(Workout.id == workout_id, Workout.user_id.is_(None))
         .options(
             joinedload(Workout.user),
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
@@ -242,7 +242,7 @@ async def add_new_workout_session(
     result = await db.execute(query)
     workout = result.scalars().first()
     default_query = select(Workout).where(
-        Workout.id == data.workout_id, Workout.user_id is None
+        Workout.id == data.workout_id, Workout.user_id.is_(None)
     )
     default_result = await db.execute(default_query)
     default_workout = default_result.scalars().first()

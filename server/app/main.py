@@ -561,7 +561,7 @@ async def start_workout(
         default_query = (
             select(Workout)
             .where(
-                Workout.user_id is None, Workout.id == int(idx)
+                Workout.user_id.is_(None), Workout.id == int(idx)
             )
             .options(
                 joinedload(Workout.workout_exercises).joinedload(
