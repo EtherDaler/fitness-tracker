@@ -357,7 +357,6 @@ function downloadBlob(blob, filename) {
 function resetCompleteButton() {
   completeButton.disabled = false;
   completeButton.innerText = "Завершить";
-  takeShot();
   isDownloading = false;
 }
 
