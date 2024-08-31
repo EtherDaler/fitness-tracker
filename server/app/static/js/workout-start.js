@@ -314,7 +314,7 @@ function endRestPeriod() {
     showToast("green", "Тренировка завершена");
     setTimeout(() => {
       window.location.href = "/dashboard";
-    }, 10000);
+    }, 7000);
   }
 }
 
