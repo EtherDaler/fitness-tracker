@@ -308,7 +308,7 @@ function endRestPeriod() {
     repetitions = 0;
     ws.send(JSON.stringify({ type: "reset", connection_id: connectionId }));
     helperVideo.play();
-  } else {
+  } else if (!isCompleted) {
     isCompleted = true;
     takeShot()
     showToast("green", "Тренировка завершена");
