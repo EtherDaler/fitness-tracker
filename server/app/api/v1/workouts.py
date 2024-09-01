@@ -61,15 +61,21 @@ async def get_all_users_workouts(
     )
     default_query = (
         select(Workout)
-        .where(Workout.efficiency == user.activity_level, Workout.user_id is None)
+        .where(Workout.efficiency == user.activity_level, Workout.user_id.is_(None))
         .options(
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
+            joinedload(Workout.user),
+            joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
+            joinedload(Workout.workout_exercises).joinedload(
+                WorkoutExercise.workout_sessions
+            ),
         ),
     )
     result = await db.execute(query)
     default_result = await db.execute(default_query)
     workouts = result.unique().scalars().all()
     default_workouts = default_result.unique().scalars().all()
+    print(default_workouts)
     if not workouts and not default_workouts:
         return AllWorkoutsSchema(workouts=[])
     if workouts:
@@ -110,7 +116,7 @@ async def get_single_workout(
     # noinspection PyTypeChecker
     query = (
         select(Workout)
-        .where(Workout.id == workout_id, Workout.user_id == user.id)
+        .where(Workout.id == workout_id, Workout.user_id.is_(None))
         .options(
             joinedload(Workout.user),
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
@@ -121,7 +127,7 @@ async def get_single_workout(
     )
     default_query = query = (
         select(Workout)
-        .where(Workout.id == workout_id, Workout.user_id is None)
+        .where(Workout.id == workout_id, Workout.user_id.is_(None))
         .options(
             joinedload(Workout.user),
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
@@ -236,7 +242,7 @@ async def add_new_workout_session(
     result = await db.execute(query)
     workout = result.scalars().first()
     default_query = select(Workout).where(
-        Workout.id == data.workout_id, Workout.user_id is None
+        Workout.id == data.workout_id, Workout.user_id.is_(None)
     )
     default_result = await db.execute(default_query)
     default_workout = default_result.scalars().first()
