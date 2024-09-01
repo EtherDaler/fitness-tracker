@@ -1589,6 +1589,80 @@ def press(frame, session_data: dict, timing=False):
 
     return frame, fps, repetitions_count
 
+def upor_lezha(frame, session_data: dict):
+    print(f"inside exercise {session_data}")
+    if "exercise_started" not in session_data:
+        session_data.update(
+            {"exercise_started": False, "repetitions_count": 0, "p_time": 0}
+        )
+
+    exercise_started, repetitions_count, p_time = (
+        session_data["exercise_started"],
+        session_data["repetitions_count"],
+        session_data["p_time"],
+    )
+
+    frame = cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
+
+    img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    results = pose.process(img_rgb)
+
+    if results.pose_landmarks:
+        landmarks = results.pose_landmarks.landmark
+
+        # Координаты левого и правого бедра, колена и лодыжки
+        left_hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,
+                    landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
+        left_knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x,
+                     landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
+        left_ankle = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x,
+                      landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
+
+        right_hip = [landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x,
+                     landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y]
+        right_knee = [landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].x,
+                      landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].y]
+        right_ankle = [landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].x,
+                       landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].y]
+
+        # Вычисление углов
+        left_leg_angle = calculate_angle(left_hip, left_knee, left_ankle)
+        right_leg_angle = calculate_angle(right_hip, right_knee, right_ankle)
+
+        # Проверка выполнения повторения
+        if left_leg_angle > 160 and right_leg_angle > 160 and not exercise_started:
+            exercise_started = True
+
+        elif exercise_started and (left_leg_angle < 90 or right_leg_angle < 90):
+            exercise_started = False
+            repetitions_count += 1
+
+        mp_draw.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+
+    current_time = time.time()
+    fps = 1 / (current_time - p_time)
+    p_time = current_time
+
+    frame = cv2.putText(
+        frame,
+        f"FPS: {int(fps)}",
+        (10, 30),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.5,
+        (0, 255, 0),
+        2,
+    )
+
+    session_data.update(
+        {
+            "exercise_started": exercise_started,
+            "repetitions_count": repetitions_count,
+            "p_time": p_time,
+        }
+    )
+
+    return frame, fps, repetitions_count
+
 
 @router.websocket("")
 async def workout_connection(websocket: WebSocket):
@@ -1723,6 +1797,10 @@ async def workout_connection(websocket: WebSocket):
                 )
             elif exercise_type == "press":
                 frame, _, repetitions_count = press(
+                    img, connections[connection_id]
+                )
+            elif exercise_type == "upor_lezha":
+                frame, _, repetitions_count = upor_lezha(
                     img, connections[connection_id]
                 )
             else:
