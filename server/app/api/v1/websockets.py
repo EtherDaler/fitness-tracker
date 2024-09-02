@@ -576,16 +576,18 @@ def leg_swings(frame, session_data: dict):
 
 # Мельница
 def melnica(frame, session_data: dict):
-    if "repetitions_count" not in session_data:
-        session_data.update({
-            "repetitions_count": 0,
-            "p_time": 0,
-            "exercise_active": False
-        })
+    if "jump_started" not in session_data:
+        session_data.update(
+            {"jump_started": False, "repetitions_count": 0, "p_time": 0}
+        )
 
-    repetitions_count = session_data["repetitions_count"]
-    p_time = session_data["p_time"]
-    exercise_active = session_data["exercise_active"]
+    jump_started, repetitions_count, p_time = (
+        session_data["jump_started"],
+        session_data["repetitions_count"],
+        session_data["p_time"],
+    )
+
+    cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
 
     img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
     results = pose.process(img_rgb)
@@ -617,11 +619,11 @@ def melnica(frame, session_data: dict):
             left_distance = calculate_distance_points(left_wrist, left_ankle)
 
             if right_distance < 0.1 or left_distance < 0.1:
-                if not exercise_active:
-                    exercise_active = True
-            elif exercise_active:
+                if not jump_started:
+                    jump_started = True
+            elif jump_started:
                 # Упражнение завершено, считаем повторение
-                exercise_active = False
+                jump_started = False
                 repetitions_count += 1
 
         # Отрисовка позы
@@ -642,11 +644,13 @@ def melnica(frame, session_data: dict):
         2,
     )
 
-    session_data.update({
-        "repetitions_count": repetitions_count,
-        "p_time": p_time,
-        "exercise_active": exercise_active
-    })
+    session_data.update(
+        {
+            "jump_started": jump_started,
+            "repetitions_count": repetitions_count,
+            "p_time": p_time,
+        }
+    )
 
     return frame, fps, repetitions_count
 
