@@ -928,13 +928,14 @@ def move_plank(frame, session_data: dict):
 def plank(frame, session_data: dict):
     if "jump_started" not in session_data:
         session_data.update(
-            {"jump_started": False, "repetitions_count": 0, "p_time": 0}
+            {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
         )
 
-    jump_started, repetitions_count, p_time = (
+    jump_started, repetitions_count, p_time, start_time = (
         session_data["jump_started"],
         session_data["repetitions_count"],
         session_data["p_time"],
+        session_data["start_time"]
     )
 
     cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
@@ -1004,10 +1005,9 @@ def plank(frame, session_data: dict):
         if statement_body and statement_foot and statement_arm and statement_hand and not jump_started:
             repetitions_count = 1
             jump_started = True
-            time.sleep(1)
+            start_time = time.time()
         elif statement_body and statement_foot and statement_arm and statement_hand and jump_started:
-            repetitions_count += 1
-            time.sleep(1)
+            repetitions_count = int(time.time() - start_time)
             jump_started = True
         else:
             jump_started = False
@@ -1022,6 +1022,7 @@ def plank(frame, session_data: dict):
             "jump_started": jump_started,
             "repetitions_count": repetitions_count,
             "p_time": p_time,
+            "start_time": start_time
         }
     )
 
@@ -1268,13 +1269,14 @@ def standing_curls(frame, session_data: dict):
 def pelvic_lift(frame, session_data: dict, timing=False):
     if "jump_started" not in session_data:
         session_data.update(
-            {"jump_started": False, "repetitions_count": 0, "p_time": 0}
+            {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
         )
 
-    jump_started, repetitions_count, p_time = (
+    jump_started, repetitions_count, p_time, start_time = (
         session_data["jump_started"],
         session_data["repetitions_count"],
         session_data["p_time"],
+        session_data["start_time"]
     )
 
     cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
@@ -1339,12 +1341,11 @@ def pelvic_lift(frame, session_data: dict, timing=False):
                     correct_hip_angle_left or correct_hip_angle_right) and not jump_started:
                 jump_started = True
                 repetitions_count = 1
-                time.sleep(1)
+                start_time = time.time()
             elif head_on_floor and hands_on_floor and feet_on_floor and (
                     correct_hip_angle_left or correct_hip_angle_right) and jump_started:
                 jump_started = True
-                repetitions_count += 1
-                time.sleep(1)
+                repetitions_count = int(time.time() - start_time)
             else:
                 jump_started = False
                 repetitions_count = 0
@@ -1358,6 +1359,7 @@ def pelvic_lift(frame, session_data: dict, timing=False):
             "jump_started": jump_started,
             "repetitions_count": repetitions_count,
             "p_time": p_time,
+            "start_time": start_time
         }
     )
 
@@ -1437,13 +1439,14 @@ def leg_raises_elbow_rest(frame, session_data: dict):
 def sqats(frame, session_data: dict, timing=False):
     if "jump_started" not in session_data:
         session_data.update(
-            {"jump_started": False, "repetitions_count": 0, "p_time": 0}
+            {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
         )
 
-    jump_started, repetitions_count, p_time = (
+    jump_started, repetitions_count, p_time, start_time = (
         session_data["jump_started"],
         session_data["repetitions_count"],
         session_data["p_time"],
+        session_data["start_time"]
     )
 
     cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
@@ -1485,13 +1488,11 @@ def sqats(frame, session_data: dict, timing=False):
             # Статичные приседания подсчет времени
             if statement_upper or statement_eq or statement_lower and not jump_started:
                 jump_started = True
-                #started_time = time.time
+                start_time = time.time()
                 repetitions_count = 0
-                time.sleep(1)
             elif statement_upper or statement_eq or statement_lower and jump_started:
                 jump_started = True
-                repetitions_count += 1 #repetitions_count = time.time - started_time
-                time.sleep(1)
+                repetitions_count = int(time.time() - start_time)
             else:
                 jump_started = False
                 repetitions_count = 0
@@ -1505,7 +1506,7 @@ def sqats(frame, session_data: dict, timing=False):
             "jump_started": jump_started,
             "repetitions_count": repetitions_count,
             "p_time": p_time,
-            #"started_time"
+            "start_time": start_time
         }
     )
 
