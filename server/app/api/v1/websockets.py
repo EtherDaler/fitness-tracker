@@ -629,8 +629,7 @@ def melnica(frame, session_data: dict):
                 repetitions_count += 1
                 jump_started = False
 
-        # Отрисовка позы
-        mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+        draw_landmarks(frame, results)
 
     # Подсчет FPS
     current_time = time.time()
