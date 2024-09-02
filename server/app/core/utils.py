@@ -298,6 +298,19 @@ async def insert_default_data():
         )
         db.add(sqats_static)
 
+    result = await db.execute(select(Exercise).where(Exercise.id == "upor_lezha"))
+    exists = result.scalars().first()
+
+    if not exists:
+        upor_lezha = Exercise(
+            id="upor_lezha",
+            name="Lying down",
+            video_link="упор+лежа+из+положения+стоя.gif",
+            description="Упор лежа из положения стоя",
+            gif_link="упор-лежа-из-положения-стоя.gif",
+        )
+        db.add(upor_lezha)
+
     result = await db.execute(select(Exercise).where(Exercise.id == "press"))
     exists = result.scalars().first()
 

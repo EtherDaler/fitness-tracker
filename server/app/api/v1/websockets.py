@@ -82,6 +82,9 @@ def calculate_distance(a, b):
     b = np.array(b)
     return np.linalg.norm(a - b)
 
+def calculate_distance_points(point1, point2):
+    return np.sqrt((point2[0] - point1[0])**2 + (point2[1] - point1[1])**2)
+
 
 def draw_landmarks(frame, skelet):
     mp_draw.draw_landmarks(frame, skelet.pose_landmarks, mp_pose.POSE_CONNECTIONS)
@@ -592,52 +595,54 @@ def melnica(frame, session_data: dict):
     if results.pose_landmarks:
         landmarks = results.pose_landmarks.landmark
 
-        # Координаты левого плеча, локтя и запястья
-        left_shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,
-                         landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-        left_elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,
-                      landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
+        # Координаты рук, плеч и лодыжек
         left_wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x,
                       landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
+        left_shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,
+                         landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
+        left_ankle = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x,
+                      landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
 
-        # Координаты правого плеча, локтя и запястья
-        right_shoulder = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,
-                          landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
-        right_elbow = [landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,
-                       landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
         right_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,
                        landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
+        right_shoulder = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,
+                          landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
+        right_ankle = [landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].x,
+                       landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].y]
 
-        # Координаты бедер и поясницы
-        left_hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,
-                    landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
-        right_hip = [landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x,
-                     landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y]
-        spine_mid = [(left_hip[0] + right_hip[0]) / 2, (left_hip[1] + right_hip[1]) / 2]
+        # Вычисление угла между руками (угол в плечевом суставе через плечи)
+        arms_angle = calculate_angle(left_wrist, left_shoulder, right_wrist)
 
-        # Вычисление углов
-        left_arm_angle = calculate_angle(left_hip, left_shoulder, left_wrist)
-        right_arm_angle = calculate_angle(right_hip, right_shoulder, right_wrist)
+        # Проверка условия, что руки образуют прямую линию и одна из рук рядом с ногой
+        if 170 <= arms_angle <= 180:
+            right_distance = calculate_distance_points(right_wrist, right_ankle)
+            left_distance = calculate_distance_points(left_wrist, left_ankle)
 
-        left_torso_angle = calculate_angle(left_shoulder, spine_mid, left_hip)
-        right_torso_angle = calculate_angle(right_shoulder, spine_mid, right_hip)
+            if right_distance < 0.1 or left_distance < 0.1:
+                if not jump_started:
+                    jump_started = True
+            elif jump_started:
+                # Упражнение завершено, считаем повторение
+                jump_started = False
+                repetitions_count += 1
 
-        # Засчитываем повтор при подъеме руки вверх и наклоне туловища
-        done = False
-        if left_arm_angle > 160 and right_torso_angle < 60:
-            done = True
-        if right_arm_angle > 160 and left_torso_angle < 60:
-            done = True
+        # Отрисовка позы
+        mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
 
-        if done and not jump_started:
-            jump_started = True
-            repetitions_count += 1
-        elif not done:
-            jump_started = False
+    # Подсчет FPS
+    current_time = time.time()
+    fps = 1 / (current_time - p_time)
+    p_time = current_time
 
-        draw_landmarks(frame, results)
-
-    fps, p_time = show_fps(frame, p_time)
+    frame = cv2.putText(
+        frame,
+        f"FPS: {int(fps)}",
+        (10, 30),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.5,
+        (0, 255, 0),
+        2,
+    )
 
     session_data.update(
         {
@@ -648,6 +653,7 @@ def melnica(frame, session_data: dict):
     )
 
     return frame, fps, repetitions_count
+
 
 
 # Отведение ноги назад
@@ -1590,6 +1596,80 @@ def press(frame, session_data: dict, timing=False):
 
     return frame, fps, repetitions_count
 
+def upor_lezha(frame, session_data: dict):
+    print(f"inside exercise {session_data}")
+    if "exercise_started" not in session_data:
+        session_data.update(
+            {"exercise_started": False, "repetitions_count": 0, "p_time": 0}
+        )
+
+    exercise_started, repetitions_count, p_time = (
+        session_data["exercise_started"],
+        session_data["repetitions_count"],
+        session_data["p_time"],
+    )
+
+    frame = cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
+
+    img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    results = pose.process(img_rgb)
+
+    if results.pose_landmarks:
+        landmarks = results.pose_landmarks.landmark
+
+        # Координаты левого и правого бедра, колена и лодыжки
+        left_hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,
+                    landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
+        left_knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x,
+                     landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
+        left_ankle = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x,
+                      landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
+
+        right_hip = [landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x,
+                     landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y]
+        right_knee = [landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].x,
+                      landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].y]
+        right_ankle = [landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].x,
+                       landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].y]
+
+        # Вычисление углов
+        left_leg_angle = calculate_angle(left_hip, left_knee, left_ankle)
+        right_leg_angle = calculate_angle(right_hip, right_knee, right_ankle)
+
+        # Проверка выполнения повторения
+        if left_leg_angle > 160 and right_leg_angle > 160 and not exercise_started:
+            exercise_started = True
+
+        elif exercise_started and (left_leg_angle < 90 or right_leg_angle < 90):
+            exercise_started = False
+            repetitions_count += 1
+
+        mp_draw.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+
+    current_time = time.time()
+    fps = 1 / (current_time - p_time)
+    p_time = current_time
+
+    frame = cv2.putText(
+        frame,
+        f"FPS: {int(fps)}",
+        (10, 30),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.5,
+        (0, 255, 0),
+        2,
+    )
+
+    session_data.update(
+        {
+            "exercise_started": exercise_started,
+            "repetitions_count": repetitions_count,
+            "p_time": p_time,
+        }
+    )
+
+    return frame, fps, repetitions_count
+
 
 @router.websocket("")
 async def workout_connection(websocket: WebSocket):
@@ -1724,6 +1804,10 @@ async def workout_connection(websocket: WebSocket):
                 )
             elif exercise_type == "press":
                 frame, _, repetitions_count = press(
+                    img, connections[connection_id]
+                )
+            elif exercise_type == "upor_lezha":
+                frame, _, repetitions_count = upor_lezha(
                     img, connections[connection_id]
                 )
             else:
