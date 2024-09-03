@@ -138,8 +138,8 @@ async def get_user_picture(user: User = Depends(jwt_verify)):
         content_type = "image/png"
     elif user.profile_picture_url.endswith(".gif"):
         content_type = "image/gif"
-    elif user.profile_picture_url.endswith(".HEIC"):
-        content_type = "image/HEIC"
+    elif user.profile_picture_url.endswith(".heic"):
+        content_type = "image/heic"
 
     return FileResponse(file_path, media_type=content_type)
 
@@ -165,7 +165,7 @@ async def change_user_picture(
     photo: UploadFile = File(...),
 ):
     extension = photo.filename.split(".")[-1]
-    if extension not in ["jpg", "jpeg", "png"]:
+    if extension not in ["jpg", "jpeg", "png", "heic"]:
         return JSONResponse(
             status_code=409,
             content=jsonable_encoder(
