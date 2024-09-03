@@ -138,6 +138,8 @@ async def get_user_picture(user: User = Depends(jwt_verify)):
         content_type = "image/png"
     elif user.profile_picture_url.endswith(".gif"):
         content_type = "image/gif"
+    elif user.profile_picture_url.endswith(".HEIC"):
+        content_type = "image/HEIC"
 
     return FileResponse(file_path, media_type=content_type)
 
