@@ -615,21 +615,36 @@ def melnica(frame, session_data: dict):
 
         # Проверка условия, что руки образуют прямую линию и одна из рук рядом с ногой
         if 170 <= arms_angle <= 180:
-            right_distance = calculate_distance_points(right_wrist, right_ankle)
-            left_distance = calculate_distance_points(left_wrist, left_ankle)
+            # Проверка, что правая рука рядом с правой ногой
+            right_distance = calculate_distance(right_wrist, right_ankle)
+            left_distance = calculate_distance(left_wrist, left_ankle)
 
-            if right_distance < 0.1 or left_distance < 0.1:
-                if not jump_started:
-                    jump_started = True
-            elif jump_started:
-                # Упражнение завершено, считаем повторение
-                jump_started = False
+            if right_distance < 0.1 or left_distance < 0.1 and not jump_started:
+                jump_started = True
+
+        elif jump_started:
+            right_distance = calculate_distance(right_wrist, right_ankle)
+            left_distance = calculate_distance(left_wrist, left_ankle)
+            if right_distance > 0.1 and left_distance > 0.1:
                 repetitions_count += 1
+                jump_started = False
 
-        # Отрисовка позы
         draw_landmarks(frame, results)
 
-    fps, p_time = show_fps(frame, p_time)
+    # Подсчет FPS
+    current_time = time.time()
+    fps = 1 / (current_time - p_time)
+    p_time = current_time
+
+    frame = cv2.putText(
+        frame,
+        f"FPS: {int(fps)}",
+        (10, 30),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.5,
+        (0, 255, 0),
+        2,
+    )
 
     session_data.update(
         {

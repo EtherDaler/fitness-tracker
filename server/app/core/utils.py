@@ -1,6 +1,7 @@
 import os
 import string
 import random
+import pyheif
 from io import BytesIO
 
 from PIL import Image
@@ -39,7 +40,21 @@ def generate_random_password(length: int):
 async def compress_and_save_image(
     file: UploadFile, save_path: str, quality: int = 50, size: tuple = (400, 400)
 ):
-    image = Image.open(BytesIO(await file.read()))
+    if file.filename.lower().endswith(".heic"):
+        heif_file = pyheif.read(await file.read())  # Чтение HEIC файла
+        image = Image.frombytes(
+            heif_file.mode,
+            heif_file.size,
+            heif_file.data,
+            "raw",
+            heif_file.mode,
+            heif_file.stride
+        )
+        save_path = save_path.replace(".heic", ".jpg")  # Меняем расширение на .jpg
+    else:
+        # Обрабатываем обычные изображения (JPEG, PNG и т.д.)
+        image = Image.open(BytesIO(await file.read()))
+
     image = image.resize(size)
     image.save(save_path, quality=quality, optimize=True)
 

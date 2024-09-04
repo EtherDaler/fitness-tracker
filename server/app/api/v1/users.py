@@ -138,6 +138,8 @@ async def get_user_picture(user: User = Depends(jwt_verify)):
         content_type = "image/png"
     elif user.profile_picture_url.endswith(".gif"):
         content_type = "image/gif"
+    elif user.profile_picture_url.endswith(".heic"):
+        content_type = "image/heic"
 
     return FileResponse(file_path, media_type=content_type)
 
@@ -162,12 +164,12 @@ async def change_user_picture(
     user: User = Depends(jwt_verify),
     photo: UploadFile = File(...),
 ):
-    extension = photo.filename.split(".")[-1]
-    if extension not in ["jpg", "jpeg", "png"]:
+    extension = photo.filename.split(".")[-1].lower()
+    if extension not in ["jpg", "jpeg", "png", "heic"]:
         return JSONResponse(
             status_code=409,
             content=jsonable_encoder(
-                {"detail": "Valid extensions are jpg, jpeg, png only!"}
+                {"detail": "Valid extensions are jpg, jpeg, png, heic only!"}
             ),
         )
 
@@ -184,5 +186,6 @@ async def change_user_picture(
     user.profile_picture_url = filename
     await db.commit()
     await db.refresh(user)
+    print(f"Profile picture updated for user: {user.id}, file: {filename}")
 
     return FileUploadResponseSchema(file_id=filename)
