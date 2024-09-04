@@ -627,22 +627,9 @@ def melnica(frame, session_data: dict):
                 repetitions_count += 1
 
         # Отрисовка позы
-        mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+        draw_landmarks(frame, results)
 
-    # Подсчет FPS
-    current_time = time.time()
-    fps = 1 / (current_time - p_time)
-    p_time = current_time
-
-    frame = cv2.putText(
-        frame,
-        f"FPS: {int(fps)}",
-        (10, 30),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.5,
-        (0, 255, 0),
-        2,
-    )
+    fps, p_time = show_fps(frame, p_time)
 
     session_data.update(
         {
@@ -1329,32 +1316,17 @@ def pelvic_lift(frame, session_data: dict, timing=False):
         correct_hip_angle_right = 160 <= hip_angle_right <= 180
 
         # Проверка выполнения упражнения
-        if not timing:
-            # Обычный подъем таза подсчет повторений
-            # Условие if для начала повторения
-            if head_on_floor and hands_on_floor and feet_on_floor and (
-                    correct_hip_angle_left or correct_hip_angle_right) and not jump_started:
-                jump_started = True
+        # Обычный подъем таза подсчет повторений
+        # Условие if для начала повторения
+        if head_on_floor and hands_on_floor and feet_on_floor and (
+                correct_hip_angle_left or correct_hip_angle_right) and not jump_started:
+            jump_started = True
 
-            # Условие elif для окончания повторения
-            elif jump_started and not (correct_hip_angle_left or correct_hip_angle_right):
-                jump_started = False
-                repetitions_count += 1
+        # Условие elif для окончания повторения
+        elif jump_started and not (correct_hip_angle_left or correct_hip_angle_right):
+            jump_started = False
+            repetitions_count += 1
 
-        else:
-            # Удержание таза подсчет времени
-            if head_on_floor and hands_on_floor and feet_on_floor and (
-                    correct_hip_angle_left or correct_hip_angle_right) and not jump_started:
-                jump_started = True
-                repetitions_count = 1
-                start_time = time.time()
-            elif head_on_floor and hands_on_floor and feet_on_floor and (
-                    correct_hip_angle_left or correct_hip_angle_right) and jump_started:
-                jump_started = True
-                repetitions_count = int(time.time() - start_time)
-            else:
-                jump_started = False
-                repetitions_count = 0
 
         draw_landmarks(frame, results)
 
@@ -1369,6 +1341,89 @@ def pelvic_lift(frame, session_data: dict, timing=False):
         }
     )
 
+    return frame, fps, repetitions_count
+
+
+# Удержание таза
+def pelvic_static(frame, session_data: dict):
+    if "jump_started" not in session_data:
+        session_data.update(
+            {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
+        )
+
+    jump_started, repetitions_count, p_time, start_time = (
+        session_data["jump_started"],
+        session_data["repetitions_count"],
+        session_data["p_time"],
+        session_data["start_time"]
+    )
+
+    cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
+
+    img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    results = pose.process(img_rgb)
+
+    if results.pose_landmarks:
+        landmarks = results.pose_landmarks.landmark
+        # Получаем координаты необходимых точек
+        left_hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,
+                    landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
+        right_hip = [landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x,
+                     landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y]
+        left_knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x,
+                     landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
+        right_knee = [landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].x,
+                      landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].y]
+        left_shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,
+                         landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
+        right_shoulder = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,
+                          landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
+        left_ankle = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x,
+                      landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
+        right_ankle = [landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].x,
+                       landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].y]
+        left_wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x,
+                      landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
+        right_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x,
+                       landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
+
+        # Проверка, что голова, руки и ступни прижаты к полу (y-координата ниже бедер)
+        head_on_floor = left_shoulder[1] > left_hip[1] and right_shoulder[1] > right_hip[1]
+        hands_on_floor = left_wrist[1] > left_hip[1] and right_wrist[1] > right_hip[1]
+        feet_on_floor = left_ankle[1] > left_knee[1] and right_ankle[1] > right_knee[1]
+
+        # Проверка угла поднятия таза (образование прямой линии от коленей до шеи с допустимым отклонением)
+        hip_angle_left = calculate_angle(left_knee, left_hip, left_shoulder)
+        hip_angle_right = calculate_angle(right_knee, right_hip, right_shoulder)
+
+        # Условие для угла таза (прямой линии от коленей до шеи с допустимым отклонением)
+        correct_hip_angle_left = 160 <= hip_angle_left <= 180
+        correct_hip_angle_right = 160 <= hip_angle_right <= 180
+
+        # Проверка выполнения упражнения
+        # Удержание таза подсчет времени
+        if head_on_floor and hands_on_floor and feet_on_floor and \
+                (correct_hip_angle_left or correct_hip_angle_right) and not jump_started:
+            jump_started = True
+            repetitions_count = 1
+            start_time = time.time()
+        elif head_on_floor and hands_on_floor and feet_on_floor and (
+                correct_hip_angle_left or correct_hip_angle_right) and jump_started:
+            jump_started = True
+            repetitions_count = int(time.time() - start_time)
+        else:
+            jump_started = False
+            repetitions_count = 0
+        draw_landmarks(frame, results)
+    fps, p_time = show_fps(frame, p_time)
+    session_data.update(
+        {
+            "jump_started": jump_started,
+            "repetitions_count": repetitions_count,
+            "p_time": p_time,
+            "start_time": start_time
+        }
+    )
     return frame, fps, repetitions_count
 
 
@@ -1479,29 +1534,81 @@ def sqats(frame, session_data: dict, timing=False):
         statement_eq = (round(left_hip[1], 2) == round(left_knee[1], 2)) or \
                        (round(right_hip[1], 2) == round(right_knee[1], 2))
 
-        if not timing:
-            # Обычные приседания подсчет повторений
-            # Условие if для начала повторения
-            if (statement_upper or statement_eq or statement_lower) and not jump_started:
-                jump_started = True
+        # Обычные приседания подсчет повторений
+        # Условие if для начала повторения
+        if (statement_upper or statement_eq or statement_lower) and not jump_started:
+            jump_started = True
 
-            # Условие elif для окончания повторения
-            elif jump_started and not (statement_upper or statement_eq or statement_lower):
-                jump_started = False
-                repetitions_count += 1
+        # Условие elif для окончания повторения
+        elif jump_started and not (statement_upper or statement_eq or statement_lower):
+            jump_started = False
+            repetitions_count += 1
 
+        draw_landmarks(frame, results)
+
+    fps, p_time = show_fps(frame, p_time)
+
+    session_data.update(
+        {
+            "jump_started": jump_started,
+            "repetitions_count": repetitions_count,
+            "p_time": p_time,
+            "start_time": start_time
+        }
+    )
+
+    return frame, fps, repetitions_count
+
+
+# Приседания
+def sqats_static(frame, session_data: dict, timing=False):
+    if "jump_started" not in session_data:
+        session_data.update(
+            {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
+        )
+
+    jump_started, repetitions_count, p_time, start_time = (
+        session_data["jump_started"],
+        session_data["repetitions_count"],
+        session_data["p_time"],
+        session_data["start_time"]
+    )
+
+    cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
+
+    img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    results = pose.process(img_rgb)
+
+    if results.pose_landmarks:
+        # Колени
+        right_knee = get_points(results, 26)
+        left_knee = get_points(results, 25)
+
+        # Бедра
+        right_hip = get_points(results, 24)
+        left_hip = get_points(results, 23)
+
+        # Таз немного выше коленей
+        statement_upper = (round(left_hip[1], 2) + 0.02 == round(left_knee[1], 2)) or \
+                          (round(right_hip[1], 2) + 0.02 == round(right_knee[1], 2))
+        # Таз немного нижу коленей
+        statement_lower = (round(left_hip[1], 2) - 0.02 == round(left_knee[1], 2)) or \
+                          (round(right_hip[1], 2) - 0.02 == round(right_knee[1], 2))
+        # Таз равен коленям
+        statement_eq = (round(left_hip[1], 2) == round(left_knee[1], 2)) or \
+                       (round(right_hip[1], 2) == round(right_knee[1], 2))
+
+        # Статичные приседания подсчет времени
+        if statement_upper or statement_eq or statement_lower and not jump_started:
+            jump_started = True
+            start_time = time.time()
+            repetitions_count = 0
+        elif statement_upper or statement_eq or statement_lower and jump_started:
+            jump_started = True
+            repetitions_count = int(time.time() - start_time)
         else:
-            # Статичные приседания подсчет времени
-            if statement_upper or statement_eq or statement_lower and not jump_started:
-                jump_started = True
-                start_time = time.time()
-                repetitions_count = 0
-            elif statement_upper or statement_eq or statement_lower and jump_started:
-                jump_started = True
-                repetitions_count = int(time.time() - start_time)
-            else:
-                jump_started = False
-                repetitions_count = 0
+            jump_started = False
+            repetitions_count = 0
 
         draw_landmarks(frame, results)
 
@@ -1784,11 +1891,11 @@ async def workout_connection(websocket: WebSocket):
                 )
             elif exercise_type == "pelvic_lift":
                 frame, _, repetitions_count = pelvic_lift(
-                    img, connections[connection_id], False
+                    img, connections[connection_id]
                 )
             elif exercise_type == "pelvic_static":
-                frame, _, repetitions_count = pelvic_lift(
-                    img, connections[connection_id], True
+                frame, _, repetitions_count = pelvic_static(
+                    img, connections[connection_id]
                 )
             elif exercise_type == "leg_raises_elbow_rest":
                 frame, _, repetitions_count = leg_raises_elbow_rest(
@@ -1796,11 +1903,11 @@ async def workout_connection(websocket: WebSocket):
                 )
             elif exercise_type == "sqats":
                 frame, _, repetitions_count = sqats(
-                    img, connections[connection_id], False
+                    img, connections[connection_id]
                 )
             elif exercise_type == "sqats_static":
-                frame, _, repetitions_count = sqats(
-                    img, connections[connection_id], True
+                frame, _, repetitions_count = sqats_static(
+                    img, connections[connection_id]
                 )
             elif exercise_type == "press":
                 frame, _, repetitions_count = press(
