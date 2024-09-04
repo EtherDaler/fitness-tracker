@@ -164,12 +164,12 @@ async def change_user_picture(
     user: User = Depends(jwt_verify),
     photo: UploadFile = File(...),
 ):
-    extension = photo.filename.split(".")[-1]
+    extension = photo.filename.split(".")[-1].lower()
     if extension not in ["jpg", "jpeg", "png", "heic"]:
         return JSONResponse(
             status_code=409,
             content=jsonable_encoder(
-                {"detail": "Valid extensions are jpg, jpeg, png only!"}
+                {"detail": "Valid extensions are jpg, jpeg, png, heic only!"}
             ),
         )
 
