@@ -1795,6 +1795,11 @@ def upor_lezha(frame, session_data: dict):
 
 @router.websocket("")
 async def workout_connection(websocket: WebSocket):
+    global connections
+
+    connection_id = str(uuid.uuid4())
+    await websocket.accept()
+
     try:
         async for data in websocket.iter_text():
             print(f"Received data: {data}")  # Логирование полученных данных
@@ -1802,10 +1807,6 @@ async def workout_connection(websocket: WebSocket):
             # обработка данных
     except json.JSONDecodeError as e:
         print(f"JSONDecodeError: {e}")
-    global connections
-
-    connection_id = str(uuid.uuid4())
-    await websocket.accept()
 
     connections[connection_id] = {"websocket": websocket, "video_frames": []}
     logger.info(f"New WebSocket connection: {connection_id}")
