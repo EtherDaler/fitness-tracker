@@ -230,6 +230,17 @@ function startVideoProcessing() {
       (blob) => {
         if (blob) {
           blob.arrayBuffer().then((buffer) => {
+            bufferToBase64(buffer).then(base64String => {
+              const data = {
+                type: currentExercise.exercise_id,
+                data: base64String,
+                is_resting: isResting,
+                is_downloading: isDownloading,
+                is_completed: isCompleted,
+              };
+              ws.send(JSON.stringify(data));
+            });
+            /*
             let b64Data = isResting ? null : bufferToBase64(buffer);
             const data = JSON.stringify({
               type: currentExercise.exercise_id,
@@ -238,8 +249,8 @@ function startVideoProcessing() {
               is_downloading: isDownloading,
               is_completed: isCompleted,
             });
-            console.log(data)
             ws.send(data);
+            */
           });
         }
       },
@@ -434,6 +445,7 @@ function endRestPeriod() {
   }
 }
 
+/*
 function bufferToBase64(buffer) {
   let binary = "";
   let bytes = new Uint8Array(buffer);
@@ -442,6 +454,17 @@ function bufferToBase64(buffer) {
     binary += String.fromCharCode(bytes[i]);
   }
   return window.btoa(binary);
+}
+*/
+
+function bufferToBase64(buffer) {
+  return new Promise((resolve, reject) => {
+    let blob = new Blob([buffer], { type: "application/octet-binary" });
+    let reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result.split(",")[1]); // Получаем только данные Base64
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(blob);
+  });
 }
 
 function showToast(color, message) {
