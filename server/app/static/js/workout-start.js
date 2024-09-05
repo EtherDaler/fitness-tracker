@@ -230,6 +230,7 @@ function startVideoProcessing() {
       (blob) => {
         if (blob) {
           blob.arrayBuffer().then((buffer) => {
+            /*
             bufferToBase64(buffer).then(base64String => {
               const data = {
                 type: currentExercise.exercise_id,
@@ -240,7 +241,7 @@ function startVideoProcessing() {
               };
               ws.send(JSON.stringify(data));
             });
-            /*
+            */
             let b64Data = isResting ? null : bufferToBase64(buffer);
             const data = JSON.stringify({
               type: currentExercise.exercise_id,
@@ -250,7 +251,6 @@ function startVideoProcessing() {
               is_completed: isCompleted,
             });
             ws.send(data);
-            */
           });
         }
       },
@@ -445,7 +445,7 @@ function endRestPeriod() {
   }
 }
 
-/*
+
 function bufferToBase64(buffer) {
   let binary = "";
   let bytes = new Uint8Array(buffer);
@@ -455,8 +455,8 @@ function bufferToBase64(buffer) {
   }
   return window.btoa(binary);
 }
-*/
 
+/*
 function bufferToBase64(buffer) {
   return new Promise((resolve, reject) => {
     let blob = new Blob([buffer], { type: "application/octet-binary" });
@@ -466,7 +466,7 @@ function bufferToBase64(buffer) {
     reader.readAsDataURL(blob);
   });
 }
-
+*/
 function showToast(color, message) {
   iziToast.show({
     color: color,

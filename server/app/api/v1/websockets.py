@@ -1800,25 +1800,14 @@ async def workout_connection(websocket: WebSocket):
     connection_id = str(uuid.uuid4())
     await websocket.accept()
 
-    try:
-        async for data in websocket.iter_text():
-            print(f"Received data: {data}")
-            data_json = json.loads(data)
-            if 'data' in data_json:
-                binary_data = base64.b64decode(data_json['data'])
-                # Дальнейшая обработка binary_data
-    except json.JSONDecodeError as e:
-        print(f"JSONDecodeError: {e}")
-
     connections[connection_id] = {"websocket": websocket, "video_frames": []}
     logger.info(f"New WebSocket connection: {connection_id}")
 
     try:
         while True:
-            data = await websocket.receive_text()
-            print(data)
-            data_json = json.loads(data)
-
+            #data = await websocket.receive_text()
+            #data_json = json.loads(data)
+            data_json = await websocket.receive_json()
             if "type" not in data_json:
                 continue
 
