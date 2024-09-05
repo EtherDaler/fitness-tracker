@@ -1808,6 +1808,7 @@ async def workout_connection(websocket: WebSocket):
             #data = await websocket.receive_text()
             #data_json = json.loads(data)
             data_json = await websocket.receive_json()
+            print(data_json)
             if "type" not in data_json:
                 continue
 
