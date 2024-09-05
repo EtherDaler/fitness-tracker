@@ -238,6 +238,7 @@ function startVideoProcessing() {
               is_downloading: isDownloading,
               is_completed: isCompleted,
             });
+            console.log(data)
             ws.send(data);
           });
         }

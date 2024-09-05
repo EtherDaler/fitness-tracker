@@ -1802,9 +1802,11 @@ async def workout_connection(websocket: WebSocket):
 
     try:
         async for data in websocket.iter_text():
-            print(f"Received data: {data}")  # Логирование полученных данных
+            print(f"Received data: {data}")
             data_json = json.loads(data)
-            # обработка данных
+            if 'data' in data_json:
+                binary_data = base64.b64decode(data_json['data'])
+                # Дальнейшая обработка binary_data
     except json.JSONDecodeError as e:
         print(f"JSONDecodeError: {e}")
 
