@@ -242,7 +242,7 @@ function startVideoProcessing() {
               ws.send(JSON.stringify(data));
             });
             */
-            let b64Data = isResting ? null : bufferToBase64(buffer);
+            let b64Data = isResting ? "" : bufferToBase64(buffer);
             const data = JSON.stringify({
               type: currentExercise.exercise_id,
               data: b64Data,
@@ -250,6 +250,7 @@ function startVideoProcessing() {
               is_downloading: isDownloading,
               is_completed: isCompleted,
             });
+            console.log(data)
             ws.send(data);
           });
         }
