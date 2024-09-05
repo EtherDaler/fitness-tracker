@@ -160,8 +160,8 @@ ws.onopen = function () {
             clearInterval(t);
             return;
         }
-        ws.send('{type:"ping"}');
-    }, 55000);
+        ws.send(JSON.stringify({type:"ping"}));
+    }, 30000);
 }
 
 completeButton.addEventListener("click", completeWorkout);
