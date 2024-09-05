@@ -207,6 +207,9 @@ function handleWebSocketMessage(event) {
     repetitions = parseInt(message.data);
     repetitionsCountElement.innerText = repetitions;
   }
+  if (message.type === "pong") {
+    console.log("Received pong from server");
+  }
   connectionId = message.connection_id;
 }
 
@@ -250,7 +253,6 @@ function startVideoProcessing() {
               is_downloading: isDownloading,
               is_completed: isCompleted,
             });
-            console.log(data)
             ws.send(data);
           });
         }

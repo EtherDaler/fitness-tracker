@@ -1809,8 +1809,10 @@ async def workout_connection(websocket: WebSocket):
             data_json = json.loads(data)
             if "type" not in data_json:
                 continue
-
-            if data_json["type"] == "reset":
+            if data_json["type"] == "ping":
+                await websocket.send_json({"type": "pong"})
+                continue
+            elif data_json["type"] == "reset":
                 connections[connection_id]["repetitions_count"] = 0
                 connections[connection_id]["video_frames"] = []
                 await websocket.send_json(
