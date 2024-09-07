@@ -160,8 +160,8 @@ ws.onopen = function () {
             clearInterval(t);
             return;
         }
-        ws.send('{type:"ping"}');
-    }, 55000);
+        ws.send(JSON.stringify({type:"ping"}));
+    }, 30000);
 }
 
 completeButton.addEventListener("click", completeWorkout);
@@ -207,6 +207,9 @@ function handleWebSocketMessage(event) {
     repetitions = parseInt(message.data);
     repetitionsCountElement.innerText = repetitions;
   }
+  if (message.type === "pong") {
+    console.log("Received pong from server");
+  }
   connectionId = message.connection_id;
 }
 
@@ -230,7 +233,19 @@ function startVideoProcessing() {
       (blob) => {
         if (blob) {
           blob.arrayBuffer().then((buffer) => {
-            let b64Data = isResting ? null : bufferToBase64(buffer);
+            /*
+            bufferToBase64(buffer).then(base64String => {
+              const data = {
+                type: currentExercise.exercise_id,
+                data: base64String,
+                is_resting: isResting,
+                is_downloading: isDownloading,
+                is_completed: isCompleted,
+              };
+              ws.send(JSON.stringify(data));
+            });
+            */
+            let b64Data = isResting ? "" : bufferToBase64(buffer);
             const data = JSON.stringify({
               type: currentExercise.exercise_id,
               data: b64Data,
@@ -433,6 +448,7 @@ function endRestPeriod() {
   }
 }
 
+
 function bufferToBase64(buffer) {
   let binary = "";
   let bytes = new Uint8Array(buffer);
@@ -443,6 +459,17 @@ function bufferToBase64(buffer) {
   return window.btoa(binary);
 }
 
+/*
+function bufferToBase64(buffer) {
+  return new Promise((resolve, reject) => {
+    let blob = new Blob([buffer], { type: "application/octet-binary" });
+    let reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result.split(",")[1]); // Получаем только данные Base64
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(blob);
+  });
+}
+*/
 function showToast(color, message) {
   iziToast.show({
     color: color,
