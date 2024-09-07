@@ -4,31 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
-    <link
-      rel="shortcut icon"
-      href="../static/favicon.ico"
-      type="image/x-icon"
-    />
+    <link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon" />
     <link href="../static/css/toasts.css" rel="stylesheet" />
     <link href="../static/css/style.css" rel="stylesheet" />
 
-    <script src="../static/js/toasts.js" type="text/javascript"></script>
-    <script src="../static/js/lib.js"></script>
+    <script src="../static/js/toasts.js" defer></script>
+    <script src="../static/js/lib.js" defer></script>
   </head>
 
   <body>
     <!-- PROFILE PAGE START HERE -->
     <section class="profile-page">
-      <img
-        src="../static/images/left-overlay.png"
-        alt="overlay"
-        class="left-overlay"
-      />
-      <img
-        src="../static/images/right-overlay.png"
-        alt="overlay"
-        class="right-overlay"
-      />
+      <img src="../static/images/left-overlay.png" alt="overlay" class="left-overlay" />
+      <img src="../static/images/right-overlay.png" alt="overlay" class="right-overlay" />
       <div class="container">
         <div class="factory-logo">
           <img src="../static/Logo_Fit_it/Logo_Fit_it.png" style="height: 90px; width: 300px" alt="logo" />
@@ -36,135 +24,61 @@
         <div class="profile-edit">
           <div class="add-photo-wrapper">
             <div class="profile-image">
-              <input
-                type="file"
-                id="file-input"
-                accept="image/*"
-                style="display: none"
-              />
+              <input type="file" id="file-input" accept="image/*" style="display: none" />
               {% if user.profile_picture_url %}
-              <img
-                src="../static/uploads/{{ user.profile_picture_url }}"
-                alt="фотография профиля"
-                class="img-responsive"
-                id="profile-pic"
-              />
+              <img src="../static/uploads/{{ user.profile_picture_url }}" alt="фотография профиля" class="img-responsive" id="profile-pic" />
               {% else %}
-              <img
-                src="../static/images/default-profile.png"
-                alt="фотография профиля"
-                id="profile-pic"
-                class="img-responsive"
-              />
+              <img src="../static/images/default-profile.png" alt="фотография профиля" id="profile-pic" class="img-responsive" />
               {% endif %}
             </div>
             <span>Добавьте фото</span>
           </div>
           <div class="edit-wrapper">
-            <button class="edit-btn" id="edit" style="cursor: pointer">
-              Редактировать
-            </button>
+            <button class="edit-btn" id="edit" style="cursor: pointer">Редактировать</button>
           </div>
         </div>
         <div class="profile-details">
           <ul>
             <li>
               <h6>Имя</h6>
-
               <span>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  value="{{ user.name }}"
-                  onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
-                />
+                <input type="text" name="name" id="name" value="{{ user.name }}" />
               </span>
             </li>
             <li>
               <h6>Пол</h6>
               <div class="gender-switcher">
                 <p class="fieldset">
-                  {% if user.gender == "male" %}
-                  <input
-                    type="radio"
-                    name="gender-male"
-                    value="male"
-                    id="male"
-                    checked
-                  />
-                  {% else %}
-                  <input
-                    type="radio"
-                    name="gender-male"
-                    value="male"
-                    id="male"
-                  />
-                  {% endif %}
+                  <input type="radio" name="gender" value="male" id="male" {% if user.gender == "male" %} checked {% endif %} />
                   <label for="male">Мужской</label>
 
-                  {% if user.gender == "female" %}
-                  <input
-                    type="radio"
-                    name="gender-female"
-                    value="female"
-                    id="female"
-                    checked
-                  />
-                  {% else %}
-                  <input
-                    type="radio"
-                    name="gender-female"
-                    value="female"
-                    id="female"
-                  />
-                  {% endif %}
-                  <label for="female">Женский </label>
-                  <span class="switch"></span>
+                  <input type="radio" name="gender" value="female" id="female" {% if user.gender == "female" %} checked {% endif %} />
+                  <label for="female">Женский</label>
                 </p>
               </div>
             </li>
             <li>
               <h6>Рост</h6>
               <span>
-                <input
-                  type="text"
-                  name="height"
-                  id="height"
-                  value="{{ user.height }}"
-                  onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
-                />
-                см
+                <input type="number" name="height" id="height" value="{{ user.height }}" /> см
               </span>
             </li>
             <li>
               <h6>Вес</h6>
               <span>
-                <input
-                  type="text"
-                  name="weight"
-                  id="weight"
-                  value="{{ user.weight }}"
-                  onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';"
-                />
-                кг
+                <input type="number" name="weight" id="weight" value="{{ user.weight }}" /> кг
               </span>
             </li>
             <li>
               <h6>Желаемый вес</h6>
               <span>
-                <input
-                  type="text"
-                  name="desired-weight"
-                  id="desired-weight"
-                  value="{{ user.desired_weight }}"
-                />
+                <input type="number" name="desired-weight" id="desired-weight" value="{{ user.desired_weight }}" />
               </span>
             </li>
             <li>
               <h6>Сколько вам лет?</h6>
               <span>
-                <input type="text" name="age" id="age" value="{{ user.age }}" />
+                <input type="number" name="age" id="age" value="{{ user.age }}" />
               </span>
             </li>
           </ul>
@@ -172,36 +86,9 @@
         <div class="skill-level-wrap">
           <h6>Выберите уровень подготовки</h6>
           <div class="btn-wraps">
-            <button
-              class="btn"
-              onclick="changeActivityLevel(1)"
-              id="btn-activity-level-1"
-            >
-              Начинающий
-              <div class="arrow-wrap">
-                <img src="../static/images/white-right-arrow.svg" alt="" />
-              </div>
-            </button>
-            <button
-              class="btn"
-              onclick="changeActivityLevel(2)"
-              id="btn-activity-level-2"
-            >
-              Опытный
-              <div class="arrow-wrap">
-                <img src="../static/images/white-right-arrow.svg" alt="" />
-              </div>
-            </button>
-            <button
-              class="btn"
-              onclick="changeActivityLevel(3)"
-              id="btn-activity-level-3"
-            >
-              Спортсмен
-              <div class="arrow-wrap">
-                <img src="../static/images/white-right-arrow.svg" alt="" />
-              </div>
-            </button>
+            <button class="btn" onclick="changeActivityLevel(1)" id="btn-activity-level-1">Начинающий</button>
+            <button class="btn" onclick="changeActivityLevel(2)" id="btn-activity-level-2">Опытный</button>
+            <button class="btn" onclick="changeActivityLevel(3)" id="btn-activity-level-3">Спортсмен</button>
           </div>
           <div class="ready-wrap">
             <button class="btn" id="submit">Готово</button>
@@ -211,12 +98,9 @@
     </section>
 
     <script>
-      var activityLevel = "{{ user.activity_level }}";
-
-      if (activityLevel != "0") {
-        document.getElementById(
-          `btn-activity-level-${activityLevel}`
-        ).style.backgroundColor = "#958be4";
+      const activityLevel = "{{ user.activity_level }}";
+      if (activityLevel) {
+        document.getElementById(`btn-activity-level-${activityLevel}`).style.backgroundColor = "#958be4";
       }
     </script>
 

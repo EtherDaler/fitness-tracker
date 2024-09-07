@@ -6,7 +6,7 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy.sql import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from starlette.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse
 from fastapi import APIRouter, Depends, UploadFile, File
 
 from app.core.utils import compress_and_save_image
@@ -117,75 +117,76 @@ async def change_user_data(
     },
 )
 async def get_user_picture(user: User = Depends(jwt_verify)):
-    if not user.profile_picture_url or not os.path.exists(
-        os.path.join(UPLOAD_DIRECTORY, user.profile_picture_url)
-    ):
+    file_path = os.path.join(UPLOAD_DIRECTORY, user.profile_picture_url) if user.profile_picture_url else None
+
+    # Проверка существования файла
+    if not file_path or not os.path.isfile(file_path):
         return JSONResponse(
             status_code=404,
-            content=jsonable_encoder(
-                {"detail": "User profile picture does not exists!"}
-            ),
+            content=jsonable_encoder({"detail": "Изображение профиля пользователя не найдено!"})
         )
 
-    file_path = os.path.join(UPLOAD_DIRECTORY, user.profile_picture_url)
-
-    content_type = "application/octet-stream"
-    if user.profile_picture_url.endswith(".jpg") or user.profile_picture_url.endswith(
-        ".jpeg"
-    ):
-        content_type = "image/jpeg"
-    elif user.profile_picture_url.endswith(".png"):
-        content_type = "image/png"
-    elif user.profile_picture_url.endswith(".gif"):
-        content_type = "image/gif"
-    elif user.profile_picture_url.endswith(".heic"):
-        content_type = "image/heic"
+    # Определение типа контента
+    extension = os.path.splitext(user.profile_picture_url)[1].lower()
+    content_types = {
+        ".jpg": "image/jpeg",
+        ".jpeg": "image/jpeg",
+        ".png": "image/png",
+        ".gif": "image/gif",
+        ".heic": "image/heic"
+    }
+    content_type = content_types.get(extension, "application/octet-stream")
 
     return FileResponse(file_path, media_type=content_type)
 
 
 @router.put(
     "/photo",
-    response_description="Обновляет фото пользователя",
+    response_description="Обновление фотографии пользователя",
     responses={
         200: {
             "model": FileUploadResponseSchema,
-            "description": "Successfully uploaded and saved a file",
+            "description": "Файл успешно загружен и сохранён"
         },
         401: {
             "model": ErrorResponseSchema,
-            "description": "Токен недействителен, срок действия истек или не предоставлен",
+            "description": "Токен недействителен, срок действия истек или не предоставлен"
         },
-        409: {"model": ErrorResponseSchema, "description": "Invalid file type"},
-    },
+        409: {"model": ErrorResponseSchema, "description": "Недопустимый формат файла"}
+    }
 )
 async def change_user_picture(
     db: AsyncSession = Depends(get_db),
     user: User = Depends(jwt_verify),
-    photo: UploadFile = File(...),
+    photo: UploadFile = File(...)
 ):
+    # Проверка расширения файла
     extension = photo.filename.split(".")[-1].lower()
     if extension not in ["jpg", "jpeg", "png", "heic"]:
         return JSONResponse(
             status_code=409,
             content=jsonable_encoder(
-                {"detail": "Valid extensions are jpg, jpeg, png, heic only!"}
+                {"detail": "Допустимые форматы: jpg, jpeg, png, heic!"}
             ),
         )
 
+    # Генерация уникального имени файла
     filename = f"{uuid.uuid4()}.{extension}"
     file_path = os.path.join(UPLOAD_DIRECTORY, filename)
 
+    # Асинхронная запись файла с сжатием
     await compress_and_save_image(photo, file_path)
 
-    if user.profile_picture_url and os.path.exists(
-        os.path.join(UPLOAD_DIRECTORY, user.profile_picture_url)
-    ):
-        os.remove(os.path.join(UPLOAD_DIRECTORY, user.profile_picture_url))
+    # Удаление предыдущего изображения, если оно существует
+    if user.profile_picture_url:
+        old_file_path = os.path.join(UPLOAD_DIRECTORY, user.profile_picture_url)
+        if os.path.isfile(old_file_path):
+            os.remove(old_file_path)
 
+    # Обновление данных пользователя
     user.profile_picture_url = filename
     await db.commit()
     await db.refresh(user)
-    print(f"Profile picture updated for user: {user.id}, file: {filename}")
+    print(f"Фотография профиля обновлена для пользователя: {user.id}, файл: {filename}")
 
     return FileUploadResponseSchema(file_id=filename)
