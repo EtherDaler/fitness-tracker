@@ -2,25 +2,24 @@ const fileInput = document.getElementById("file-input");
 const profilePic = document.getElementById("profile-pic");
 const activityLevels = [1, 2, 3];
 var activityLevel = 1;
-
 function changeActivityLevel(level) {
   activityLevel = level;
-  document.getElementById(btn-activity-level-${level}).style.backgroundColor =
+  document.getElementById(`btn-activity-level-${level}`).style.backgroundColor =
     "#958be4";
 
   const others = activityLevels.filter((l) => l !== level);
   others.forEach((l) => {
-    document.getElementById(btn-activity-level-${l}).style = "";
+    document.getElementById(`btn-activity-level-${l}`).style = "";
   });
-}
+  }
 
 document.getElementById("male").addEventListener("click", () => {
-  document.getElementById("female").checked = false;
+document.getElementById("female").checked = false;
   document.getElementById("male").checked = true;
 });
 
 document.getElementById("female").addEventListener("click", () => {
-  document.getElementById("male").checked = false;
+document.getElementById("male").checked = false;
   document.getElementById("female").checked = true;
 });
 
@@ -46,7 +45,7 @@ fileInput.addEventListener("change", async (event) => {
   const res = await fetch("/api/v1/users/photo", {
     method: "PUT",
     headers: {
-      Authorization: Bearer ${accessToken},
+      Authorization: `Bearer ${accessToken}`,
     },
     body: formData,
   });
@@ -73,7 +72,7 @@ fileInput.addEventListener("change", async (event) => {
 });
 
 document.getElementById("edit").addEventListener("click", async () => {
-  let name = document.getElementById("name").value;
+let name = document.getElementById("name").value;
   let gender = document.getElementById("male").checked ? "male" : "female";
   let height = document.getElementById("height").value;
   let weight = document.getElementById("weight").value;
@@ -87,7 +86,7 @@ document.getElementById("edit").addEventListener("click", async () => {
     Number.isNaN(parseInt(desiredWeight)) ||
     Number.isNaN(parseInt(age))
   ) {
-    return iziToast.show({
+  return iziToast.show({
       color: "yellow",
       position: "topRight",
       timeout: 5000,
@@ -106,12 +105,11 @@ document.getElementById("edit").addEventListener("click", async () => {
     window.location.href = "/login";
     return;
   }
-
   const response = await fetch("/api/v1/users", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      Authorization: Bearer ${accessToken},
+      Authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
       name,
@@ -123,7 +121,6 @@ document.getElementById("edit").addEventListener("click", async () => {
       activity_level: activityLevel,
     }),
   });
-
   if (response.status >= 500) {
     try {
       const res = await response.json();
@@ -141,7 +138,7 @@ document.getElementById("edit").addEventListener("click", async () => {
         message: "Произошла ошибка на сервере. Попробуйте позже",
       });
     }
-  }
+    }
 
   if (response.status === 409) {
     return iziToast.show({
@@ -149,21 +146,20 @@ document.getElementById("edit").addEventListener("click", async () => {
       position: "topRight",
       timeout: 5000,
       message: "Номер телефона уже существует!",
-    });
+     });
   }
 
   if (response.status === 401) {
     window.location.href = "/login";
     return;
   }
-
   if (response.status === 422) {
     return iziToast.show({
       color: "yellow",
       position: "topRight",
       timeout: 5000,
       message: "Данные успешно обновлены",
-    });
+     });
   }
 
   iziToast.show({
@@ -172,7 +168,6 @@ document.getElementById("edit").addEventListener("click", async () => {
     timeout: 5000,
     message: "Отредактировал ваш профиль!",
   });
-
   setTimeout(() => {
     window.location.href = "/login";
   }, 2000);
