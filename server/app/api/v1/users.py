@@ -3,7 +3,7 @@ import os
 import uuid
 
 from fastapi.encoders import jsonable_encoder
-from sqlalchemy.sql import select
+from sqlalchemy.sql import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from fastapi.responses import JSONResponse, FileResponse
@@ -162,11 +162,11 @@ async def change_user_picture(
 ):
     # Проверка расширения файла
     extension = photo.filename.split(".")[-1].lower()
-    if extension not in ["jpg", "jpeg", "png", "heic"]:
+    if extension not in ["jpg", "jpeg", "png", "heic", "dng", "heif"]:
         return JSONResponse(
             status_code=409,
             content=jsonable_encoder(
-                {"detail": "Допустимые форматы: jpg, jpeg, png, heic!"}
+                {"detail": "Допустимые форматы: jpg, jpeg, png, heic, dng, heif!"}
             ),
         )
 
@@ -186,8 +186,8 @@ async def change_user_picture(
 
     # Обновление данных пользователя
     user.profile_picture_url = filename
-
-    await db.refresh(user)
+    query = update(User).where(User.id == user.id).values(profile_picture_url=filename)
+    await db.execute(query)
     await db.commit()
     print(f"Фотография профиля обновлена для пользователя: {user.id}, файл: {filename}")
 
