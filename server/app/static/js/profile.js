@@ -2,6 +2,29 @@ const fileInput = document.getElementById("file-input");
 const profilePic = document.getElementById("profile-pic");
 const activityLevels = [1, 2, 3];
 var activityLevel = 1;
+var hasAvatar = false; // Флаг для определения наличия аватара
+
+// Функция для загрузки данных пользователя
+async function loadUserProfile() {
+  const accessToken = getCookie("access_token");
+  if (!accessToken) {
+    window.location.href = "/login";
+    return;
+  }
+
+  const res = await fetch("/api/v1/users/profile", {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  const profileData = await res.json();
+  hasAvatar = profileData.has_avatar;  // Проверяем, есть ли у пользователя аватар
+}
+
+loadUserProfile();
+
 function changeActivityLevel(level) {
   activityLevel = level;
   document.getElementById(`btn-activity-level-${level}`).style.backgroundColor =
@@ -11,15 +34,15 @@ function changeActivityLevel(level) {
   others.forEach((l) => {
     document.getElementById(`btn-activity-level-${l}`).style = "";
   });
-  }
+}
 
 document.getElementById("male").addEventListener("click", () => {
-document.getElementById("female").checked = false;
+  document.getElementById("female").checked = false;
   document.getElementById("male").checked = true;
 });
 
 document.getElementById("female").addEventListener("click", () => {
-document.getElementById("male").checked = false;
+  document.getElementById("male").checked = false;
   document.getElementById("female").checked = true;
 });
 
@@ -42,8 +65,11 @@ fileInput.addEventListener("change", async (event) => {
 
   const accessToken = getCookie("access_token");
 
+  // Используем POST, если аватара еще нет, и PUT, если он уже существует
+  const method = hasAvatar ? "PUT" : "POST";
+
   const res = await fetch("/api/v1/users/photo", {
-    method: "PUT",
+    method: method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -63,16 +89,20 @@ fileInput.addEventListener("change", async (event) => {
     });
   }
 
-  return iziToast.show({
+  iziToast.show({
     color: "green",
     position: "topRight",
     timeout: 5000,
-    message: "Фотография профиля успешно обновлена",
+    message: hasAvatar
+      ? "Фотография профиля успешно обновлена"
+      : "Фотография профиля успешно загружена",
   });
+
+  hasAvatar = true; // После загрузки обновляем флаг на true
 });
 
 document.getElementById("edit").addEventListener("click", async () => {
-let name = document.getElementById("name").value;
+  let name = document.getElementById("name").value;
   let gender = document.getElementById("male").checked ? "male" : "female";
   let height = document.getElementById("height").value;
   let weight = document.getElementById("weight").value;
@@ -86,7 +116,7 @@ let name = document.getElementById("name").value;
     Number.isNaN(parseInt(desiredWeight)) ||
     Number.isNaN(parseInt(age))
   ) {
-  return iziToast.show({
+    return iziToast.show({
       color: "yellow",
       position: "topRight",
       timeout: 5000,
@@ -138,7 +168,7 @@ let name = document.getElementById("name").value;
         message: "Произошла ошибка на сервере. Попробуйте позже",
       });
     }
-    }
+  }
 
   if (response.status === 409) {
     return iziToast.show({
@@ -146,7 +176,7 @@ let name = document.getElementById("name").value;
       position: "topRight",
       timeout: 5000,
       message: "Номер телефона уже существует!",
-     });
+    });
   }
 
   if (response.status === 401) {
@@ -159,7 +189,7 @@ let name = document.getElementById("name").value;
       position: "topRight",
       timeout: 5000,
       message: "Данные успешно обновлены",
-     });
+    });
   }
 
   iziToast.show({

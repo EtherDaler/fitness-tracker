@@ -170,18 +170,19 @@ async def change_user_picture(
             ),
         )
 
-    # Генерация уникального имени файла
-    filename = f"{uuid.uuid4()}.{extension}"
-    file_path = os.path.join(UPLOAD_DIRECTORY, filename)
-
-    # Асинхронная запись файла с сжатием
-    await compress_and_save_image(photo, file_path)
-
     # Удаление предыдущего изображения, если оно существует
     if user.profile_picture_url:
         old_file_path = os.path.join(UPLOAD_DIRECTORY, user.profile_picture_url)
         if os.path.isfile(old_file_path):
             os.remove(old_file_path)
+
+    # Генерация уникального имени файла
+    filename = f"{uuid.uuid4()}.{extension}"
+    file_path = os.path.join(UPLOAD_DIRECTORY, filename)
+
+    # Обычное сохранение файла без сжатия
+    with open(file_path, "wb") as f:
+        f.write(await photo.read())  # Чтение и запись содержимого загружаемого файла
 
     # Обновление данных пользователя
     user.profile_picture_url = filename
@@ -190,3 +191,68 @@ async def change_user_picture(
     print(f"Фотография профиля обновлена для пользователя: {user.id}, файл: {filename}")
 
     return FileUploadResponseSchema(file_id=filename)
+
+@router.post(
+    "/photo",
+    response_description="Загрузка новой фотографии пользователя",
+    responses={
+        201: {
+            "model": FileUploadResponseSchema,
+            "description": "Файл успешно загружен и сохранён"
+        },
+        401: {
+            "model": ErrorResponseSchema,
+            "description": "Токен недействителен, срок действия истек или не предоставлен"
+        },
+        409: {"model": ErrorResponseSchema, "description": "Недопустимый формат файла"},
+        400: {"model": ErrorResponseSchema, "description": "У пользователя уже есть аватар"}
+    }
+)
+async def upload_user_picture(
+    db: AsyncSession = Depends(get_db),
+    user: User = Depends(jwt_verify),
+    photo: UploadFile = File(...)
+):
+    # Проверяем, есть ли уже аватар
+    if user.profile_picture_url:
+        return JSONResponse(
+            status_code=400,
+            content=jsonable_encoder({"detail": "У пользователя уже есть аватар!"})
+        )
+
+    # Проверка расширения файла
+    extension = photo.filename.split(".")[-1].lower()
+    if extension not in ["jpg", "jpeg", "png", "heic"]:
+        return JSONResponse(
+            status_code=409,
+            content=jsonable_encoder(
+                {"detail": "Допустимые форматы: jpg, jpeg, png, heic!"}
+            ),
+        )
+
+    # Генерация уникального имени файла
+    filename = f"{uuid.uuid4()}.{extension}"
+    file_path = os.path.join(UPLOAD_DIRECTORY, filename)
+
+    # Обычное сохранение файла без сжатия
+    with open(file_path, "wb") as f:
+        f.write(await photo.read())
+
+    # Обновление данных пользователя
+    user.profile_picture_url = filename
+    await db.commit()
+    await db.refresh(user)
+    print(f"Фотография профиля загружена для пользователя: {user.id}, файл: {filename}")
+
+    return FileUploadResponseSchema(file_id=filename)
+
+
+@router.get("/profile", response_model=UserProfileResponse)
+async def get_user_profile(user: User = Depends(jwt_verify)):
+    # Передаем информацию о профиле пользователя, включая наличие аватара
+    return {
+        "name": user.name,
+        "profile_picture_url": user.profile_picture_url,
+        "has_avatar": bool(user.profile_picture_url)  # True, если есть аватар
+    }
+
