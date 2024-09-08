@@ -186,8 +186,9 @@ async def change_user_picture(
 
     # Обновление данных пользователя
     user.profile_picture_url = filename
-    await db.commit()
+
     await db.refresh(user)
+    await db.commit()
     print(f"Фотография профиля обновлена для пользователя: {user.id}, файл: {filename}")
 
     return FileUploadResponseSchema(file_id=filename)
