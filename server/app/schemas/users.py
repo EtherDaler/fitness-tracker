@@ -77,3 +77,9 @@ class ResetUserPasswordSchema(BaseModel):
 
 class ResetUserPasswordResponseSchema(BaseModel):
     message: str
+
+
+class UserProfileResponse(BaseModel):
+    name: str
+    profile_picture_url: str
+    has_avatar: bool

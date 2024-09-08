@@ -14,7 +14,7 @@ from app.dependencies.jwt import jwt_verify
 from app.models.users import User
 from app.core.database import get_db
 from app.schemas import ErrorResponseSchema
-from app.schemas.users import UserDataUpdateSchema, UserSchema, FileUploadResponseSchema
+from app.schemas.users import UserDataUpdateSchema, UserSchema, FileUploadResponseSchema, UserProfileResponse
 
 router = APIRouter(prefix="/users", tags=["Пользователи"])
 UPLOAD_DIRECTORY = "app/static/uploads"
