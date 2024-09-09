@@ -178,16 +178,27 @@ async def change_user_picture(
             os.remove(old_file_path)
 
     if extension == "heic" or extension == "heif":
-        photo = compress_and_save_image(photo)
+        heif_file = pyheif.read(await photo.read())
+        image = Image.frombytes(
+            heif_file.mode,
+            heif_file.size,
+            heif_file.data,
+            "raw",
+            heif_file.mode,
+            heif_file.stride
+        )
+        image = image.resize((400, 400))
         filename = f"{uuid.uuid4()}.jpg"
         file_path = os.path.join(UPLOAD_DIRECTORY, filename)
+        with open(file_path, "wb") as f:
+            f.write(image)
+
     else:
         filename = f"{uuid.uuid4()}.{extension}"
         file_path = os.path.join(UPLOAD_DIRECTORY, filename)
 
-    # Обычное сохранение файла без сжатия
-    with open(file_path, "wb") as f:
-        f.write(await photo.read())  # Чтение и запись содержимого загружаемого файла
+        with open(file_path, "wb") as f:
+            f.write(await photo.read())  # Чтение и запись содержимого загружаемого файла
 
     # Обновление данных пользователя
     user.profile_picture_url = filename

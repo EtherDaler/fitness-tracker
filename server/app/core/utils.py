@@ -38,9 +38,9 @@ def generate_random_password(length: int):
 
 
 async def compress_and_save_image(
-    file: UploadFile, quality: int = 50, size: tuple = (400, 400)
+    file: UploadFile, save_path: str, quality: int = 50, size: tuple = (400, 400)
 ):
-    if (file.filename.lower().endswith(".heic")) or (file.filename.lower().endswith(".heif")):
+    if file.filename.lower().endswith(".heic"):
         heif_file = pyheif.read(await file.read())  # Чтение HEIC файла
         image = Image.frombytes(
             heif_file.mode,
@@ -50,9 +50,14 @@ async def compress_and_save_image(
             heif_file.mode,
             heif_file.stride
         )
-        image = image.resize(size)
+        save_path = save_path.replace(".heic", ".jpg")  # Меняем расширение на .jpg
+    else:
+        # Обрабатываем обычные изображения (JPEG, PNG и т.д.)
+        image = Image.open(BytesIO(await file.read()))
 
-        return image
+    image = image.resize(size)
+    image.save(save_path, quality=quality, optimize=True)
+
 
 async def insert_default_data():
     db: AsyncSession = AsyncSessionFactory()
