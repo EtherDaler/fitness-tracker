@@ -177,9 +177,13 @@ async def change_user_picture(
         if os.path.isfile(old_file_path):
             os.remove(old_file_path)
 
-    # Генерация уникального имени файла
-    filename = f"{uuid.uuid4()}.{extension}"
-    file_path = os.path.join(UPLOAD_DIRECTORY, filename)
+    if extension == "heic" or extension == "heif":
+        filename = f"{uuid.uuid4()}.{extension}"
+        photo, filename = compress_and_save_image(photo, filename)
+        file_path = os.path.join(UPLOAD_DIRECTORY, filename)
+    else:
+        filename = f"{uuid.uuid4()}.{extension}"
+        file_path = os.path.join(UPLOAD_DIRECTORY, filename)
 
     # Обычное сохранение файла без сжатия
     with open(file_path, "wb") as f:
@@ -241,8 +245,9 @@ async def upload_user_picture(
 
     # Обновление данных пользователя
     user.profile_picture_url = filename
+    query = update(User).where(User.id == user.id).values(profile_picture_url=filename)
+    await db.execute(query)
     await db.commit()
-    await db.refresh(user)
     print(f"Фотография профиля загружена для пользователя: {user.id}, файл: {filename}")
 
     return FileUploadResponseSchema(file_id=filename)
