@@ -2266,4 +2266,23 @@ details {
   border-radius: 15px;
 }
 
+.login-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.login-image video {
+  width: 700px;
+  height: 400px;
+}
+
+@media (max-width: 768px) {
+  .login-image video {
+    width: 100%;
+    height: auto;
+  }
+}
+
 /*# sourceMappingURL=style.css.map */
