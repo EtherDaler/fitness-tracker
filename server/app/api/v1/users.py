@@ -133,7 +133,8 @@ async def get_user_picture(user: User = Depends(jwt_verify)):
         ".jpeg": "image/jpeg",
         ".png": "image/png",
         ".gif": "image/gif",
-        ".heic": "image/heic"
+        ".heic": "image/heic",
+        ".heif": "image/heif",
     }
     content_type = content_types.get(extension, "application/octet-stream")
 
@@ -192,7 +193,6 @@ async def change_user_picture(
     print(f"Фотография профиля обновлена для пользователя: {user.id}, файл: {filename}")
 
     return FileUploadResponseSchema(file_id=filename)
-
 @router.post(
     "/photo",
     response_description="Загрузка новой фотографии пользователя",
