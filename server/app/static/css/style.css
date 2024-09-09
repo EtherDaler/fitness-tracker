@@ -2258,14 +2258,6 @@ a {
   }
 }
 
-summary {
-  list-style: none;
-}
-details {
-  background: rgba(113, 97, 239, 0.102);
-  border-radius: 15px;
-}
-
 .login-image {
   display: flex;
   justify-content: center;
@@ -2290,6 +2282,15 @@ details {
     height: auto; /* Высота автоматически подстраивается, чтобы сохранить пропорции */
   }
 }
+
+summary {
+  list-style: none;
+}
+details {
+  background: rgba(113, 97, 239, 0.102);
+  border-radius: 15px;
+}
+
 
 
 
