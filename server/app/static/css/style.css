@@ -2270,19 +2270,21 @@ details {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60vh;
+  height: auto; /* Вместо фиксированной высоты используем автоматическую */
 }
 
 .login-image video {
-  width: 700px;
-  height: 400px;
+  width: 100%; /* Видео адаптируется по ширине контейнера */
+  height: auto; /* Высота будет автоматически подстраиваться для сохранения пропорций */
+  max-width: 700px; /* Ограничиваем максимальную ширину видео на больших экранах */
 }
 
 @media (max-width: 768px) {
   .login-image video {
-    width: 100%;
-    height: auto;
+    width: 100%; /* На мобильных устройствах видео занимает всю ширину контейнера */
+    height: auto; /* Пропорции сохраняются автоматически */
   }
 }
+
 
 /*# sourceMappingURL=style.css.map */
