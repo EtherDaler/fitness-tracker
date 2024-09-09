@@ -178,8 +178,8 @@ async def change_user_picture(
             os.remove(old_file_path)
 
     if extension == "heic" or extension == "heif":
-        filename = f"{uuid.uuid4()}.{extension}"
-        photo, filename = compress_and_save_image(photo, filename)
+        photo = compress_and_save_image(photo)
+        filename = f"{uuid.uuid4()}.jpg"
         file_path = os.path.join(UPLOAD_DIRECTORY, filename)
     else:
         filename = f"{uuid.uuid4()}.{extension}"
