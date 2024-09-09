@@ -1,6 +1,7 @@
 import enum
 import os
 import uuid
+import pyheif
 
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.sql import select, update
