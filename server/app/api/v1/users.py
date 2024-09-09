@@ -193,9 +193,7 @@ async def change_user_picture(
         image = image.resize((400, 400))
         filename = f"{uuid.uuid4()}.jpg"
         file_path = os.path.join(UPLOAD_DIRECTORY, filename)
-        with open(file_path, "wb") as f:
-            f.write(image.read())
-
+        image.save(file_path, quality=quality, optimize=True)
     else:
         filename = f"{uuid.uuid4()}.{extension}"
         file_path = os.path.join(UPLOAD_DIRECTORY, filename)
