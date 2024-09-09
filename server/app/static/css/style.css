@@ -125,6 +125,31 @@ a {
   gap: 45px;
 }
 
+.login-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px; /* Фиксированная высота контейнера */
+}
+
+.login-image video {
+  max-width: 100%; /* Видео не превышает ширину контейнера */
+  max-height: 100%; /* Видео не превышает высоту контейнера */
+  width: auto; /* Ширина подстраивается автоматически */
+  height: auto; /* Высота подстраивается для сохранения пропорций */
+}
+
+@media (max-width: 768px) {
+  .login-image {
+    height: auto; /* На мобильных устройствах контейнер автоматически подстраивается */
+  }
+
+  .login-image video {
+    width: 100%; /* Видео занимает всю ширину контейнера */
+    height: auto; /* Высота автоматически подстраивается, чтобы сохранить пропорции */
+  }
+}
+
 .btn {
   width: 100%;
   padding: 18.5px 26px;
@@ -2255,31 +2280,6 @@ a {
 
   .info-text {
     display: none;
-  }
-}
-
-.login-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 400px; /* Фиксированная высота контейнера */
-}
-
-.login-image video {
-  max-width: 100%; /* Видео не превышает ширину контейнера */
-  max-height: 100%; /* Видео не превышает высоту контейнера */
-  width: auto; /* Ширина подстраивается автоматически */
-  height: auto; /* Высота подстраивается для сохранения пропорций */
-}
-
-@media (max-width: 768px) {
-  .login-image {
-    height: auto; /* На мобильных устройствах контейнер автоматически подстраивается */
-  }
-
-  .login-image video {
-    width: 100%; /* Видео занимает всю ширину контейнера */
-    height: auto; /* Высота автоматически подстраивается, чтобы сохранить пропорции */
   }
 }
 
