@@ -3,6 +3,8 @@ import os
 import uuid
 import pyheif
 
+from PIL import Image
+
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.sql import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
