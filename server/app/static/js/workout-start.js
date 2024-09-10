@@ -49,6 +49,31 @@ let timerInterval = null;
 
 const FULL_DASH_ARRAY = 283;
 
+let audio = document.getElementById('music')
+let audio_names = [
+  'Energetic-Indie-Rock(chosic.com).mp3',
+  'Jump-chosic.com_.mp3',
+  'Luke-Bergs-Ascensionmp3(chosic.com).mp3',
+  'Luke-Bergs-AuroraMp3(chosic.com).mp3',
+  'Luke-Bergs-Beach-Vibes(chosic.com).mp3',
+  'Luke-Bergs-Bliss(chosic.com) (1).mp3',
+  'Luke-Bergs-Burning-In-My-Soul(chosic.com) (1).mp3',
+  'Luke-Bergs-Burning-In-My-Soul(chosic.com).mp3',
+  'Luke-Bergs-Dance-MP3(chosic.com).mp3',
+  'Luke-Bergs-Daybreak(chosic.com).mp3',
+  'Luke-Bergs-Dayfox-I´m-Happy(chosic.com).mp3',
+  'Luke-Bergs-Paradise-chosic.com_.mp3',
+  'Luke-Bergs-Soulful_MP3(chosic.com).mp3',
+  'Luke-Bergs-Summertimemp3(chosic.com).mp3',
+  'Luke-Bergs-Waesto-Follow-The-Sun(chosic.com).mp3'
+];
+
+function getRandomTrack() {
+  let randomIndex = Math.floor(Math.random() * audio_names.length);
+  return audio_names[randomIndex];
+}
+
+
 // Divides time left by the defined time limit.
 function calculateTimeFraction() {
   const rawTimeFraction = timeLeft / TIME_LIMIT;
@@ -133,6 +158,8 @@ function startModal() {
 };
 
 window.onload = function() {
+  const track = getRandomTrack();
+  audio.src = "../../../static/sounds/"+track;
   startModal();
 };
 
