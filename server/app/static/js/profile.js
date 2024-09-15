@@ -69,7 +69,7 @@ fileInput.addEventListener("change", async (event) => {
   const method = hasAvatar ? "PUT" : "POST";
 
   const res = await fetch("/api/v1/users/photo", {
-    method: PUT
+    method: method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
