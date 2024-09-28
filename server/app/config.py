@@ -14,6 +14,10 @@ DB_NAME = os.environ.get("DB_NAME")
 DB_USER = os.environ.get("DB_USER")
 DB_PASS = os.environ.get("DB_PASS")
 
+MerchantLogin = os.environ.get("MerchantLogin")
+password1 = os.environ.get("password1")
+password2 = os.environ.get("password2")
+
 SMTP_HOST = os.environ.get("SMTP_HOST")
 SMTP_USER = os.environ.get("SMTP_USER")
 SMTP_PASS = os.environ.get("SMTP_PASS")

@@ -32,7 +32,28 @@ from app.schemas.users import UserSchema
 from app.schemas.exercises import ExerciseSchema
 from app.schemas.workouts import WorkoutSchema
 
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+
 logging.getLogger("passlib").setLevel(logging.ERROR)
+
+scheduler = AsyncIOScheduler()
+
+
+# Функция для проверки и обновления подписок
+def check_subscriptions():
+    db = await get_db()
+    query = select(User)
+    result = await db.execute(query)
+    users = result.scalar().all()
+    subscriptions = users
+
+    for subscription in subscriptions:
+        if subscription.end_subsctibe is not None:
+            if subscription.end_subsctibe < datetime.now().date():
+                subscription.subscribed = False
+                subscription.end_subsctibe = None
+                await db.commit()
+                await db.refresh(subscription)
 
 
 @asynccontextmanager
@@ -42,8 +63,10 @@ async def lifespan(_: FastAPI):
     # asyncio.create_task(drop_tables())
     asyncio.create_task(create_tables())
     asyncio.create_task(insert_default_data())
-
+    scheduler.add_job(check_subscriptions, 'interval', days=1)
+    scheduler.start()
     yield
+    scheduler.shutdown()
 
 
 app = FastAPI(lifespan=lifespan)
@@ -205,27 +228,27 @@ async def dashboard_page(request: Request, db: AsyncSession = Depends(get_db)):
 
     query = (
         select(Workout)
-        .where(Workout.user_id == token["subject"]["user_id"])
-        .options(
+            .where(Workout.user_id == token["subject"]["user_id"])
+            .options(
             joinedload(Workout.user),
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
             joinedload(Workout.workout_exercises).joinedload(
                 WorkoutExercise.workout_sessions
             ),
         )
-        .order_by(Workout.created_at.desc())
+            .order_by(Workout.created_at.desc())
     )
 
     default_query = (
         select(Workout)
-        .where(Workout.user_id.is_(None), Workout.efficiency == user.activity_level)
-        .options(
+            .where(Workout.user_id.is_(None), Workout.efficiency == user.activity_level)
+            .options(
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
             joinedload(Workout.workout_exercises).joinedload(
                 WorkoutExercise.workout_sessions
             ),
         )
-        .order_by(Workout.created_at.desc())
+            .order_by(Workout.created_at.desc())
     )
 
     workouts = []
@@ -380,8 +403,8 @@ async def new_workout(request: Request, db: AsyncSession = Depends(get_db)):
 
     query = (
         select(Workout)
-        .where(Workout.user_id == token["subject"]["user_id"])
-        .options(
+            .where(Workout.user_id == token["subject"]["user_id"])
+            .options(
             joinedload(Workout.user),
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
             joinedload(Workout.workout_exercises).joinedload(
@@ -392,8 +415,8 @@ async def new_workout(request: Request, db: AsyncSession = Depends(get_db)):
 
     default_query = (
         select(Workout)
-        .where(Workout.user_id.is_(None), Workout.efficiency == user.activity_level)
-        .options(
+            .where(Workout.user_id.is_(None), Workout.efficiency == user.activity_level)
+            .options(
             joinedload(Workout.user),
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
             joinedload(Workout.workout_exercises).joinedload(
@@ -442,8 +465,8 @@ async def workouts_page(request: Request, db: AsyncSession = Depends(get_db)):
 
     query = (
         select(Workout)
-        .where(Workout.user_id == token["subject"]["user_id"])
-        .options(
+            .where(Workout.user_id == token["subject"]["user_id"])
+            .options(
             joinedload(Workout.user),
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
             joinedload(Workout.workout_exercises).joinedload(
@@ -454,8 +477,8 @@ async def workouts_page(request: Request, db: AsyncSession = Depends(get_db)):
 
     default_query = (
         select(Workout)
-        .where(Workout.user_id.is_(None), Workout.efficiency == user.activity_level)
-        .options(
+            .where(Workout.user_id.is_(None), Workout.efficiency == user.activity_level)
+            .options(
             joinedload(Workout.user),
             joinedload(Workout.workout_exercises).joinedload(WorkoutExercise.exercise),
             joinedload(Workout.workout_exercises).joinedload(
@@ -542,10 +565,10 @@ async def start_workout(
 
         query = (
             select(Workout)
-            .where(
+                .where(
                 Workout.user_id == token["subject"]["user_id"], Workout.id == int(idx)
             )
-            .options(
+                .options(
                 joinedload(Workout.user),
                 joinedload(Workout.workout_exercises).joinedload(
                     WorkoutExercise.exercise
@@ -560,10 +583,10 @@ async def start_workout(
 
         default_query = (
             select(Workout)
-            .where(
+                .where(
                 Workout.user_id.is_(None), Workout.id == int(idx)
             )
-            .options(
+                .options(
                 joinedload(Workout.workout_exercises).joinedload(
                     WorkoutExercise.exercise
                 ),

@@ -4,3 +4,4 @@ from .workouts import Workout
 from .workout_exercises import WorkoutExercise
 from .workout_sessions import WorkoutSession
 from .reset_password_token import ResetPasswordToken
+from .transactions import Transactions

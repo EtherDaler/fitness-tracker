@@ -2,7 +2,7 @@
 <module type="PYTHON_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 3.10 (fitnes_env)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Remote Python 3.10.15 Docker Compose (app at [C:\Users\Daler Hojimatov\Desktop\projects\fitnes\fitness_tracker-main\docker-compose.yml])" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

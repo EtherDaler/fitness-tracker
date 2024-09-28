@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.10 (fitness_tracker)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.10 (fitnes_env)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="Remote Python 3.10.15 Docker Compose (app at [C:\Users\Daler Hojimatov\Desktop\projects\fitnes\fitness_tracker-main\docker-compose.yml])" project-jdk-type="Python SDK" />
 </project>
