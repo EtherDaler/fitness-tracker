@@ -26,6 +26,7 @@ from app.api.v1.tokens import router as tokens_router
 from app.api.v1.exercises import router as exercises_router
 from app.api.v1.websockets import router as websockets_router
 from app.api.v1.workouts import router as workouts_router
+from app.api.v1.transactions import router as transaction_router
 
 from app.core.database import create_tables, drop_tables, get_db
 from app.schemas.users import UserSchema
@@ -662,3 +663,4 @@ app.include_router(tokens_router, prefix="/api/v1")
 app.include_router(exercises_router, prefix="/api/v1")
 app.include_router(websockets_router, prefix="/api/v1")
 app.include_router(workouts_router, prefix="/api/v1")
+app.include_router(transaction_router, prefix="/api/v1")
