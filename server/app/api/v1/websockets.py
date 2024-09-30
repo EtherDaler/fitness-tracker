@@ -182,7 +182,6 @@ def process_high_knees(frame, session_data: dict):
 
 
 def process_jumping_jacks(frame, session_data: dict):
-    print(f"inside excercis = {session_data}")
     if "jump_started" not in session_data:
         session_data.update(
             {"jump_started": False, "repetitions_count": 0, "p_time": 0}
@@ -331,7 +330,6 @@ def side_lunge(frame, session_data: dict):
 
 # Боковой удар
 def side_kick(frame, session_data: dict):
-    print(f"inside excercis = {session_data}")
     if "jump_started" not in session_data:
         session_data.update(
             {"jump_started": False, "repetitions_count": 0, "p_time": 0}
@@ -1119,7 +1117,6 @@ def climbers_steps(frame, session_data: dict):
 
 # Удар ногой
 def kick(frame, session_data: dict):
-    print(f"inside exercise {session_data}")
     if "jump_started" not in session_data:
         session_data.update(
             {"jump_started": False, "repetitions_count": 0, "p_time": 0}
@@ -1719,7 +1716,6 @@ def press(frame, session_data: dict, timing=False):
     return frame, fps, repetitions_count
 
 def upor_lezha(frame, session_data: dict):
-    print(f"inside exercise {session_data}")
     if "exercise_started" not in session_data:
         session_data.update(
             {"exercise_started": False, "repetitions_count": 0, "p_time": 0}
@@ -1852,7 +1848,6 @@ async def workout_connection(websocket: WebSocket):
                     img, connections[connection_id]
                 )
             elif exercise_type == "jumping_jacks":
-                print(f"outside excercis = {connections[connection_id]}")
                 frame, _, repetitions_count = process_jumping_jacks(
                     img, connections[connection_id]
                 )
@@ -1897,7 +1892,6 @@ async def workout_connection(websocket: WebSocket):
                     img, connections[connection_id]
                 )
             elif exercise_type == "kick":
-                print(f"outside excercis = {connections[connection_id]}")
                 frame, _, repetitions_count = kick(
                     img, connections[connection_id]
                 )
