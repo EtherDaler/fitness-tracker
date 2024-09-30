@@ -160,6 +160,10 @@ async def get_single_workout(
     # NGINX redrections are clashing with each other.
     response_description="Создайте новую тренировку для пользователя",
     responses={
+        200: {
+            "model": CreateWorkoutResponseSchema,
+            "description": "Создана новая тренировка",
+        },
         401: {
             "model": ErrorResponseSchema,
             "description": "Токен недействителен, срок действия истек или не предоставлен",
