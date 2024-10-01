@@ -191,7 +191,7 @@
             </div>
             <p>Отличный выбор для старта!</p>
             <div class="arrow">
-                <a href="#">&#10145;</a>
+                <a class="submitLink">&#10145;</a>
             </div>
         </div>
 
@@ -204,7 +204,7 @@
             <p>Тренируйся с выгодой — купи <br> 2 месяца и получи 1 в подарок!</p>
             <div class="price-tag">1300 ₽ / месяц</div>
             <div class="arrow">
-                <a href="#">&#10145;</a>
+                <a class="submitLink">&#10145;</a>
             </div>
         </div>
 
@@ -217,7 +217,7 @@
             <p>Доступ к персональным <br> тренировкам со скидкой 50%</p>
             <div class="price-tag">975 ₽ / месяц</div>
             <div class="arrow">
-                <a href="#">&#10145;</a>
+                <a class="submitLink">&#10145;</a>
             </div>
         </div>
 
@@ -230,13 +230,30 @@
             <p>Супер выгода для тех, <br> кто настроен очень серьёзно!</p>
             <div class="price-tag">654 ₽ / месяц</div>
             <div class="arrow">
-                <a href="#">&#10145;</a>
+                <a class="submitLink">&#10145;</a>
             </div>
         </div>
-
+        <input type="checkbox" id="agreeCheckbox">
+        Продолжая вы соглашаетесь с нашей <a href="/private_policy">Политикой конфиденциальности</a> и <a href="/user_agreement">Пользовательским соглашением</a>.
         <!-- Кнопка "Назад" -->
-        <button class="back-button">Назад</button>
+        <a href="/dashboard" style="text-decoration: none" class="back-button">Назад</a>
     </div>
 
+    <script type="text/javascript">
+        const checkbox = document.getElementById('agreeCheckbox');
+        const links = document.querySelectorAll('.submitLink');
+
+        checkbox.addEventListener('change', function() {
+            links.forEach(link => {
+                if (checkbox.checked) {
+                    link.classList.add('enabled');
+                    link.href = 'https://example.com'; // Добавляем ссылку только если чекбокс выбран
+                } else {
+                    link.classList.remove('enabled');
+                    link.removeAttribute('href'); // Убираем ссылку если чекбокс не выбран
+                }
+            });
+        });
+    </script>
 </body>
 </html>

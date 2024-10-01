@@ -108,6 +108,11 @@
           <a href="/workouts">
             <button class="btn">Мои тренировки</button>
           </a>
+          {% if not user.subscribed %}
+          <a href="/subscribe">
+            <button class="btn">Оформить подписку</button>
+          </a>
+          {% endif %}
         </div>
       </div>
     </section>

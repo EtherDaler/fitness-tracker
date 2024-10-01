@@ -1,6 +1,8 @@
 import json
 import asyncio
 import logging
+import pytz
+
 from datetime import datetime, timezone
 from contextlib import asynccontextmanager
 
@@ -36,12 +38,12 @@ from app.schemas.workouts import WorkoutSchema
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 logging.getLogger("passlib").setLevel(logging.ERROR)
-
+timezone = pytz.timezone('Europe/Moscow')
 scheduler = AsyncIOScheduler()
 
 
 # Функция для проверки и обновления подписок
-def check_subscriptions():
+async def check_subscriptions():
     db = await get_db()
     query = select(User)
     result = await db.execute(query)
@@ -57,6 +59,10 @@ def check_subscriptions():
                 await db.refresh(subscription)
 
 
+def schedule_job():
+    asyncio.run(check_subscriptions())
+
+
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     # Warning: This will drop all tables, so use only in dev
@@ -64,7 +70,7 @@ async def lifespan(_: FastAPI):
     # asyncio.create_task(drop_tables())
     asyncio.create_task(create_tables())
     asyncio.create_task(insert_default_data())
-    scheduler.add_job(check_subscriptions, 'interval', days=1)
+    scheduler.add_job(schedule_job, 'interval', days=1, timezone=timezone)
     scheduler.start()
     yield
     scheduler.shutdown()
@@ -284,6 +290,8 @@ async def dashboard_page(request: Request, db: AsyncSession = Depends(get_db)):
                 gender=user.gender,
                 height=user.height,
                 weight=user.weight,
+                subscribed=user.subscribed,
+                end_subsctibe=user.end_subsctibe,
                 activity_level=user.activity_level,
                 profile_picture_url=user.profile_picture_url or "",
                 age=user.age,
@@ -326,6 +334,8 @@ async def profile_page(request: Request, db: AsyncSession = Depends(get_db)):
                 gender=user.gender,
                 height=user.height,
                 weight=user.weight,
+                subscribed=user.subscribed,
+                end_subsctibe=user.end_subsctibe,
                 activity_level=user.activity_level,
                 profile_picture_url=user.profile_picture_url or "",
                 age=user.age,
@@ -494,7 +504,6 @@ async def workouts_page(request: Request, db: AsyncSession = Depends(get_db)):
     default_result = await db.execute(default_query)
     default_data = default_result.unique().scalars().all()
     data += default_data
-    print(data)
     for workout in data:
         workout.workout_exercises.sort(key=lambda we: we.id)
         workouts.append(json.loads(workout_to_schema(workout).model_dump_json()))
@@ -507,6 +516,54 @@ async def workouts_page(request: Request, db: AsyncSession = Depends(get_db)):
             "workouts": workouts,
         },
     )
+
+
+@app.get("/subscribe")
+async def subscribe(request: Request, db: AsyncSession = Depends(get_db)):
+    access_token = request.cookies.get("access_token")
+    if not access_token:
+        return RedirectResponse(url="/login")
+
+    token = is_valid_jwt(access_token)
+
+    if not token or token.get("subject", {}).get("user_id") is None:
+        resp = RedirectResponse(url="/login")
+        resp.delete_cookie("access_token")
+        return resp
+
+    response = templates.TemplateResponse(
+        "subscribe.html",
+        {
+            "request": request,
+        },
+    )
+
+    return response
+
+
+@app.get("/private_policy")
+async def subscribe(request: Request, db: AsyncSession = Depends(get_db)):
+    response = templates.TemplateResponse(
+        "private_policy.html",
+        {
+            "request": request,
+        },
+    )
+
+    return response
+
+
+@app.get("/user_agreement")
+async def subscribe(request: Request, db: AsyncSession = Depends(get_db)):
+    response = templates.TemplateResponse(
+        "user_agreement.html",
+        {
+            "request": request,
+        },
+    )
+
+    return response
+
 
 
 @app.get("/workouts/{idx}/start")
