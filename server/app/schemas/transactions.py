@@ -9,11 +9,11 @@ class TransactionSchema(BaseModel):
     price: float
     description: str
     user_id: int
-    tax: str
-    email: str
-    paymentMethod: str
-    incCurrLabel: str
-    datetime: str
+    tax: Optional[str] = None
+    email: Optional[str] = None
+    paymentMethod: Optional[str] = None
+    incCurrLabel: Optional[str] = None
+    datetime: Optional[str] = None
     status: bool
     finished: bool
 
@@ -23,17 +23,17 @@ class TransactionCreateSchema(BaseModel):
     name: str
     description: str
     user_id: int
-    datetime: str
+    datetime: Optional[str] = None
 
 
 class TransactionReceiveSchema(BaseModel):
     OutSum: float
     InvId: int
-    Fee: float
-    EMail: str
-    SignatureValue: str
-    PaymentMethod: str
-    IncCurrLabel: str
+    Fee: Optional[str] = None
+    EMail: Optional[str] = None
+    SignatureValue: Optional[str] = None
+    PaymentMethod: Optional[str] = None
+    IncCurrLabel: Optional[str] = None
 
 
 class CreateTransactionResponseSchema(BaseModel):

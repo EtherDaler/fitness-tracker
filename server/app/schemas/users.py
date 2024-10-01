@@ -41,7 +41,7 @@ class UserSchema(BaseModel):
     weight: int
     desired_weight: int
     subscribed: bool
-    end_subsctibe: str
+    end_subsctibe: Optional[str] = None
     profile_picture_url: str
     activity_level: ActivityLevel | int
 

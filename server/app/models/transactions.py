@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float, DATETIME, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float, DATETIME, Boolean, TIMESTAMP
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
@@ -16,7 +16,7 @@ class Transactions(Base):
     eMail = Column(String, nullable=True)
     paymentMethod = Column(String, nullable=True) # Метод оплаты
     incCurrLabel = Column(String, nullable=True)  # Валюта оплаты
-    datetime = Column(DATETIME, nullable=True)  # Дата и время совершения операции
+    datetime = Column(TIMESTAMP, nullable=True)  # Дата и время совершения операции
     status = Column(String, default="Создан", nullable=True) # Статус платежа
     finished = Column(Boolean, default=False) # Статус завершения платежа
 
