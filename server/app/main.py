@@ -1,6 +1,8 @@
 import json
 import asyncio
 import logging
+import pytz
+
 from datetime import datetime, timezone
 from contextlib import asynccontextmanager
 
@@ -36,7 +38,7 @@ from app.schemas.workouts import WorkoutSchema
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 logging.getLogger("passlib").setLevel(logging.ERROR)
-
+timezone = pytz.timezone('Europe/Moscow')
 scheduler = AsyncIOScheduler()
 
 
@@ -68,7 +70,7 @@ async def lifespan(_: FastAPI):
     # asyncio.create_task(drop_tables())
     asyncio.create_task(create_tables())
     asyncio.create_task(insert_default_data())
-    scheduler.add_job(schedule_job, 'interval', days=1)
+    scheduler.add_job(schedule_job, 'interval', days=1, timezone=timezone)
     scheduler.start()
     yield
     scheduler.shutdown()
