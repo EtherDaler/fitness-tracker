@@ -136,9 +136,9 @@ async def accept_payment(
         if transaction.name == '1 month':
             user.end_subsctibe = date_month(1)
         elif transaction.name == '3 month':
-            user.end_subsctibe = date_month(1)
+            user.end_subsctibe = date_month(3)
         elif transaction.name == '6 month':
-            user.end_subsctibe = date_month(1)
+            user.end_subsctibe = date_month(6)
         elif transaction.name == '12 month':
             user.end_subsctibe = date_month(12)
         await db.commit()

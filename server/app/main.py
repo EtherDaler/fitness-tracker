@@ -525,10 +525,18 @@ async def start_workout(
         return RedirectResponse(url="/login")
 
     token = is_valid_jwt(access_token)
-
+    user_id = token.get("subject", {}).get("user_id")
     if not token or token.get("subject", {}).get("user_id") is None:
         resp = RedirectResponse(url="/login")
         resp.delete_cookie("access_token")
+        return resp
+
+    query = select(User).where(User.id == user_id)
+    result = await db.execute(query)
+    user = result.scalar()
+
+    if not user.subscribed:
+        resp = RedirectResponse(url="/dashboard")
         return resp
 
     if _type and _type not in ["workout", "exercise"]:
