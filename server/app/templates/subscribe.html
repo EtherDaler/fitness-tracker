@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fit it</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #745CD1 0%, #ffffff 50%, #745CD1 100%); /* Градиент */
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            justify-content: flex-start;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        .logo img {
+            width: 120px;
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 500;
+            text-align: center;
+            margin-top: 20px;
+            line-height: 1.4;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            margin-bottom: 50px;
+        }
+
+        p {
+            font-size: 14px;
+            text-align: center;
+            margin: 10px 0 20px 0;
+            color: #c4c7c3;
+        }
+
+        h5 {
+            font-size: 20px;
+            text-align: center;
+            margin: 10px 0 20px 0;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: lighter;
+            margin-bottom: 30px;
+        }
+
+        .price-box {
+            background-color: #745cd1;
+            color: white;
+            border-radius: 10px;
+            padding: 20px; /* Небольшое увеличение отступа */
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            width: 100%;
+        }
+
+        .price-details {
+            text-align: left;
+        }
+
+        .price-details h3 {
+            font-size: 14px;
+            margin: 0;
+            font-weight: 400;
+            margin-bottom: 5px;
+            font-weight: lighter;
+            color: #e0d4ff;
+        }
+
+        .price-details .current-price {
+            font-size: 22px;
+            font-weight: normal;
+            margin-right: 5px;
+            margin-bottom: auto;
+        }
+
+        .price-details .current-price::after {
+            content: " ₽"; /* Добавляем знак рубля рядом */
+            font-size: 24px;
+        }
+
+        .price-details .old-price {
+            font-size: 18px;
+            text-decoration: line-through;
+            color: #e0d4ff;
+            margin-left: 10px;
+            
+        }
+
+        .price-details .old-price::after {
+            content: " ₽"; /* Добавляем знак рубля для старой цены */
+            font-size: 18px;
+        }
+
+        .price-box p {
+            font-size: 14px;
+            margin: 0;
+            text-align: right;
+            white-space: normal;
+            line-height: 1.6;
+        }
+
+        .price-tag {
+            position: absolute;
+            top: -12px;
+            right: 10px;
+            background-color: #cfcae3;
+            color: #856ec8;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .arrow {
+            display: flex;
+            align-items: center;
+        }
+
+        .arrow a {
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+        }
+
+        .arrow a:hover {
+            color: #c4b8ff;
+        }
+
+        .back-button {
+            background-color: #745cd1;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-top: 30px;
+            cursor: pointer;
+            display: block;
+            width: 50%;
+            text-align: center;
+            margin-left: 170px;
+        }
+
+        .back-button:hover {
+            background-color: #574d73;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Логотип -->
+        <div class="logo">
+            <img src="../static/Logo_Fit_it/Logo_Fit_it.png" alt="Fit it logo">
+        </div>
+
+        <!-- Заголовок -->
+        <h1>Не жди идеальных условий, <br> чтобы начать тренироваться — мы их <br> уже создали для тебя!</h1>
+        <h5>Начни путь к телу своей мечты вместе с Fit it, <br> наша подписка будет ключом к твоему успеху!</h5>
+
+        <!-- Пример блока с подпиской на 1 месяц -->
+        <div class="price-box">
+            <div class="price-details">
+                <h3>1 месяц</h3>
+                <span class="current-price">1950</span>
+            </div>
+            <p>Отличный выбор для старта!</p>
+            <div class="arrow">
+                <a href="#">&#10145;</a>
+            </div>
+        </div>
+
+        <!-- Пример блока с ценой на 3 месяца -->
+        <div class="price-box">
+            <div class="price-details">
+                <h3>3 месяца</h3>
+                <span class="current-price">3900</span><span class="old-price">5850</span>
+            </div>
+            <p>Тренируйся с выгодой — купи <br> 2 месяца и получи 1 в подарок!</p>
+            <div class="price-tag">1300 ₽ / месяц</div>
+            <div class="arrow">
+                <a href="#">&#10145;</a>
+            </div>
+        </div>
+
+        <!-- Пример блока с ценой на 6 месяцев -->
+        <div class="price-box">
+            <div class="price-details">
+                <h3>6 месяцев</h3>
+                <span class="current-price">5850</span><span class="old-price">11700</span>
+            </div>
+            <p>Доступ к персональным <br> тренировкам со скидкой 50%</p>
+            <div class="price-tag">975 ₽ / месяц</div>
+            <div class="arrow">
+                <a href="#">&#10145;</a>
+            </div>
+        </div>
+
+        <!-- Пример блока с ценой на 1 год -->
+        <div class="price-box">
+            <div class="price-details">
+                <h3>1 год</h3>
+                <span class="current-price">7850</span><span class="old-price">23400</span>
+            </div>
+            <p>Супер выгода для тех, <br> кто настроен очень серьёзно!</p>
+            <div class="price-tag">654 ₽ / месяц</div>
+            <div class="arrow">
+                <a href="#">&#10145;</a>
+            </div>
+        </div>
+
+        <!-- Кнопка "Назад" -->
+        <button class="back-button">Назад</button>
+    </div>
+
+</body>
+</html>
