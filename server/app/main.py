@@ -284,6 +284,8 @@ async def dashboard_page(request: Request, db: AsyncSession = Depends(get_db)):
                 gender=user.gender,
                 height=user.height,
                 weight=user.weight,
+                subscribed=user.subscribed,
+                end_subsctibe=user.end_subsctibe,
                 activity_level=user.activity_level,
                 profile_picture_url=user.profile_picture_url or "",
                 age=user.age,
@@ -326,6 +328,8 @@ async def profile_page(request: Request, db: AsyncSession = Depends(get_db)):
                 gender=user.gender,
                 height=user.height,
                 weight=user.weight,
+                subscribed=user.subscribed,
+                end_subsctibe=user.end_subsctibe,
                 activity_level=user.activity_level,
                 profile_picture_url=user.profile_picture_url or "",
                 age=user.age,
@@ -494,7 +498,6 @@ async def workouts_page(request: Request, db: AsyncSession = Depends(get_db)):
     default_result = await db.execute(default_query)
     default_data = default_result.unique().scalars().all()
     data += default_data
-    print(data)
     for workout in data:
         workout.workout_exercises.sort(key=lambda we: we.id)
         workouts.append(json.loads(workout_to_schema(workout).model_dump_json()))
@@ -507,6 +510,54 @@ async def workouts_page(request: Request, db: AsyncSession = Depends(get_db)):
             "workouts": workouts,
         },
     )
+
+
+@app.get("/subscribe")
+async def subscribe(request: Request, db: AsyncSession = Depends(get_db)):
+    access_token = request.cookies.get("access_token")
+    if not access_token:
+        return RedirectResponse(url="/login")
+
+    token = is_valid_jwt(access_token)
+
+    if not token or token.get("subject", {}).get("user_id") is None:
+        resp = RedirectResponse(url="/login")
+        resp.delete_cookie("access_token")
+        return resp
+
+    response = templates.TemplateResponse(
+        "subscribe.html",
+        {
+            "request": request,
+        },
+    )
+
+    return response
+
+
+@app.get("/private_policy")
+async def subscribe(request: Request, db: AsyncSession = Depends(get_db)):
+    response = templates.TemplateResponse(
+        "private_policy.html",
+        {
+            "request": request,
+        },
+    )
+
+    return response
+
+
+@app.get("/user_agreement")
+async def subscribe(request: Request, db: AsyncSession = Depends(get_db)):
+    response = templates.TemplateResponse(
+        "user_agreement.html",
+        {
+            "request": request,
+        },
+    )
+
+    return response
+
 
 
 @app.get("/workouts/{idx}/start")
