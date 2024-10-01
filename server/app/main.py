@@ -41,7 +41,7 @@ scheduler = AsyncIOScheduler()
 
 
 # Функция для проверки и обновления подписок
-def check_subscriptions():
+async def check_subscriptions():
     db = await get_db()
     query = select(User)
     result = await db.execute(query)
@@ -57,6 +57,10 @@ def check_subscriptions():
                 await db.refresh(subscription)
 
 
+def schedule_job():
+    asyncio.run(check_subscriptions())
+
+
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     # Warning: This will drop all tables, so use only in dev
@@ -64,7 +68,7 @@ async def lifespan(_: FastAPI):
     # asyncio.create_task(drop_tables())
     asyncio.create_task(create_tables())
     asyncio.create_task(insert_default_data())
-    scheduler.add_job(check_subscriptions, 'interval', days=1)
+    scheduler.add_job(schedule_job, 'interval', days=1)
     scheduler.start()
     yield
     scheduler.shutdown()
