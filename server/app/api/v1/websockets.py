@@ -462,11 +462,11 @@ def bycicle(frame, session_data: dict):
         if (left_angle <= 90 or right_angle <= 90) and (
                 left_knee[1] > right_knee[1] + 0.1 or right_knee[1] > left_knee[1] + 0.1) and not jump_started:
             jump_started = True
-            repetitions_count += 1
 
         # Условие elif для окончания повторения
         elif (left_angle > 90 and right_angle > 90) or (
-                abs(left_knee[1] - right_knee[1]) <= 0.1):
+                abs(left_knee[1] - right_knee[1]) <= 0.1) and jump_started:
+            repetitions_count += 1
             jump_started = False
 
         draw_landmarks(frame, results)
