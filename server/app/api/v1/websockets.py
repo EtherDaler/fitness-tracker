@@ -932,7 +932,7 @@ def move_plank(frame, session_data: dict):
 
 # Планка
 def plank(frame, session_data: dict):
-    if "jump_started" not in session_data:
+    if "jump_started" not in session_data or "start_time" not in session_data:
         session_data.update(
             {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
         )
@@ -1272,7 +1272,7 @@ def standing_curls(frame, session_data: dict):
 
 # Подъем таза
 def pelvic_lift(frame, session_data: dict, timing=False):
-    if "jump_started" not in session_data:
+    if "jump_started" not in session_data or "start_time" not in session_data:
         session_data.update(
             {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
         )
@@ -1358,7 +1358,7 @@ def pelvic_lift(frame, session_data: dict, timing=False):
 
 # Удержание таза
 def pelvic_static(frame, session_data: dict):
-    if "jump_started" not in session_data:
+    if "jump_started" not in session_data or "start_time" not in session_data:
         session_data.update(
             {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
         )
@@ -1510,7 +1510,7 @@ def leg_raises_elbow_rest(frame, session_data: dict):
 
 # Приседания
 def sqats(frame, session_data: dict, timing=False):
-    if "jump_started" not in session_data:
+    if "jump_started" not in session_data or "start_time" not in session_data:
         session_data.update(
             {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
         )
@@ -1574,7 +1574,7 @@ def sqats(frame, session_data: dict, timing=False):
 
 # Приседания
 def sqats_static(frame, session_data: dict, timing=False):
-    if "jump_started" not in session_data:
+    if "jump_started" not in session_data or "start_time" not in session_data:
         session_data.update(
             {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
         )
