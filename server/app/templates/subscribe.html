@@ -327,11 +327,7 @@
                         showErrorModal();  // Если это ошибка, показываем её
                     }
                 } catch (e) {
-                    if (result === "Error") {
-                        showErrorModal();
-                    } else {
-                        window.location.href = result;  // Перенаправляем на URL
-                    }
+                    window.location.href = result;
                 }
             } catch (error) {
                 console.error('Error:', error);

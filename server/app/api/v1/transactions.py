@@ -3,6 +3,7 @@ import base64
 import json
 import hashlib
 import hmac
+import decimal
 
 from datetime import datetime
 
@@ -20,6 +21,8 @@ from app.core.database import get_db
 from app.schemas import ErrorResponseSchema
 from app.schemas.transactions import TransactionCreateSchema, CreateTransactionResponseSchema, TransactionSchema, TransactionReceiveSchema
 from app.config import MerchantLogin, password1, password2
+from urllib import parse
+from urllib.parse import urlparse
 
 
 router = APIRouter(prefix="/transactions", tags=["Транзакции"])
@@ -45,6 +48,41 @@ def date_month(m):
             day = min(current_date.day, 28)  # Невисокосный год
     next_month_date = datetime(year, month, day).date()
     return next_month_date
+
+
+def generate_payment_link(
+    merchant_login: str,  # Merchant login
+    merchant_password_1: str,  # Merchant password
+    cost: decimal,  # Cost of goods, RU
+    number: int,  # Invoice number
+    description: str,  # Description of the purchase
+    robokassa_payment_url='https://auth.robokassa.ru/Merchant/Index.aspx',
+) -> str:
+    """URL for redirection of the customer to the service.
+    """
+    signature = calculate_signature(
+        merchant_login,
+        cost,
+        number,
+        {"items": [{"name": description, "quantity": 1, "sum": cost, "tax": "none"}]},
+        merchant_password_1
+    )
+
+    data = {
+        'MerchantLogin': merchant_login,
+        'OutSum': cost,
+        'invoiceID': number,
+        "Receipt": {"items": [{"name": description, "quantity": 1, "sum": cost, "tax": "none"}]},
+        'SignatureValue': signature,
+    }
+    return f'{robokassa_payment_url}?{parse.urlencode(data)}'
+
+
+def calculate_signature(*args) -> str:
+    """Create signature MD5.
+    """
+    return hashlib.md5(':'.join(str(arg) for arg in args).encode()).hexdigest()
+
 
 @router.post(
     "",  # You might be temped to add a '/' here, but don't do it because it redirects traffics. Apparently FastAPI and
@@ -94,9 +132,7 @@ async def create_payment_url(
 
     url = "https://auth.robokassa.ru/Merchant/Indexjson.aspx?"
     response = requests.post(url=url, data=d)
-    pay_url = "https://auth.robokassa.ru/Merchant/Index/" + response.json()["invoiceID"]
-    if response.json()["invoiceID"] == "00000000-0000-0000-0000-000000000000":
-        return Response(content="Error", media_type='text/plain')
+    pay_url = generate_payment_link(MerchantLogin, password1, price, transaction_id, data.description)
     return Response(content=f"{pay_url}", media_type='text/plain')
 
 
