@@ -56,56 +56,48 @@ async def create_payment_url(
     db: AsyncSession = Depends(get_db),
     user: User = Depends(jwt_verify)
 ):
+    if data.name == "1 month":
+        price = 1950
+    elif data.name == "3 month":
+        price = 3900
+    elif data.name == "6 month":
+        price = 5850
+    elif data.name == "12 month":
+        price = 7850
+    else:
+        price = 7850
     new_transaction = Transactions(
-        price=data.price,
+        price=price,
         name=data.name,
         description=data.description,
         user_id=user.id,
         datetime=datetime.now()
     )
+
     db.add(new_transaction)
     await db.commit()
     await db.refresh(new_transaction)
     query = select(Transactions).where(Transactions.user_id == user.id).order_by(Transactions.id.desc())
     result = await db.execute(query)
     transaction_id = result.scalars().first().id
-    url = "https://services.robokassa.ru/InvoiceServiceWebApi/api/CreateInvoice"
-    header = {"typ": "JWT", "alg": "MD5"}
-    payload = {
+
+    d = {
         "MerchantLogin": MerchantLogin,
-        "InvoiceType": "Reusable",
-        "Culture": "ru", 
         "InvId": transaction_id,
-        "OutSum": data.pirce,
+        "OutSum": price,
         "Description": data.description,
-        "MerchantComments": "no comment",
-        "InvoiceItems": [
-            {
-              "Name": "Подписка",
-              "Quantity": 1,
-              "Cost": data.price,
-              "Tax": "none",
-              "PaymentMethod": "full_payment",
-              "PaymentObject": "commodity"
-            }	
-        ]
     }
 
-    header_encode = base64.urlsafe_b64encode(json.dumps(header).encode('utf-8')).decode()
-    payload_encode = base64.urlsafe_b64encode(json.dumps(payload).encode('utf-8')).decode()
-    key = f"{MerchantLogin}:{password1}"
-    secret_encode = key.encode()
-    body = header_encode + '.' + payload_encode
-    body_encode = body.encode()
-    signing = body + '.' + base64.b64encode(
-        hmac.new(secret_encode, body_encode, hashlib.md5).hexdigest().encode()).decode()
+    sign = f"{d['MerchantLogin']}:{d['OutSum']}:{d['InvId']}:{password1}"  # тут password1 для тестовых платежей
 
-    response = requests.post(
-        url=url,
-        json=json.dumps({'Header': header, 'Payload': payload, 'Signature': signing}),
-        headers={'Content-type': 'application/json', 'Accept': 'application/json'}
-    )
-    return response.json()
+    d["SignatureValue"] = hashlib.md5(sign.encode()).hexdigest()
+
+    url = "https://auth.robokassa.ru/Merchant/Indexjson.aspx?"
+    response = requests.post(url=url, data=d)
+    pay_url = "https://auth.robokassa.ru/Merchant/Index/" + response.json()["invoiceID"]
+    if response.json()["invoiceID"] == "00000000-0000-0000-0000-000000000000":
+        return Response(content="Error", media_type='text/plain')
+    return Response(content=f"{pay_url}", media_type='text/plain')
 
 
 @router.post(
@@ -134,13 +126,13 @@ async def accept_payment(
         transaction.datetime = datetime.now()
         user.subscribed = True
         if transaction.name == '1 month':
-            user.end_subsctibe = date_month(1)
+            user.end_subscribe = date_month(1)
         elif transaction.name == '3 month':
-            user.end_subsctibe = date_month(3)
+            user.end_subscribe = date_month(3)
         elif transaction.name == '6 month':
-            user.end_subsctibe = date_month(6)
+            user.end_subscribe = date_month(6)
         elif transaction.name == '12 month':
-            user.end_subsctibe = date_month(12)
+            user.end_subscribe = date_month(12)
         await db.commit()
         await db.refresh(transaction)
         await db.refresh(user)

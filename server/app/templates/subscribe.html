@@ -169,6 +169,47 @@
         .back-button:hover {
             background-color: #574d73;
         }
+        .submitbutton {
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 0 rgba(255, 255, 255, 0.2);
+            font-size: 24px;
+            color: white
+        }
+        .submitbutton:hover {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 0 rgba(255, 255, 255, 0.5);
+            font-size: 25px;
+            color: whitesmoke;
+        }
+        .submitbutton:active {
+            transform: scale(0.9); /* Анимация сжатия */
+            background: rgba(255, 255, 255, 0.7); /* Изменение фона при нажатии */
+        }
+        .submitbutton:disabled {
+            cursor: not-allowed; /* Меняет курсор при отключенной кнопке */
+            background: rgba(255, 255, 255, 0.1); /* Меняем фон для состояния disabled */
+            color: rgba(255, 255, 255, 0.3); /* Бледный цвет текста */
+            transform: none; /* Отключаем трансформации */
+            pointer-events: none; /* Запрещаем любые взаимодействия, включая анимации */
+        }
+        #errorModal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f44336;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -191,7 +232,7 @@
             </div>
             <p>Отличный выбор для старта!</p>
             <div class="arrow">
-                <a class="submitLink">&#10145;</a>
+                <button disabled class="submitbutton" data-index="0">&#10145;</button>
             </div>
         </div>
 
@@ -204,7 +245,7 @@
             <p>Тренируйся с выгодой — купи <br> 2 месяца и получи 1 в подарок!</p>
             <div class="price-tag">1300 ₽ / месяц</div>
             <div class="arrow">
-                <a class="submitLink">&#10145;</a>
+                <button disabled class="submitbutton" data-index="1">&#10145;</button>
             </div>
         </div>
 
@@ -217,7 +258,7 @@
             <p>Доступ к персональным <br> тренировкам со скидкой 50%</p>
             <div class="price-tag">975 ₽ / месяц</div>
             <div class="arrow">
-                <a class="submitLink">&#10145;</a>
+                <button disabled class="submitbutton" data-index="2">&#10145;</button>
             </div>
         </div>
 
@@ -230,7 +271,7 @@
             <p>Супер выгода для тех, <br> кто настроен очень серьёзно!</p>
             <div class="price-tag">654 ₽ / месяц</div>
             <div class="arrow">
-                <a class="submitLink">&#10145;</a>
+                <button disabled class="submitbutton" data-index="3">&#10145;</button>
             </div>
         </div>
         <input type="checkbox" id="agreeCheckbox">
@@ -238,20 +279,66 @@
         <!-- Кнопка "Назад" -->
         <a href="/dashboard" style="text-decoration: none" class="back-button">Назад</a>
     </div>
+    <!-- Модальное окно ошибки -->
+    <div id="errorModal">Произошла ошибка при создании платежа</div>
 
     <script type="text/javascript">
         const checkbox = document.getElementById('agreeCheckbox');
-        const links = document.querySelectorAll('.submitLink');
+        const links = document.querySelectorAll('.submitbutton');
+        const pays = [
+            {'name': '1 month', 'price': '1950', 'description': 'Оплата подписка FitIt на 1 месяц'},
+            {'name': '3 month', 'price': '3900', 'description': 'Оплата подписка FitIt на 3 месяца'},
+            {'name': '6 month', 'price': '5850', 'description': 'Оплата подписка FitIt на 6 месяца'},
+            {'name': '12 month', 'price': '7850', 'description': 'Оплата подписка FitIt на год'}
+        ]
+
+        function sendPayment(data) {
+            fetch('/api/v1/transactions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.text())
+            .then(result => {
+                if (result === "Error") {
+                    showErrorModal();
+                } else {
+                    window.location.href = result;  // Перенаправление на страницу оплаты
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showErrorModal();
+            });
+        }
+
+        // Функция для показа модального окна с ошибкой
+        function showErrorModal() {
+            const modal = document.getElementById('errorModal');
+            modal.style.display = 'block';
+
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 5000);  // Показываем окно на 5 секунд
+        }
 
         checkbox.addEventListener('change', function() {
             links.forEach(link => {
                 if (checkbox.checked) {
-                    link.classList.add('enabled');
-                    link.href = 'https://example.com'; // Добавляем ссылку только если чекбокс выбран
+                    link.disabled = false;
                 } else {
-                    link.classList.remove('enabled');
-                    link.removeAttribute('href'); // Убираем ссылку если чекбокс не выбран
+                    link.disabled = true;
                 }
+            });
+        });
+
+        links.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const index = e.target.getAttribute('data-index');
+                const paymentData = pays[index];
+                sendPayment(paymentData);
             });
         });
     </script>
