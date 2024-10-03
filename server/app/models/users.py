@@ -42,5 +42,5 @@ class User(Base):
     gender = Column(String, nullable=True, default="male")
     created_at = Column(DateTime(timezone=True), default=func.now())
     subscribed = Column(Boolean, default=False)
-    end_subsctibe = Column(Date, nullable=True)
+    end_subscribe = Column(Date, nullable=True)
     workouts = relationship("Workout", back_populates="user")
