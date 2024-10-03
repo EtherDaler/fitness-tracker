@@ -22,8 +22,6 @@ class TransactionCreateSchema(BaseModel):
     price: float
     name: str
     description: str
-    user_id: int
-    datetime: Optional[str] = None
 
 
 class TransactionReceiveSchema(BaseModel):
