@@ -303,32 +303,40 @@
           return res;
         }
 
-        function sendPayment(data) {
+        async function sendPayment(data) {
             const token = getCookie("access_token");
             if (!token) {
               window.location.href = "/login";
               return;
             }
-            fetch('/api/v1/transactions/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                     Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(data)
-            })
-            .then(response => response.text())
-            .then(result => {
-                if (result === "Error") {
-                    showErrorModal();
-                } else {
-                    window.location.href = result;  // Перенаправление на страницу оплаты
+            try {
+                const response = await fetch('/api/v1/transactions', {  // Используем HTTPS
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.text();  // Ожидаем получения ответа
+
+                try {
+                    const jsonResult = JSON.parse(result);  // Проверяем, является ли ответ JSON
+                    if (jsonResult.detail) {
+                        showErrorModal();  // Если это ошибка, показываем её
+                    }
+                } catch (e) {
+                    if (result === "Error") {
+                        showErrorModal();
+                    } else {
+                        window.location.href = result;  // Перенаправляем на URL
+                    }
                 }
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error('Error:', error);
                 showErrorModal();
-            });
+            }
         }
 
         // Функция для показа модального окна с ошибкой
@@ -352,10 +360,10 @@
         });
 
         links.forEach(button => {
-            button.addEventListener('click', (e) => {
+            button.addEventListener('click', async (e) => {
                 const index = e.target.getAttribute('data-index');
                 const paymentData = pays[index];
-                sendPayment(paymentData);
+                await sendPayment(paymentData);
             });
         });
     </script>
