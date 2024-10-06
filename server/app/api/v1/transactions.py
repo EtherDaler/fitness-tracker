@@ -5,7 +5,7 @@ import hashlib
 import hmac
 import decimal
 
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from sqlalchemy.sql import select
 from sqlalchemy.orm import joinedload
@@ -169,6 +169,8 @@ async def accept_payment(
             user.end_subscribe = date_month(6)
         elif transaction.name == '12 month':
             user.end_subscribe = date_month(12)
+        elif transaction.name == "1 day":
+            user.end_subscribe = datetime.now() + timedelta(days=1)
         await db.commit()
         await db.refresh(transaction)
         await db.refresh(user)

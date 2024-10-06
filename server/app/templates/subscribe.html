@@ -223,6 +223,18 @@
         <!-- Заголовок -->
         <h1>Не жди идеальных условий, <br> чтобы начать тренироваться — мы их <br> уже создали для тебя!</h1>
         <h5>Начни путь к телу своей мечты вместе с Fit it, <br> наша подписка будет ключом к твоему успеху!</h5>
+        
+        <!-- пример для теста с 1 рублем -->
+        <div class="price-box">
+            <div class="price-details">
+                <h3>1 день</h3>
+                <span class="current-price">1</span>
+            </div>
+            <p>Отличный выбор для теста!</p>
+            <div class="arrow">
+                <button disabled class="submitbutton" data-index="0">&#10145;</button>
+            </div>
+        </div>
 
         <!-- Пример блока с подпиской на 1 месяц -->
         <div class="price-box">
@@ -286,6 +298,7 @@
         const checkbox = document.getElementById('agreeCheckbox');
         const links = document.querySelectorAll('.submitbutton');
         const pays = [
+            {'price': '1', 'name': '1 day', 'description': 'Оплата подписка FitIt на 1 день'},
             {'price': '1950', 'name': '1 month', 'description': 'Оплата подписка FitIt на 1 месяц'},
             {'price': '3900', 'name': '3 month', 'description': 'Оплата подписка FitIt на 3 месяца'},
             {'price': '5850', 'name': '6 month', 'description': 'Оплата подписка FitIt на 6 месяца'},
