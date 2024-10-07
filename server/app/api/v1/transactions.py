@@ -153,7 +153,7 @@ async def accept_payment(
     result = await db.execute(query)
     print(result)
     transaction = result.scalar().first()
-    sign = ':'.join([data.outSum, data.invId, password2])
+    sign = ':'.join([str(data.outSum), str(data.invId), password2])
     sign_encode = hashlib.md5(sign.encode()).hexdigest().upper()
     if data.SignatureValue.upper() == sign_encode:
         transaction.price = data.outSum
