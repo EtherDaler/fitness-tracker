@@ -146,13 +146,17 @@ async def create_payment_url(
 async def accept_payment(
     data: TransactionReceiveSchema,
     db: AsyncSession = Depends(get_db),
-    user: User = Depends(jwt_verify)
 ):
     query = select(Transactions).where(Transactions.id == data.invId)
     print(data)
     result = await db.execute(query)
     print(result)
     transaction = result.scalar().first()
+
+    query = select(User).where(User.id == transaction.user_id)
+    result = await db.execute(query)
+    user = result.scalar().first()
+
     sign = ':'.join([str(data.outSum), str(data.invId), password2])
     sign_encode = hashlib.md5(sign.encode()).hexdigest().upper()
     if data.SignatureValue.upper() == sign_encode:
