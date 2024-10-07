@@ -184,7 +184,7 @@ async def accept_payment(
     print(request)
     result = await db.execute(query)
     print(result)
-    transaction = result.scalar().first()
+    transaction = result.scalar()
 
     query = select(User).where(User.id == transaction.user_id)
     result = await db.execute(query)
