@@ -194,7 +194,7 @@ async def accept_payment(
     print(res)
 
     if res:
-        transaction.price = cost
+        transaction.price = float(cost)
         transaction.status = 'Оплачено'
         transaction.finished = True
         transaction.datetime = datetime.now()
