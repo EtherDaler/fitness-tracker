@@ -178,6 +178,8 @@ async def accept_payment(
     number = form_data.get('InvId')
     signature = form_data.get('SignatureValue')
 
+    print(f"Received: cost={cost}, number={number}, signature={signature}")
+
     query = select(Transactions).where(Transactions.id == number)
     print(request)
     result = await db.execute(query)
