@@ -11,7 +11,7 @@ from sqlalchemy.sql import select
 from sqlalchemy.orm import joinedload
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse, Response
 from fastapi.encoders import jsonable_encoder
 
@@ -166,10 +166,11 @@ async def create_payment_url(
     response_description="Принятие ответа от платежной системы",
 )
 async def accept_payment(
-    request: str,
+    request: Request,
     db: AsyncSession = Depends(get_db),
 ):
     print('start func')
+    print(request)
     param_request = parse_response(request)
     cost = param_request['OutSum']
     number = param_request['InvId']
