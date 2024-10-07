@@ -27,9 +27,9 @@ class TransactionCreateSchema(BaseModel):
 class TransactionReceiveSchema(BaseModel):
     OutSum: float
     InvId: int
+    SignatureValue: Optional[str] = None
     Fee: Optional[str] = None
     EMail: Optional[str] = None
-    SignatureValue: Optional[str] = None
     PaymentMethod: Optional[str] = None
     IncCurrLabel: Optional[str] = None
 
