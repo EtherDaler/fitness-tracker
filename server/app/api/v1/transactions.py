@@ -62,10 +62,10 @@ def parse_response(request: str) -> dict:
     return params
 
 def check_signature_result(
-    order_number: int,  # invoice number
-    received_sum: decimal,  # cost of goods, RU
-    received_signature: hex,  # SignatureValue
-    password: str  # Merchant password
+    order_number,  # invoice number
+    received_sum,  # cost of goods, RU
+    received_signature,  # SignatureValue
+    password  # Merchant password
 ) -> bool:
     signature = calculate_signature(received_sum, order_number, password)
     if signature.lower() == received_signature.lower():
