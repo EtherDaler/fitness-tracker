@@ -174,8 +174,8 @@ async def accept_payment(
 
     form_data = await request.form()
     print(form_data)
-    cost = form_data.get('OutSum')
-    number = form_data.get('InvId')
+    cost = float(form_data.get('OutSum'))
+    number = int(form_data.get('InvId'))
     signature = form_data.get('SignatureValue')
 
     print(f"Received: cost={cost}, number={number}, signature={signature}")
