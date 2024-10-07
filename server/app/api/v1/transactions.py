@@ -210,9 +210,9 @@ async def accept_payment(
         elif transaction.name == "1 day":
             user.end_subscribe = datetime.now() + timedelta(days=1)
         print(user.end_subscribe, cost,  signature, "Информация")
+        await db.commit()
         await db.refresh(transaction)
         await db.refresh(user)
-        await db.commit()
         return Response(content=f"OK{int(number)}", media_type='text/plain')
 
     return Response(content="error: bad signature", media_type='text/plain')
