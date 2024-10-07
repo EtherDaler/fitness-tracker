@@ -102,6 +102,8 @@ async def create_payment_url(
         price = 5850
     elif data.name == "12 month":
         price = 7850
+    elif data.name == "1 day":
+        price = 1
     else:
         price = 7850
     new_transaction = Transactions(
