@@ -169,6 +169,7 @@ async def accept_payment(
     request: str,
     db: AsyncSession = Depends(get_db),
 ):
+    print('start func')
     param_request = parse_response(request)
     cost = param_request['OutSum']
     number = param_request['InvId']
@@ -184,7 +185,10 @@ async def accept_payment(
     result = await db.execute(query)
     user = result.scalar().first()
     
-    if check_signature_result(number, cost, signature, password2):
+    res = check_signature_result(number, cost, signature, password2)
+    print(res)
+
+    if res:
         transaction.price = cost
         transaction.status = 'Оплачено'
         transaction.finished = True
