@@ -147,7 +147,9 @@ async def accept_payment(
     user: User = Depends(jwt_verify)
 ):
     query = select(Transactions).where(Transactions.id == data.invId)
+    print(data)
     result = await db.execute(query)
+    print(result)
     transaction = result.scalar().first()
     sign = ':'.join(data.outSum, data.invId, password2)
     sign_encode = hashlib.md5(sign.encode()).hexdigest().upper()
@@ -171,6 +173,7 @@ async def accept_payment(
             user.end_subscribe = date_month(12)
         elif transaction.name == "1 day":
             user.end_subscribe = datetime.now() + timedelta(days=1)
+        print(user.end_subscribe, data.SignatureValue, sign_encode, "Информация")
         await db.commit()
         await db.refresh(transaction)
         await db.refresh(user)

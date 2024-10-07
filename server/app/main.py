@@ -51,10 +51,10 @@ async def check_subscriptions():
     subscriptions = users
 
     for subscription in subscriptions:
-        if subscription.end_subsctibe is not None:
-            if subscription.end_subsctibe < datetime.now().date():
+        if subscription.end_subscribe is not None:
+            if subscription.end_subscribe < datetime.now().date():
                 subscription.subscribed = False
-                subscription.end_subsctibe = None
+                subscription.end_subscribe = None
                 await db.commit()
                 await db.refresh(subscription)
 
@@ -291,7 +291,7 @@ async def dashboard_page(request: Request, db: AsyncSession = Depends(get_db)):
                 height=user.height,
                 weight=user.weight,
                 subscribed=user.subscribed,
-                end_subsctibe=user.end_subsctibe,
+                end_subscribe=user.end_subscribe,
                 activity_level=user.activity_level,
                 profile_picture_url=user.profile_picture_url or "",
                 age=user.age,
@@ -335,7 +335,7 @@ async def profile_page(request: Request, db: AsyncSession = Depends(get_db)):
                 height=user.height,
                 weight=user.weight,
                 subscribed=user.subscribed,
-                end_subsctibe=user.end_subsctibe,
+                end_subscribe=user.end_subscribe,
                 activity_level=user.activity_level,
                 profile_picture_url=user.profile_picture_url or "",
                 age=user.age,
