@@ -188,7 +188,7 @@ async def accept_payment(
 
     query = select(User).where(User.id == transaction.user_id)
     result = await db.execute(query)
-    user = result.scalar().first()
+    user = result.scalar()
     
     res = check_signature_result(number, cost, signature, password2)
     print(res)
