@@ -174,13 +174,13 @@ async def accept_payment(
 
     form_data = await request.form()
     print(form_data)
-    cost = float(form_data.get('OutSum'))
-    number = int(form_data.get('InvId'))
+    cost = form_data.get('OutSum')
+    number = form_data.get('InvId')
     signature = form_data.get('SignatureValue')
 
     print(f"Received: cost={cost}, number={number}, signature={signature}")
 
-    query = select(Transactions).where(Transactions.id == number)
+    query = select(Transactions).where(Transactions.id == int(number))
     print(request)
     result = await db.execute(query)
     print(result)
@@ -213,6 +213,6 @@ async def accept_payment(
         await db.refresh(transaction)
         await db.refresh(user)
         await db.commit()
-        return Response(content=f"OK{number}", media_type='text/plain')
+        return Response(content=f"OK{int(number)}", media_type='text/plain')
 
     return Response(content="error: bad signature", media_type='text/plain')
