@@ -171,10 +171,12 @@ async def accept_payment(
 ):
     print('start func')
     print(request)
-    param_request = parse_response(request)
-    cost = param_request['OutSum']
-    number = param_request['InvId']
-    signature = param_request['SignatureValue']
+
+    form_data = await request.form()
+    print(form_data)
+    cost = form_data.get('OutSum')
+    number = form_data.get('InvId')
+    signature = form_data.get('SignatureValue')
 
     query = select(Transactions).where(Transactions.id == number)
     print(request)
