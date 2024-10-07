@@ -49,6 +49,28 @@ def date_month(m):
     next_month_date = datetime(year, month, day).date()
     return next_month_date
 
+def parse_response(request: str) -> dict:
+    """
+    :param request: Link.
+    :return: Dictionary.
+    """
+    params = {}
+
+    for item in urlparse(request).query.split('&'):
+        key, value = item.split('=')
+        params[key] = value
+    return params
+
+def check_signature_result(
+    order_number: int,  # invoice number
+    received_sum: decimal,  # cost of goods, RU
+    received_signature: hex,  # SignatureValue
+    password: str  # Merchant password
+) -> bool:
+    signature = calculate_signature(received_sum, order_number, password)
+    if signature.lower() == received_signature.lower():
+        return True
+    return False
 
 def generate_payment_link(
     merchant_login: str,  # Merchant login
@@ -144,11 +166,16 @@ async def create_payment_url(
     response_description="Принятие ответа от платежной системы",
 )
 async def accept_payment(
-    data: TransactionReceiveSchema,
+    request: str,
     db: AsyncSession = Depends(get_db),
 ):
-    query = select(Transactions).where(Transactions.id == data.invId)
-    print(data)
+    param_request = parse_response(request)
+    cost = param_request['OutSum']
+    number = param_request['InvId']
+    signature = param_request['SignatureValue']
+
+    query = select(Transactions).where(Transactions.id == number)
+    print(request)
     result = await db.execute(query)
     print(result)
     transaction = result.scalar().first()
@@ -156,15 +183,9 @@ async def accept_payment(
     query = select(User).where(User.id == transaction.user_id)
     result = await db.execute(query)
     user = result.scalar().first()
-
-    sign = ':'.join([str(data.outSum), str(data.invId), password2])
-    sign_encode = hashlib.md5(sign.encode()).hexdigest().upper()
-    if data.SignatureValue.upper() == sign_encode:
-        transaction.price = data.outSum
-        transaction.tax = data.Fee
-        transaction.eMail = data.EMail
-        transaction.paymentMethod = data.PaymentMethod
-        transaction.incCurrLabel = data.IncCurrLabel
+    
+    if check_signature_result(number, cost, signature, password2):
+        transaction.price = cost
         transaction.status = 'Оплачено'
         transaction.finished = True
         transaction.datetime = datetime.now()
@@ -179,10 +200,10 @@ async def accept_payment(
             user.end_subscribe = date_month(12)
         elif transaction.name == "1 day":
             user.end_subscribe = datetime.now() + timedelta(days=1)
-        print(user.end_subscribe, data.SignatureValue, sign_encode, "Информация")
+        print(user.end_subscribe, cost,  signature, "Информация")
         await db.refresh(transaction)
         await db.refresh(user)
         await db.commit()
-        return Response(content=f"OK{transaction.id}", media_type='text/plain')
+        return Response(content=f"OK{number}", media_type='text/plain')
 
     return Response(content="error: bad signature", media_type='text/plain')
