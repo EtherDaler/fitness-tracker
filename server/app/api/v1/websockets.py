@@ -1424,7 +1424,6 @@ def pelvic_static(frame, session_data: dict):
             start_time = time.time()
         elif head_on_floor and hands_on_floor and feet_on_floor and (
                 correct_hip_angle_left or correct_hip_angle_right) and jump_started:
-            jump_started = True
             repetitions_count = int(time.time() - start_time)
         else:
             jump_started = False
@@ -1631,7 +1630,7 @@ def sqats_static(frame, session_data: dict, timing=False):
                 jump_started = True
                 start_time = time.time()  # Начало приседа
             else:
-                repetitions_count = time.time() - start_time  # Время выполнения приседа
+                repetitions_count = int(time.time() - start_time)  # Время выполнения приседа
         else:
             if jump_started:
                 jump_started = False
