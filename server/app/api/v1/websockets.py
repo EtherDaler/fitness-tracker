@@ -1008,10 +1008,10 @@ def plank(frame, session_data: dict):
         left_hand_angle = count_angle((-1) * left_arm_vec, left_hand_vec)
         right_hand_angle = count_angle((-1) * right_arm_vec, right_hand_vec)
 
-        statement_body = left_angle > 90 or right_angle > 90
+        statement_body = left_angle > 100 or right_angle > 100
         statement_foot = (left_foot_angle > 90.0) or (right_foot_angle > 90.0)
         statement_arm = (60 <= left_arm_angle <= 100) or (60 <= right_arm_angle <= 100)
-        statement_hand = (30 <= left_hand_angle <= 90) or (30 <= right_hand_angle <= 90)
+        statement_hand = (30 <= left_hand_angle <= 100) or (30 <= right_hand_angle <= 100)
         if statement_body and statement_foot and statement_arm and statement_hand and not jump_started:
             repetitions_count = 1
             jump_started = True
@@ -1412,8 +1412,8 @@ def pelvic_static(frame, session_data: dict):
         hip_angle_right = calculate_angle(right_knee, right_hip, right_shoulder)
 
         # Условие для угла таза (прямой линии от коленей до шеи с допустимым отклонением)
-        correct_hip_angle_left = 160 <= hip_angle_left <= 180
-        correct_hip_angle_right = 160 <= hip_angle_right <= 180
+        correct_hip_angle_left = 140 <= hip_angle_left <= 180
+        correct_hip_angle_right = 140 <= hip_angle_right <= 180
 
         # Проверка выполнения упражнения
         # Удержание таза подсчет времени
