@@ -21,7 +21,6 @@ from starlette.websockets import WebSocketDisconnect
 
 from app.core.utils import TempFileResponse
 
-
 router = APIRouter(prefix="/ws", tags=["Websockets"])
 
 NEW_WIDTH = 128
@@ -50,7 +49,7 @@ def get_points(skelet: NamedTuple, point: int) -> list:
         skelet.pose_landmarks.landmark[point].x,
         skelet.pose_landmarks.landmark[point].y,
         skelet.pose_landmarks.landmark[point].z
-        ]
+    ]
 
 
 def make_vec(first_point: list, second_point: list) -> np.array:
@@ -82,8 +81,14 @@ def calculate_distance(a, b):
     b = np.array(b)
     return np.linalg.norm(a - b)
 
+
 def calculate_distance_points(point1, point2):
-    return np.sqrt((point2[0] - point1[0])**2 + (point2[1] - point1[1])**2)
+    return np.sqrt((point2[0] - point1[0]) ** 2 + (point2[1] - point1[1]) ** 2)
+
+
+def is_front_facing(l_hip: list[float], r_hip: list[float]):
+    z_diff = abs(l_hip[2] - r_hip[2])  # Разница по координате z
+    return z_diff < 0.1  # Если разница по глубине (z) мала, человек стоит лицом к камере
 
 
 def draw_landmarks(frame, skelet):
@@ -140,9 +145,9 @@ def process_high_knees(frame, session_data: dict):
         point_14_y = results.pose_landmarks.landmark[14].y
 
         if (
-            (point_30_y < point_25_y or point_29_y < point_26_y)
-            and (point_15_y < point_13_y and point_16_y < point_14_y)
-            and not jump_started
+                (point_30_y < point_25_y or point_29_y < point_26_y)
+                and (point_15_y < point_13_y and point_16_y < point_14_y)
+                and not jump_started
         ):
             jump_started = True
             repetitions_count += 1
@@ -217,22 +222,22 @@ def process_jumping_jacks(frame, session_data: dict):
         ].y
 
         if (
-            left_hand_y > left_shoulder_y
-            and right_hand_y > right_shoulder_y
-            and not jump_started
-        ):
-            if (
                 left_hand_y > left_shoulder_y
                 and right_hand_y > right_shoulder_y
-                and left_ankle_y > right_ankle_y
                 and not jump_started
+        ):
+            if (
+                    left_hand_y > left_shoulder_y
+                    and right_hand_y > right_shoulder_y
+                    and left_ankle_y > right_ankle_y
+                    and not jump_started
             ):
                 jump_started = True
                 repetitions_count += 1
         elif (
-            left_hand_y <= left_shoulder_y
-            and right_hand_y <= right_shoulder_y
-            and left_ankle_y <= right_ankle_y
+                left_hand_y <= left_shoulder_y
+                and right_hand_y <= right_shoulder_y
+                and left_ankle_y <= right_ankle_y
         ):
             jump_started = False
 
@@ -364,8 +369,8 @@ def side_kick(frame, session_data: dict):
 
         if \
                 round(left_eye[2], 2) == round(right_eye[2], 2) or \
-                round(left_eye[2], 2) + 0.01 == round(right_eye[2], 2) or \
-                round(left_eye[2], 2) == round(right_eye[2], 2) + 0.01:
+                        round(left_eye[2], 2) + 0.01 == round(right_eye[2], 2) or \
+                        round(left_eye[2], 2) == round(right_eye[2], 2) + 0.01:
             # Значит человек смотрит лицом в камеру
             if (right_hip[2] != left_hip[2]) and \
                     (
@@ -655,7 +660,6 @@ def melnica(frame, session_data: dict):
     return frame, fps, repetitions_count
 
 
-
 # Отведение ноги назад
 def leg_abduption(frame, session_data: dict):
     if "jump_started" not in session_data:
@@ -932,16 +936,17 @@ def move_plank(frame, session_data: dict):
 
 # Планка
 def plank(frame, session_data: dict):
-    if "jump_started" not in session_data or "start_time" not in session_data:
+    if "jump_started" not in session_data or "start_time" not in session_data or "timer" not in session_data:
         session_data.update(
-            {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
+            {"jump_started": False, "repetitions_count": 0, "timer": 0, "p_time": 0, "start_time": time.time()}
         )
 
-    jump_started, repetitions_count, p_time, start_time = (
+    jump_started, repetitions_count, p_time, start_time, timer = (
         session_data["jump_started"],
         session_data["repetitions_count"],
         session_data["p_time"],
-        session_data["start_time"]
+        session_data["start_time"],
+        session_data["timer"],
     )
 
     cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
@@ -1004,20 +1009,21 @@ def plank(frame, session_data: dict):
         left_hand_angle = count_angle((-1) * left_arm_vec, left_hand_vec)
         right_hand_angle = count_angle((-1) * right_arm_vec, right_hand_vec)
 
-        statement_body = left_angle > 90 or right_angle > 90
+        statement_body = left_angle > 100 or right_angle > 100
         statement_foot = (left_foot_angle > 90.0) or (right_foot_angle > 90.0)
         statement_arm = (60 <= left_arm_angle <= 100) or (60 <= right_arm_angle <= 100)
-        statement_hand = (30 <= left_hand_angle <= 90) or (30 <= right_hand_angle <= 90)
+        statement_hand = (30 <= left_hand_angle <= 100) or (30 <= right_hand_angle <= 100)
         if statement_body and statement_foot and statement_arm and statement_hand and not jump_started:
-            repetitions_count = 1
             jump_started = True
             start_time = time.time()
         elif statement_body and statement_foot and statement_arm and statement_hand and jump_started:
-            repetitions_count = int(time.time() - start_time)
+            timer += time.time() - start_time  # Время выполнения приседа
+            if round(timer, 0) > repetitions_count:
+                repetitions_count += 1
+            start_time = time.time()
             jump_started = True
         else:
             jump_started = False
-            repetitions_count = 0
 
         draw_landmarks(frame, results)
 
@@ -1027,6 +1033,7 @@ def plank(frame, session_data: dict):
         {
             "jump_started": jump_started,
             "repetitions_count": repetitions_count,
+            "timer": timer,
             "p_time": p_time,
             "start_time": start_time
         }
@@ -1339,7 +1346,6 @@ def pelvic_lift(frame, session_data: dict, timing=False):
             jump_started = False
             repetitions_count += 1
 
-
         draw_landmarks(frame, results)
 
     fps, p_time = show_fps(frame, p_time)
@@ -1358,16 +1364,17 @@ def pelvic_lift(frame, session_data: dict, timing=False):
 
 # Удержание таза
 def pelvic_static(frame, session_data: dict):
-    if "jump_started" not in session_data or "start_time" not in session_data:
+    if "jump_started" not in session_data or "start_time" not in session_data or "timer" not in session_data:
         session_data.update(
-            {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
+            {"jump_started": False, "repetitions_count": 0, "timer": 0, "p_time": 0, "start_time": time.time()}
         )
 
-    jump_started, repetitions_count, p_time, start_time = (
+    jump_started, repetitions_count, p_time, start_time, timer = (
         session_data["jump_started"],
         session_data["repetitions_count"],
         session_data["p_time"],
-        session_data["start_time"]
+        session_data["start_time"],
+        session_data["timer"]
     )
 
     cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
@@ -1409,29 +1416,30 @@ def pelvic_static(frame, session_data: dict):
         hip_angle_right = calculate_angle(right_knee, right_hip, right_shoulder)
 
         # Условие для угла таза (прямой линии от коленей до шеи с допустимым отклонением)
-        correct_hip_angle_left = 160 <= hip_angle_left <= 180
-        correct_hip_angle_right = 160 <= hip_angle_right <= 180
+        correct_hip_angle_left = 140 <= hip_angle_left <= 180
+        correct_hip_angle_right = 140 <= hip_angle_right <= 180
 
         # Проверка выполнения упражнения
         # Удержание таза подсчет времени
         if head_on_floor and hands_on_floor and feet_on_floor and \
                 (correct_hip_angle_left or correct_hip_angle_right) and not jump_started:
             jump_started = True
-            repetitions_count = 1
             start_time = time.time()
         elif head_on_floor and hands_on_floor and feet_on_floor and (
                 correct_hip_angle_left or correct_hip_angle_right) and jump_started:
-            jump_started = True
-            repetitions_count = int(time.time() - start_time)
+            timer += time.time() - start_time  # Время выполнения приседа
+            if round(timer, 0) > repetitions_count:
+                repetitions_count += 1
+            start_time = time.time()
         else:
             jump_started = False
-            repetitions_count = 0
         draw_landmarks(frame, results)
     fps, p_time = show_fps(frame, p_time)
     session_data.update(
         {
             "jump_started": jump_started,
             "repetitions_count": repetitions_count,
+            "timer": timer,
             "p_time": p_time,
             "start_time": start_time
         }
@@ -1574,16 +1582,17 @@ def sqats(frame, session_data: dict, timing=False):
 
 # Приседания
 def sqats_static(frame, session_data: dict, timing=False):
-    if "jump_started" not in session_data or "start_time" not in session_data:
+    if "jump_started" not in session_data or "start_time" not in session_data or "timer" not in session_data:
         session_data.update(
-            {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
+            {"jump_started": False, "repetitions_count": 0, "timer": 0, "p_time": 0, "start_time": time.time()}
         )
 
-    jump_started, repetitions_count, p_time, start_time = (
+    jump_started, repetitions_count, p_time, start_time, timer = (
         session_data["jump_started"],
         session_data["repetitions_count"],
         session_data["p_time"],
-        session_data["start_time"]
+        session_data["start_time"],
+        session_data["timer"]
     )
 
     cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
@@ -1600,27 +1609,41 @@ def sqats_static(frame, session_data: dict, timing=False):
         right_hip = get_points(results, 24)
         left_hip = get_points(results, 23)
 
-        # Таз немного выше коленей
-        statement_upper = (round(left_hip[1], 2) + 0.02 == round(left_knee[1], 2)) or \
-                          (round(right_hip[1], 2) + 0.02 == round(right_knee[1], 2))
-        # Таз немного нижу коленей
-        statement_lower = (round(left_hip[1], 2) - 0.02 == round(left_knee[1], 2)) or \
-                          (round(right_hip[1], 2) - 0.02 == round(right_knee[1], 2))
-        # Таз равен коленям
-        statement_eq = (round(left_hip[1], 2) == round(left_knee[1], 2)) or \
-                       (round(right_hip[1], 2) == round(right_knee[1], 2))
+        # Ступни
+        right_foot = get_points(results, 28)
+        left_foot = get_points(results, 27)
 
-        # Статичные приседания подсчет времени
-        if statement_upper or statement_eq or statement_lower and not jump_started:
-            jump_started = True
-            start_time = time.time()
-            repetitions_count = 0
-        elif statement_upper or statement_eq or statement_lower and jump_started:
-            jump_started = True
-            repetitions_count = int(time.time() - start_time)
+        l_knee_hip = make_vec(left_hip, left_knee)
+        r_knee_hip = make_vec(right_hip, right_knee)
+
+        l_knee_foot = make_vec(left_foot, left_knee)
+        r_knee_foot = make_vec(right_foot, right_knee)
+
+        # Угол в коленях для обеих ног
+        left_angle = count_angle(l_knee_hip, l_knee_foot)
+        right_angle = count_angle(r_knee_hip, r_knee_foot)
+
+        if is_front_facing(left_hip, right_hip):
+            # Если человек стоит лицом к камере, проверяем, что колени ниже бедер
+            left_state = left_hip[1] - 0.1 <= left_knee[1] <= left_hip[1] + 0.1
+            right_state = right_hip[1] - 0.1 <= right_knee[1] <= right_hip[1] + 0.1
         else:
-            jump_started = False
-            repetitions_count = 0
+            # Если человек стоит боком к камере, вычисляем углы
+            left_state = 70 <= left_angle <= 90
+            right_state = 70 <= right_angle <= 90
+
+        if left_state and right_state:
+            if not jump_started:
+                jump_started = True
+                start_time = time.time()  # Начало приседа
+            else:
+                timer += time.time() - start_time  # Время выполнения приседа
+                if round(timer, 0) > repetitions_count:
+                    repetitions_count += 1
+                start_time = time.time()
+        else:
+            if jump_started:
+                jump_started = False
 
         draw_landmarks(frame, results)
 
@@ -1630,6 +1653,7 @@ def sqats_static(frame, session_data: dict, timing=False):
         {
             "jump_started": jump_started,
             "repetitions_count": repetitions_count,
+            "timer": timer,
             "p_time": p_time,
             "start_time": start_time
         }
@@ -1714,6 +1738,7 @@ def press(frame, session_data: dict, timing=False):
     )
 
     return frame, fps, repetitions_count
+
 
 def upor_lezha(frame, session_data: dict):
     if "exercise_started" not in session_data:
