@@ -936,16 +936,17 @@ def move_plank(frame, session_data: dict):
 
 # Планка
 def plank(frame, session_data: dict):
-    if "jump_started" not in session_data or "start_time" not in session_data:
+    if "jump_started" not in session_data or "start_time" not in session_data or "timer" not in session_data:
         session_data.update(
-            {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
+            {"jump_started": False, "repetitions_count": 0, "timer": 0, "p_time": 0, "start_time": time.time()}
         )
 
-    jump_started, repetitions_count, p_time, start_time = (
+    jump_started, repetitions_count, p_time, start_time, timer = (
         session_data["jump_started"],
         session_data["repetitions_count"],
         session_data["p_time"],
-        session_data["start_time"]
+        session_data["start_time"],
+        session_data["timer"],
     )
 
     cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
@@ -1013,15 +1014,16 @@ def plank(frame, session_data: dict):
         statement_arm = (60 <= left_arm_angle <= 100) or (60 <= right_arm_angle <= 100)
         statement_hand = (30 <= left_hand_angle <= 100) or (30 <= right_hand_angle <= 100)
         if statement_body and statement_foot and statement_arm and statement_hand and not jump_started:
-            repetitions_count = 1
             jump_started = True
             start_time = time.time()
         elif statement_body and statement_foot and statement_arm and statement_hand and jump_started:
-            repetitions_count = int(time.time() - start_time)
+            timer += time.time() - start_time  # Время выполнения приседа
+            if round(timer, 0) > repetitions_count:
+                repetitions_count += 1
+            start_time = time.time()
             jump_started = True
         else:
             jump_started = False
-            repetitions_count = 0
 
         draw_landmarks(frame, results)
 
@@ -1031,6 +1033,7 @@ def plank(frame, session_data: dict):
         {
             "jump_started": jump_started,
             "repetitions_count": repetitions_count,
+            "timer": timer,
             "p_time": p_time,
             "start_time": start_time
         }
@@ -1361,16 +1364,17 @@ def pelvic_lift(frame, session_data: dict, timing=False):
 
 # Удержание таза
 def pelvic_static(frame, session_data: dict):
-    if "jump_started" not in session_data or "start_time" not in session_data:
+    if "jump_started" not in session_data or "start_time" not in session_data or "timer" not in session_data:
         session_data.update(
-            {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
+            {"jump_started": False, "repetitions_count": 0, "timer": 0, "p_time": 0, "start_time": time.time()}
         )
 
-    jump_started, repetitions_count, p_time, start_time = (
+    jump_started, repetitions_count, p_time, start_time, timer = (
         session_data["jump_started"],
         session_data["repetitions_count"],
         session_data["p_time"],
-        session_data["start_time"]
+        session_data["start_time"],
+        session_data["timer"]
     )
 
     cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
@@ -1420,20 +1424,22 @@ def pelvic_static(frame, session_data: dict):
         if head_on_floor and hands_on_floor and feet_on_floor and \
                 (correct_hip_angle_left or correct_hip_angle_right) and not jump_started:
             jump_started = True
-            repetitions_count = 1
             start_time = time.time()
         elif head_on_floor and hands_on_floor and feet_on_floor and (
                 correct_hip_angle_left or correct_hip_angle_right) and jump_started:
-            repetitions_count = int(time.time() - start_time)
+            timer += time.time() - start_time  # Время выполнения приседа
+            if round(timer, 0) > repetitions_count:
+                repetitions_count += 1
+            start_time = time.time()
         else:
             jump_started = False
-            repetitions_count = 0
         draw_landmarks(frame, results)
     fps, p_time = show_fps(frame, p_time)
     session_data.update(
         {
             "jump_started": jump_started,
             "repetitions_count": repetitions_count,
+            "timer": timer,
             "p_time": p_time,
             "start_time": start_time
         }
@@ -1576,16 +1582,17 @@ def sqats(frame, session_data: dict, timing=False):
 
 # Приседания
 def sqats_static(frame, session_data: dict, timing=False):
-    if "jump_started" not in session_data or "start_time" not in session_data:
+    if "jump_started" not in session_data or "start_time" not in session_data or "timer" not in session_data:
         session_data.update(
-            {"jump_started": False, "repetitions_count": 0, "p_time": 0, "start_time": time.time()}
+            {"jump_started": False, "repetitions_count": 0, "timer": 0, "p_time": 0, "start_time": time.time()}
         )
 
-    jump_started, repetitions_count, p_time, start_time = (
+    jump_started, repetitions_count, p_time, start_time, timer = (
         session_data["jump_started"],
         session_data["repetitions_count"],
         session_data["p_time"],
-        session_data["start_time"]
+        session_data["start_time"],
+        session_data["timer"]
     )
 
     cv2.resize(frame, (NEW_WIDTH, NEW_HEIGHT), interpolation=cv2.INTER_NEAREST)
@@ -1630,11 +1637,13 @@ def sqats_static(frame, session_data: dict, timing=False):
                 jump_started = True
                 start_time = time.time()  # Начало приседа
             else:
-                repetitions_count = int(time.time() - start_time)  # Время выполнения приседа
+                timer += time.time() - start_time  # Время выполнения приседа
+                if round(timer, 0) > repetitions_count:
+                    repetitions_count += 1
+                start_time = time.time()
         else:
             if jump_started:
                 jump_started = False
-                repetitions_count = 0
 
         draw_landmarks(frame, results)
 
@@ -1644,6 +1653,7 @@ def sqats_static(frame, session_data: dict, timing=False):
         {
             "jump_started": jump_started,
             "repetitions_count": repetitions_count,
+            "timer": timer,
             "p_time": p_time,
             "start_time": start_time
         }
