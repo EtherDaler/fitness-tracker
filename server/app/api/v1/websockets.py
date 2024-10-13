@@ -460,7 +460,7 @@ def bycicle(frame, session_data: dict):
 
         # Условие if для начала повторения
         if (left_angle <= 90 or right_angle <= 90) and (
-                left_knee[1] > right_knee[1] + 0.1 or right_knee[1] > left_knee[1] + 0.1) and not jump_started:
+                left_knee[1] > right_knee[1] + 0.3 or right_knee[1] > left_knee[1] + 0.3) and not jump_started:
             jump_started = True
 
         # Условие elif для окончания повторения
