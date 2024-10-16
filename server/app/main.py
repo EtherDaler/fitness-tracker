@@ -593,7 +593,7 @@ async def start_workout(
     user = result.scalar()
 
     if not user.subscribed:
-        resp = RedirectResponse(url="/dashboard")
+        resp = RedirectResponse(url="/subscribe")
         return resp
 
     if _type and _type not in ["workout", "exercise"]:
