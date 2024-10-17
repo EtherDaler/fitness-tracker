@@ -91,25 +91,32 @@ function setCircleDasharray() {
 }
 
 function startTimer() {
-  let startTime = performance.now(); // Текущее время
+  let startTime = performance.now(); // Время старта
 
   function updateTimer(timestamp) {
     const elapsedTime = Math.floor((timestamp - startTime) / 1000); // Прошедшее время в секундах
-    timeLeft = TIME_LIMIT - elapsedTime; // Обновляем оставшееся время
+    timeLeft = TIME_LIMIT - elapsedTime; // Оставшееся время
 
-    if (timeLeft <= 0) {
-      timeLeft = 0;
-      document.getElementById("base-timer-label").innerHTML = "Start"; // Отображаем "Start", когда время истекло
+    // Обновляем только если прошло хотя бы 1 секунда
+    if (elapsedTime >= timePassed) {
+      timePassed = elapsedTime; // Обновляем текущее прошедшее время
+
+      if (timeLeft <= 0) {
+        // Таймер завершен
+        timeLeft = 0;
+        document.getElementById("base-timer-label").innerHTML = "Start";
+        setCircleDasharray();
+
+        // После завершения таймера запускаем видео упражнения
+        initializeExercise(exercises[currentExerciseIdx]);
+        video.play(); // Проигрываем видео
+        return; // Останавливаем таймер
+      }
+
+      // Обновляем отображение оставшегося времени каждые 1 секунду
+      document.getElementById("base-timer-label").innerHTML = formatTimeLeft(timeLeft);
       setCircleDasharray();
-      // Таймер завершен, можно запустить упражнение
-      initializeExercise(exercises[currentExerciseIdx]);
-      video.play();
-      return; // Останавливаем обновление таймера
     }
-
-    // Обновляем отображение таймера
-    document.getElementById("base-timer-label").innerHTML = formatTimeLeft(timeLeft);
-    setCircleDasharray();
 
     // Продолжаем обновление на следующем кадре
     requestAnimationFrame(updateTimer);
@@ -121,6 +128,7 @@ function startTimer() {
 
 document.getElementById("app").innerHTML = `...`;
 startTimer();
+
 
 
 document.getElementById("app").innerHTML = `
