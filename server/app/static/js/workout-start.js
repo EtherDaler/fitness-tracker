@@ -91,22 +91,37 @@ function setCircleDasharray() {
 }
 
 function startTimer() {
-  timerInterval = setInterval(() => {
-    
-    // The amount of time passed increments by one
-    timePassed = timePassed += 1;
-    timeLeft = TIME_LIMIT - timePassed;
-    if (timeLeft <= `0`) {
+  let startTime = performance.now(); // Текущее время
+
+  function updateTimer(timestamp) {
+    const elapsedTime = Math.floor((timestamp - startTime) / 1000); // Прошедшее время в секундах
+    timeLeft = TIME_LIMIT - elapsedTime; // Обновляем оставшееся время
+
+    if (timeLeft <= 0) {
       timeLeft = 0;
+      document.getElementById("base-timer-label").innerHTML = "Start"; // Отображаем "Start", когда время истекло
+      setCircleDasharray();
+      // Таймер завершен, можно запустить упражнение
+      initializeExercise(exercises[currentExerciseIdx]);
+      video.play();
+      return; // Останавливаем обновление таймера
     }
-    // The time left label is updated
+
+    // Обновляем отображение таймера
     document.getElementById("base-timer-label").innerHTML = formatTimeLeft(timeLeft);
     setCircleDasharray();
-  }, 1000);
+
+    // Продолжаем обновление на следующем кадре
+    requestAnimationFrame(updateTimer);
+  }
+
+  // Запускаем первый кадр
+  requestAnimationFrame(updateTimer);
 }
 
-document.getElementById("app").innerHTML = `...`
+document.getElementById("app").innerHTML = `...`;
 startTimer();
+
 
 document.getElementById("app").innerHTML = `
 <div class="base-timer">
