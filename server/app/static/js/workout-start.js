@@ -127,17 +127,17 @@ function startTimer() {
 }
 
 function loadAndPlayVideo() {
-  // Гарантируем, что видео загружается асинхронно и запускается после загрузки
-  video.src = `../../static/videos/${currentExercise.video_link}`;
-  video.load(); // Загружаем видео
+  // Загружаем видео упражнения асинхронно и запускаем после загрузки
+  helperVideo.src = `../../static/videos/${currentExercise.video_link}`;
+  helperVideo.load(); // Загружаем видео
 
   // Начинаем воспроизведение видео, как только оно готово к проигрыванию
-  video.oncanplay = () => {
-    video.play();
+  helperVideo.oncanplay = () => {
+    helperVideo.play();
   };
 
   // Обработка ошибок загрузки
-  video.onerror = () => {
+  helperVideo.onerror = () => {
     showToast("red", "Ошибка загрузки видео упражнения");
   };
 }
