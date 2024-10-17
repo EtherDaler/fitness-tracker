@@ -107,9 +107,9 @@ function startTimer() {
         document.getElementById("base-timer-label").innerHTML = "Start";
         setCircleDasharray();
 
-        // После завершения таймера запускаем видео упражнения
-        initializeExercise(exercises[currentExerciseIdx]);
-        video.play(); // Проигрываем видео
+        // После завершения таймера загружаем и проигрываем видео
+        loadAndPlayVideo();
+
         return; // Останавливаем таймер
       }
 
@@ -126,8 +126,25 @@ function startTimer() {
   requestAnimationFrame(updateTimer);
 }
 
+function loadAndPlayVideo() {
+  // Гарантируем, что видео загружается асинхронно и запускается после загрузки
+  video.src = `../../static/videos/${currentExercise.video_link}`;
+  video.load(); // Загружаем видео
+
+  // Начинаем воспроизведение видео, как только оно готово к проигрыванию
+  video.oncanplay = () => {
+    video.play();
+  };
+
+  // Обработка ошибок загрузки
+  video.onerror = () => {
+    showToast("red", "Ошибка загрузки видео упражнения");
+  };
+}
+
 document.getElementById("app").innerHTML = `...`;
 startTimer();
+
 
 
 
