@@ -130,26 +130,19 @@ function loadAndPlayVideo() {
   helperVideo.src = `../../static/videos/${currentExercise.video_link}`;
 
   // Устанавливаем необходимые атрибуты и свойства
-  helperVideo.playsInline = true;
-  helperVideo.autoplay = true;
   helperVideo.muted = true;
+  helperVideo.playsInline = true;
   helperVideo.setAttribute('playsinline', '');
   helperVideo.setAttribute('webkit-playsinline', '');
-  helperVideo.setAttribute('autoplay', '');
-  helperVideo.setAttribute('muted', '');
   helperVideo.setAttribute('preload', 'auto');
 
-  helperVideo.load(); // Загружаем видео
+  // Загружаем видео
+  helperVideo.load();
 
-  // Добавляем обработчик события touchstart для мобильных устройств
-  helperVideo.addEventListener('touchstart', function() {
-    helperVideo.play();
-  }, { once: true });
-
-  // Начинаем воспроизведение видео, как только оно готово к проигрыванию
-  helperVideo.oncanplay = () => {
-    helperVideo.play();
-  };
+  // Начинаем воспроизведение видео
+  helperVideo.play().catch((error) => {
+    console.log("Ошибка при попытке воспроизвести видео:", error);
+  });
 
   // Обработка ошибок загрузки
   helperVideo.onerror = () => {
