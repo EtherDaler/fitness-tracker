@@ -464,13 +464,13 @@ def bycicle(frame, session_data: dict):
         right_angle = count_angle(right_leg_vec, right_side_vec)
 
         # Условие if для начала повторения
-        if (left_angle <= 90 or right_angle <= 90) and (
-                left_knee[1] > right_knee[1] + 0.1 or right_knee[1] > left_knee[1] + 0.1) and not jump_started:
+        if ((45 <= left_angle <= 90 and right_angle >= 100 and left_knee[1] < right_knee[1]) or
+            (45 <= right_angle <= 90 and left_angle >= 100 and right_knee[1] > left_knee[1])) and \
+                not jump_started:
             jump_started = True
 
         # Условие elif для окончания повторения
-        elif (left_angle > 90 and right_angle > 90) or (
-                abs(left_knee[1] - right_knee[1]) <= 0.1) and jump_started:
+        elif jump_started and (left_angle > 100 and right_angle > 100):
             repetitions_count += 1
             jump_started = False
 
