@@ -91,22 +91,62 @@ function setCircleDasharray() {
 }
 
 function startTimer() {
-  timerInterval = setInterval(() => {
-    
-    // The amount of time passed increments by one
-    timePassed = timePassed += 1;
-    timeLeft = TIME_LIMIT - timePassed;
-    if (timeLeft <= `0`) {
-      timeLeft = 0;
+  let startTime = performance.now(); // Время старта
+
+  function updateTimer(timestamp) {
+    const elapsedTime = Math.floor((timestamp - startTime) / 1000); // Прошедшее время в секундах
+    timeLeft = TIME_LIMIT - elapsedTime; // Оставшееся время
+
+    // Обновляем только если прошло хотя бы 1 секунда
+    if (elapsedTime >= timePassed) {
+      timePassed = elapsedTime; // Обновляем текущее прошедшее время
+
+      if (timeLeft <= 0) {
+        // Таймер завершен
+        timeLeft = 0;
+        document.getElementById("base-timer-label").innerHTML = "Start";
+        setCircleDasharray();
+
+        // После завершения таймера загружаем и проигрываем видео
+        loadAndPlayVideo();
+
+        return; // Останавливаем таймер
+      }
+
+      // Обновляем отображение оставшегося времени каждые 1 секунду
+      document.getElementById("base-timer-label").innerHTML = formatTimeLeft(timeLeft);
+      setCircleDasharray();
     }
-    // The time left label is updated
-    document.getElementById("base-timer-label").innerHTML = formatTimeLeft(timeLeft);
-    setCircleDasharray();
-  }, 1000);
+
+    // Продолжаем обновление на следующем кадре
+    requestAnimationFrame(updateTimer);
+  }
+
+  // Запускаем первый кадр
+  requestAnimationFrame(updateTimer);
 }
 
-document.getElementById("app").innerHTML = `...`
+function loadAndPlayVideo() {
+  // Загружаем видео упражнения асинхронно и запускаем после загрузки
+  helperVideo.src = `../../static/videos/${currentExercise.video_link}`;
+  helperVideo.load(); // Загружаем видео
+
+  // Начинаем воспроизведение видео, как только оно готово к проигрыванию
+  helperVideo.oncanplay = () => {
+    helperVideo.play();
+  };
+
+  // Обработка ошибок загрузки
+  helperVideo.onerror = () => {
+    showToast("red", "Ошибка загрузки видео упражнения");
+  };
+}
+
+document.getElementById("app").innerHTML = `...`;
 startTimer();
+
+
+
 
 document.getElementById("app").innerHTML = `
 <div class="base-timer">
