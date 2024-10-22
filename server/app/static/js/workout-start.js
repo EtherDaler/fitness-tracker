@@ -129,6 +129,12 @@ function startTimer() {
 function loadAndPlayVideo() {
   // Загружаем видео упражнения асинхронно и запускаем после загрузки
   helperVideo.src = `../../static/videos/${currentExercise.video_link}`;
+  
+  // Устанавливаем необходимые атрибуты для воспроизведения видео в режиме inline
+  helperVideo.playsInline = true;
+  helperVideo.setAttribute('playsinline', '');
+  helperVideo.setAttribute('webkit-playsinline', '');
+  
   helperVideo.load(); // Загружаем видео
 
   // Начинаем воспроизведение видео, как только оно готово к проигрыванию
