@@ -130,8 +130,8 @@ function loadAndPlayVideo() {
   helperVideo.src = `../../static/videos/${currentExercise.video_link}`;
 
   // Устанавливаем необходимые атрибуты и свойства
-  helperVideo.muted = true;
   helperVideo.playsInline = true;
+  helperVideo.muted = true;
   helperVideo.setAttribute('playsinline', '');
   helperVideo.setAttribute('webkit-playsinline', '');
   helperVideo.setAttribute('preload', 'auto');
@@ -139,16 +139,19 @@ function loadAndPlayVideo() {
   // Загружаем видео
   helperVideo.load();
 
-  // Начинаем воспроизведение видео
-  helperVideo.play().catch((error) => {
-    console.log("Ошибка при попытке воспроизвести видео:", error);
-  });
+  // Воспроизведение при готовности
+  helperVideo.oncanplay = () => {
+    helperVideo.play().catch((error) => {
+      console.log("Ошибка воспроизведения:", error);
+    });
+  };
 
   // Обработка ошибок загрузки
   helperVideo.onerror = () => {
     showToast("red", "Ошибка загрузки видео упражнения");
   };
 }
+
 
 document.getElementById("app").innerHTML = `...`;
 startTimer();
