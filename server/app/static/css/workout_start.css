@@ -18,20 +18,25 @@
   stroke: grey;
 }
 
+/* Обновляем стили для .video-wrap */
 .video-wrap {
-    width: 100%; /* Контейнер занимает всю доступную ширину */
-    height: auto; /* Автоматическая подстройка высоты */
-    max-width: 100%; /* Ограничение по максимальной ширине */
-    overflow: hidden; /* Обрезка содержимого, выходящего за пределы */
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding-top: 56.25%; /* Соотношение сторон 16:9, можно изменить при необходимости */
 }
 
-video {
-    width: 100%; /* Видео растягивается на всю ширину контейнера */
-    height: auto; /* Автоматическая подстройка высоты */
-    object-fit: cover; /* Сохраняет пропорции, при необходимости обрезает края */
+/* Обновляем стили для видео внутри .video-wrap */
+.video-wrap video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Можно использовать 'cover', 'fill' или 'contain' в зависимости от желаемого эффекта */
 }
 
-/* Кнопка завершения может быть адаптирована под мобильные устройства */
+/* Кнопка завершения */
 #complete-btn {
     display: block;
     margin: 10px auto; /* Центрирование кнопки */
@@ -71,19 +76,18 @@ video {
 }
 
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  display: none; /* Скрыто по умолчанию */
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 }
 
-/* Modal Content */
+/* Содержимое модального окна */
 .modal-content {
   margin: auto;
   padding: auto;
