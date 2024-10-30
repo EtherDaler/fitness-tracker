@@ -41,9 +41,9 @@
 }
 
 /* Масштабирование только на мобильных устройствах */
-@media (max-width: 768px) {
+@media (max-width: 1024px) and (orientation: landscape) {
   .video-container {
-      transform: scale(0.7); /* Уменьшаем контейнер до 80% */
+      transform: scale(0.9); /* Уменьшаем контейнер до 80% */
       transform-origin: top; /* Центрируем точку масштабирования сверху */
   }
 }

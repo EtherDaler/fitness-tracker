@@ -1991,13 +1991,13 @@ a {
 }
 
 /* Для мобильных устройств */
-@media (max-width: 768px) {
+@media (max-width: 1024px) and (orientation: landscape)  {
     .workout-video-page .video-wraper .workout-name-wrap .video-wrap {
         height: 300px; /* Уменьшаем высоту контейнера на мобильных */
     }
 
     .workout-video-page .video-wraper .workout-name-wrap .video-wrap video {
-        transform: scale(0.7); /* Уменьшаем видео, чтобы полностью поместить его */
+        transform: scale(0.9); /* Уменьшаем видео, чтобы полностью поместить его */
         transform-origin: top;
     }
 }
