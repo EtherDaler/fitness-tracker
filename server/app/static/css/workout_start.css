@@ -27,9 +27,10 @@
 
 /* Устанавливаем высоту и поведение для десктопов */
 .video-wrap video {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 /* Специальный стиль для мобильных устройств */
