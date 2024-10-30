@@ -25,20 +25,29 @@
   overflow: hidden;
 }
 
-.video-wrap video {
-  display: block;
+.video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  height: auto;
-  object-fit: cover;
+  height: 100%;
 }
 
-/* Для мобильных устройств */
+/* Настройки видео */
+.video-container video {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Масштабирование только на мобильных устройствах */
 @media (max-width: 768px) {
-  .video-wrap video {
-      transform: scale(0.7); /* Уменьшаем видео до 80% размера */
-      transform-origin: top; /* Сдвигаем точку масштабирования вверх */
+  .video-container {
+      transform: scale(0.8); /* Уменьшаем контейнер до 80% */
+      transform-origin: top; /* Центрируем точку масштабирования сверху */
   }
 }
+
 
 
 
