@@ -22,7 +22,6 @@
 .video-wrap {
   position: relative;
   width: 100%;
-  max-width: 100%;
   overflow: hidden;
 }
 
@@ -30,15 +29,17 @@
   display: block;
   width: 100%;
   height: auto;
-  object-fit: contain; /* Полностью вписываем видео в рамку */
+  object-fit: cover;
 }
 
 /* Для мобильных устройств */
 @media (max-width: 768px) {
   .video-wrap video {
-      object-fit: contain; /* Сохраняем целостность видео, вписывая в рамку */
+      transform: scale(0.7); /* Уменьшаем видео до 80% размера */
+      transform-origin: top; /* Сдвигаем точку масштабирования вверх */
   }
 }
+
 
 
 
