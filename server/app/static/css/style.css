@@ -1996,6 +1996,13 @@ a {
     object-fit: cover;
   }
 
+  @media (max-width: 812px) and (orientation: landscape) {
+    .workout-video-page .video-wraper .workout-name-wrap .video-wrap video {
+        transform: scale(0.85); /* Сжимаем видео до 85% в горизонтальном режиме */
+        transform-origin: center; /* Центрируем точку масштабирования */
+    }
+}
+
   .workout-video-page .video-wraper .workout-name-wrap .btn {
     width: -moz-fit-content;
     width: fit-content;
