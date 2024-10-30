@@ -22,6 +22,7 @@
 .video-wrap {
   position: relative;
   width: 100%;
+  max-width: 100%;
   overflow: hidden;
 }
 
@@ -29,21 +30,16 @@
   display: block;
   width: 100%;
   height: auto;
-  object-fit: contain; /* Видео полностью помещается в контейнер */
-  padding-top: 10%; /* Добавляем отступ сверху */
-  padding-bottom: 10%; /* Добавляем отступ снизу */
-  transform: scale(0.9); /* Уменьшаем видео для уменьшения обрезания */
-  transform-origin: center; /* Центрируем точку масштабирования */
+  object-fit: contain; /* Полностью вписываем видео в рамку */
 }
 
-/* Применяем только для мобильных устройств */
+/* Для мобильных устройств */
 @media (max-width: 768px) {
   .video-wrap video {
-      padding-top: 15%; /* Увеличиваем верхний отступ на мобильных */
-      padding-bottom: 15%; /* Увеличиваем нижний отступ на мобильных */
-      transform: scale(0.85); /* Уменьшаем видео ещё немного на мобильных */
+      object-fit: contain; /* Сохраняем целостность видео, вписывая в рамку */
   }
 }
+
 
 
 /* Кнопка завершения */
