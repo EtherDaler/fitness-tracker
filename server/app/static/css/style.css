@@ -1999,15 +1999,20 @@ a {
   }
 
   /* Специальные стили для горизонтальной ориентации на телефоне */
+  /* Для горизонтальной ориентации на мобильных устройствах */
   @media (max-width: 812px) and (orientation: landscape) {
-    .workout-video-page .video-wraper .workout-name-wrap .video-wrap {
-        height: 250px; /* Уменьшаем высоту контейнера в горизонтальной ориентации */
-    }
+  .workout-video-page .video-wraper .workout-name-wrap .video-wrap {
+    height: 60vh; /* Уменьшаем высоту контейнера для горизонтального режима */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    .workout-video-page .video-wraper .workout-name-wrap .video-wrap .video-container {
-        transform: scale(0.85); /* Сжимаем видео до 85% в горизонтальном режиме */
-        transform-origin: center; /* Центрируем точку масштабирования */
-    }
+  .workout-video-page .video-wraper .workout-name-wrap .video-wrap video {
+    width: 100%; /* Ширина видео на 100% контейнера */
+    height: auto; /* Автоматически подстраиваем высоту */
+    object-fit: contain; /* Оставляем пропорции, не обрезая содержимое */
+  }
   }
 
   .workout-video-page .video-wraper .workout-name-wrap .video-wrap img {
