@@ -1997,7 +1997,7 @@ a {
     }
 
     .workout-video-page .video-wraper .workout-name-wrap .video-wrap video {
-        transform: scale(0.85); /* Уменьшаем видео, чтобы полностью поместить его */
+        transform: scale(0.7); /* Уменьшаем видео, чтобы полностью поместить его */
         transform-origin: top;
     }
 }
