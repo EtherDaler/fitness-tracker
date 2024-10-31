@@ -1495,6 +1495,11 @@ a {
     height: 27vw;
   }
 
+  @media (max-width: 960px) {
+    .workout-video-page .video-wraper .workout-name-wrap .video-wrap {
+      height: 40vw;
+    }
+
   .workout-video-page .video-wraper .workout-name-wrap .video-wrap video {
     width: 100%;
     height: 97%;
