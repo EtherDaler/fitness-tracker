@@ -100,7 +100,7 @@ async def index(request: Request):
 def register_page(request: Request):
     access_token = request.cookies.get("access_token")
     if access_token and is_valid_jwt(access_token):
-        return RedirectResponse(url="/dashboard")
+        return RedirectResponse(url="/profile")
 
     response = templates.TemplateResponse(
         "register.html",
