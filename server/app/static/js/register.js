@@ -65,7 +65,7 @@ document.getElementById("submit").addEventListener("click", async (e) => {
     });
 
     setCookie("access_token", data.access_token);
-    window.location.href = "/login";
+    window.location.href = "/profile";
   } catch {
     return iziToast.show({
       color: "red",
