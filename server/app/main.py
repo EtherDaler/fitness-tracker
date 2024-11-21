@@ -119,7 +119,7 @@ def login_page(request: Request):
     access_token = request.cookies.get("access_token")
 
     if access_token and is_valid_jwt(access_token):
-        return RedirectResponse(url="/workouts")
+        return RedirectResponse(url="/dashboard")
 
     response = templates.TemplateResponse(
         "login.html",
