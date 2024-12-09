@@ -77,7 +77,7 @@ def generate_payment_link(
     merchant_password_1: str,  # Merchant password
     cost: decimal,  # Cost of goods, RU
     number: int,  # Invoice number
-    description: str,  # Description of the purchase
+    # description: str,  # Description of the purchase
     robokassa_payment_url='https://auth.robokassa.ru/Merchant/Index.aspx',
 ) -> str:
     """URL for redirection of the customer to the service.
@@ -86,7 +86,7 @@ def generate_payment_link(
         merchant_login,
         cost,
         number,
-        {"items": [{"name": description, "quantity": 1, "sum": cost, "tax": "none"}]},
+        # {"items": [{"name": description, "quantity": 1, "sum": cost, "tax": "none"}]},
         merchant_password_1
     )
 
@@ -94,7 +94,7 @@ def generate_payment_link(
         'MerchantLogin': merchant_login,
         'OutSum': cost,
         'invoiceID': number,
-        "Receipt": {"items": [{"name": description, "quantity": 1, "sum": cost, "tax": "none"}]},
+        # "Receipt": {"items": [{"name": description, "quantity": 1, "sum": cost, "tax": "none"}]},
         'SignatureValue': signature,
     }
     return f'{robokassa_payment_url}?{parse.urlencode(data)}'
@@ -131,7 +131,7 @@ async def create_payment_url(
     new_transaction = Transactions(
         price=price,
         name=data.name,
-        description=data.description,
+        # description=data.description,
         user_id=user.id,
         datetime=datetime.now()
     )
@@ -147,16 +147,16 @@ async def create_payment_url(
         "MerchantLogin": MerchantLogin,
         "InvId": transaction_id,
         "OutSum": price,
-        "Description": data.description,
+        # "Description": data.description,
     }
 
     sign = f"{d['MerchantLogin']}:{d['OutSum']}:{d['InvId']}:{password1}"  # тут password1 для тестовых платежей
 
     d["SignatureValue"] = hashlib.md5(sign.encode()).hexdigest()
 
-    url = "https://auth.robokassa.ru/Merchant/Indexjson.aspx?"
-    response = requests.post(url=url, data=d)
-    pay_url = generate_payment_link(MerchantLogin, password1, price, transaction_id, data.description)
+    # url = "https://auth.robokassa.ru/Merchant/Indexjson.aspx?"
+    # response = requests.post(url=url, data=d)
+    pay_url = generate_payment_link(MerchantLogin, password1, price, transaction_id) # , data.description)
     return Response(content=f"{pay_url}", media_type='text/plain')
 
 
