@@ -3,7 +3,7 @@ import base64
 import json
 import hashlib
 import hmac
-import decimal
+from decimal import *
 
 from datetime import datetime, timedelta
 
@@ -73,9 +73,9 @@ def check_signature_result(
     return False
 
 def generate_payment_link(
-    merchant_login: str,  # Merchant login
+    merchant_login: int,  # Merchant login
     merchant_password_1: str,  # Merchant password
-    cost: decimal,  # Cost of goods, RU
+    cost: Decimal,  # Cost of goods, RU
     number: int,  # Invoice number
     # description: str,  # Description of the purchase
     robokassa_payment_url='https://auth.robokassa.ru/Merchant/Index.aspx',
@@ -124,8 +124,6 @@ async def create_payment_url(
         price = 5850
     elif data.name == "12 month":
         price = 7850
-    elif data.name == "1 day":
-        price = 1
     else:
         price = 7850
     new_transaction = Transactions(
@@ -150,9 +148,9 @@ async def create_payment_url(
         # "Description": data.description,
     }
 
-    sign = f"{d['MerchantLogin']}:{d['OutSum']}:{d['InvId']}:{password1}"  # тут password1 для тестовых платежей
-
-    d["SignatureValue"] = hashlib.md5(sign.encode()).hexdigest()
+    # sign = f"{d['MerchantLogin']}:{d['OutSum']}:{d['InvId']}:{password1}"  # тут password1 для тестовых платежей
+    #
+    # d["SignatureValue"] = hashlib.md5(sign.encode()).hexdigest()
 
     # url = "https://auth.robokassa.ru/Merchant/Indexjson.aspx?"
     # response = requests.post(url=url, data=d)
