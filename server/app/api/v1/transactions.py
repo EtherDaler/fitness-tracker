@@ -89,6 +89,12 @@ def generate_payment_link(
         # {"items": [{"name": description, "quantity": 1, "sum": cost, "tax": "none"}]},
         merchant_password_1
     )
+    print('merchant_password_1', merchant_password_1)
+    print('signature', signature)
+    print('cost', cost, type(cost))
+    print('merchant_login', merchant_login)
+
+
 
     data = {
         'MerchantLogin': merchant_login,
