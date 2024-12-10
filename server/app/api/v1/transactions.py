@@ -155,6 +155,7 @@ async def create_payment_url(
     # url = "https://auth.robokassa.ru/Merchant/Indexjson.aspx?"
     # response = requests.post(url=url, data=d)
     pay_url = generate_payment_link(MerchantLogin, password1, price, transaction_id) # , data.description)
+    print(pay_url)
     return Response(content=f"{pay_url}", media_type='text/plain')
 
 
